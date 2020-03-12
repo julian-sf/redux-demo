@@ -12,6 +12,9 @@
 /.next/
 /out/
 
+# ESLint
+.eslintcache
+
 # production
 /build
 

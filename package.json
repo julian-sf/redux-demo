@@ -5,11 +5,46 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint . --cache --ext js,ts,ts,tsx",
+    "format": "npx prettier --config .prettierrc.yaml \"**/*.{js,jsx,ts,tsx,md}\" --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged"
+    }
+  },
+  "//lint-staged-comment": "This configuration doesn't work w/ files with brackets in filenames. See lint-staged.config.js.",
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "yarn lint"
+    ],
+    "**/*.{css,scss,js,jsx,ts,tsx,md}": [
+      "prettier --config .prettierrc.yaml --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "next": "9.3.0",
     "react": "16.13.0",
     "react-dom": "16.13.0"
+  },
+  "devDependencies": {
+    "@types/next": "^9.0.0",
+    "@types/node": "^13.9.0",
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-eslint-comments": "^3.1.2",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "prettier": "^1.19.1",
+    "typescript": "^3.8.3"
   }
 }

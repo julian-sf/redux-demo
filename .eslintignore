@@ -1,0 +1,9 @@
+# Vendors
+node_modules/
+
+# Build output
+.next/
+out/
+
+# Cache
+.eslintcache
