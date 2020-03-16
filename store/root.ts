@@ -26,7 +26,7 @@ export const initializeStore = (preloadedState?: RootState) => {
 
   const isSSR = typeof window === 'undefined'
 
-  if (isSSR) {
+  if (isSSR || !isSSR) {
     return configureStore(defaultOptions)
   }
 

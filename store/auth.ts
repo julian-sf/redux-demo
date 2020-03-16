@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { setLoggedInState } from '../api'
 import { getPeople } from './people'
-
-import { RootState } from './index'
+import { RootState } from './root'
 
 const initialState = { loggedIn: false }
 

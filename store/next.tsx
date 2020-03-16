@@ -1,9 +1,8 @@
 import App from 'next/app'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
 
-import { initializeStore, RootState } from './index'
+import { initializeStore, RootState } from './root'
 
 let reduxStore
 
@@ -27,9 +26,9 @@ export const withRedux = (PageComponent, { ssr = true } = {}) => {
 
     return (
       <Provider store={store}>
-        <PersistGate persistor={store.__PERSISTOR} loading={null}>
-          <PageComponent {...props} />
-        </PersistGate>
+        {/*<PersistGate persistor={store.__PERSISTOR} loading={null}>*/}
+        <PageComponent {...props} />
+        {/*</PersistGate>*/}
       </Provider>
     )
   }

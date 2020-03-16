@@ -1,4 +1,5 @@
-import React from 'react'
+import Link from 'next/link'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { People } from '../components/People'
@@ -10,23 +11,23 @@ const Home = () => {
   const dispatch = useDispatch()
   const loggedIn = useLoggedIn()
 
+  useEffect(() => {
+    dispatch(getPeople())
+  }, [dispatch])
+
   return (
     <>
-      <button type={'button'} onClick={() => dispatch(getPeople())}>
-        Download People
-      </button>
+      <Link href={'/other'}>
+        <button type={'button'}>Visit Other Page</button>
+      </Link>
+      <br />
       <button type={'button'} onClick={() => dispatch(resetPeople())}>
         Reset People
       </button>
-      <div>
-        <button type={'button'} onClick={() => dispatch(login())}>
-          Login
-        </button>
-        <button type={'button'} onClick={() => dispatch(logout())}>
-          Logout
-        </button>
-        Logged in: {`${loggedIn}`}
-      </div>
+      <br />
+      <button type={'button'} onClick={() => dispatch((loggedIn ? logout : login)())}>
+        {loggedIn ? 'Logout' : 'Login'}
+      </button>
       <People />
     </>
   )
