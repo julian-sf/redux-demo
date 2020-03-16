@@ -1,29 +1,30 @@
-import { createAction, createReducer } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 
 import { fetchPeople, People } from '../api'
 
-import { AppThunk, RootState } from './index'
-
-const fetchPeopleAction = createAction('people/fetchPeople', (people: People) => ({ payload: people }))
-const resetPeopleAction = createAction('people/resetPeople')
+import { RootState } from './index'
 
 const initialState = {} as People
 
-export const peopleReducer = createReducer(initialState, {
-  [fetchPeopleAction.type]: (state, action: ReturnType<typeof fetchPeopleAction>) => action.payload,
-  [resetPeopleAction.type]: () => initialState,
+export const peopleSlice = createSlice({
+  name: 'people',
+  initialState,
+  reducers: {
+    fetchPeople: (state, action: { payload: People }) => action.payload,
+    resetPeople: () => initialState,
+  },
 })
 
 export const usePeople = () => {
   return useSelector((state: RootState) => state.people)
 }
 
-export const getPeople = (): AppThunk => async dispatch => {
+export const getPeople = () => async dispatch => {
   const people = await fetchPeople()
-  dispatch(fetchPeopleAction(people))
+  dispatch(peopleSlice.actions.fetchPeople(people))
 }
 
-export const resetPeople = (): AppThunk => async dispatch => {
-  dispatch(resetPeopleAction())
+export const resetPeople = () => async dispatch => {
+  dispatch(peopleSlice.actions.resetPeople())
 }

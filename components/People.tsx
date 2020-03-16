@@ -1,9 +1,11 @@
 import React from 'react'
 
-import { People as PeopleType } from '../api'
+import { usePeople } from '../store/people'
 import { Person } from './Person'
 
-export const People = ({ people }: { people: PeopleType }) => {
+export const People = () => {
+  const people = usePeople()
+
   return (
     <div style={{ display: 'flex', flexFlow: 'row wrap', margin: '20px 40px' }}>
       {Object.keys(people).map(id => {

@@ -198,6 +198,20 @@ module.exports = {
       },
     },
 
+    {
+      files: ['**/*.test.js', '**/*.test.jsx', '**/*.test.ts', '**/*.test.tsx'],
+      rules: {
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            devDependencies: true,
+            optionalDependencies: true,
+            peerDependencies: true,
+          },
+        ],
+      },
+    },
+
     // Allow for devDependencies to be imported
     // in the project config, story and test files
     {

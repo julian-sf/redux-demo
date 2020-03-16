@@ -1,18 +1,17 @@
-import { Action, configureStore, getDefaultMiddleware, ThunkAction } from '@reduxjs/toolkit'
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-import { authReducer } from './auth'
-import { peopleReducer } from './people'
+import { authSlice } from './auth'
+import { peopleSlice } from './people'
 
 export const rootReducer = combineReducers({
-  auth: authReducer,
-  people: peopleReducer,
+  auth: authSlice.reducer,
+  people: peopleSlice.reducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>
-export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>
 
 export const initializeStore = (preloadedState?: RootState) => {
   const defaultOptions = {

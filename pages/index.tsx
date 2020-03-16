@@ -4,10 +4,9 @@ import { useDispatch } from 'react-redux'
 import { People } from '../components/People'
 import { login, logout, useLoggedIn } from '../store/auth'
 import { withRedux } from '../store/next'
-import { getPeople, resetPeople, usePeople } from '../store/people'
+import { getPeople, resetPeople } from '../store/people'
 
 const Home = () => {
-  const people = usePeople()
   const dispatch = useDispatch()
   const loggedIn = useLoggedIn()
 
@@ -28,7 +27,7 @@ const Home = () => {
         </button>
         Logged in: {`${loggedIn}`}
       </div>
-      <People people={people} />
+      <People />
     </>
   )
 }

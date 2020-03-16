@@ -23,7 +23,7 @@ const fetchData = <T>(data: T, timeout = 100) => {
   })
 }
 
-const transformPeopleResponse = (people: Person[]): People => {
+export const transformPeopleResponse = (people: Person[]): People => {
   return people.reduce((accumulator, person) => {
     accumulator[person.id] = person
 
