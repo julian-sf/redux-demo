@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "name": "Jackson",
+    "friends": ["2", "3", "4"],
+    "bestFriend": "4",
+    "hobbies": ["Games", "Running", "Football", "Basketball"]
+  },
+  {
+    "id": "2",
+    "name": "Caroline",
+    "friends": ["1", "4"],
+    "hobbies": ["Reading", "Running", "Volunteering", "Hiking"]
+  },
+  {
+    "id": "3",
+    "name": "Julian",
+    "friends": ["1", "4"],
+    "bestFriend": "1",
+    "hobbies": ["Games", "Football", "Hiking"]
+  },
+  {
+    "id": "4",
+    "name": "Starlord",
+    "friends": ["1", "2", "3"],
+    "bestFriend": "1",
+    "hobbies": ["Games", "Reading", "Being a Hero", "Running"]
+  }
+]

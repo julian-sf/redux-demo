@@ -46,6 +46,8 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/no-object-literal-type-assertion': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/ban-ts-ignore': 'off',
 
     // Force private members to be prefixed with `_`
     '@typescript-eslint/member-naming': [
@@ -90,6 +92,18 @@ module.exports = {
     'import/named': 'off',
     'import/no-unresolved': 'off',
 
+    'import/order': [
+      'error',
+      {
+        groups: [['builtin', 'external'], ['internal', 'parent', 'sibling'], ['index']],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+      },
+    ],
+
     'import/no-extraneous-dependencies': [
       'error',
       {
@@ -110,6 +124,7 @@ module.exports = {
 
     'react/jsx-no-target-blank': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'react/jsx-curly-brace-presence': [1, { props: 'always', children: 'never' }],
 
     'react/jsx-filename-extension': [
       1,
@@ -153,6 +168,27 @@ module.exports = {
     'no-nested-ternary': 'off',
     'class-methods-use-this': 'off',
     'no-use-before-define': ['error'],
+
+    // line spacing
+    'padding-line-between-statements': [
+      'error',
+
+      // wildcard inclusions
+      {
+        blankLine: 'always',
+        prev: ['multiline-block-like', 'multiline-const', 'multiline-expression'],
+        next: '*',
+      },
+      {
+        blankLine: 'always',
+        prev: '*',
+        next: ['multiline-block-like', 'multiline-const', 'multiline-expression', 'switch', 'return'],
+      },
+
+      // specific exclusions for case statements
+      { blankLine: 'never', prev: 'case', next: 'multiline-block-like' },
+      { blankLine: 'never', prev: 'multiline-block-like', next: 'case' },
+    ],
   },
   overrides: [
     {
