@@ -22,7 +22,7 @@ const Home = () => {
       </Link>
       <br />
       <button type={'button'} onClick={() => dispatch(resetPeople())}>
-        Reset People
+        Clear People from Redux
       </button>
       <br />
       <button type={'button'} onClick={() => dispatch((loggedIn ? logout : login)())}>

@@ -4,7 +4,8 @@ import thunk from 'redux-thunk'
 import { transformPeopleResponse } from '../api'
 import people from '../api/data/people.json'
 import { getPeople, peopleSlice, resetPeople } from './people'
-import { RootState } from './root'
+
+import { RootState } from './index'
 
 const mockStore = configureMockStore<Partial<RootState>>([thunk])
 

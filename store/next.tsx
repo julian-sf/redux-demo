@@ -2,7 +2,7 @@ import App from 'next/app'
 import React from 'react'
 import { Provider } from 'react-redux'
 
-import { initializeStore, RootState } from './root'
+import { initializeStore, RootState } from './index'
 
 let reduxStore
 

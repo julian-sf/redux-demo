@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 
 import { fetchPeople, People } from '../api'
-import { RootState } from './root'
+
+import { RootState } from './index'
 
 const initialState = {} as People
 
