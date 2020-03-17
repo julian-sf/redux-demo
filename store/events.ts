@@ -41,10 +41,17 @@ export const resetEvents = () => async dispatch => {
 
 // hooks
 
-export const useEvents = () => {
+export const useEvents = (skip = false) => {
   const loading = useSelector((state: RootState) => state.events.loading)
   const events = useSelector((state: RootState) => state.events.data)
   const dispatch = useDispatch()
+
+  if (skip) {
+    return {
+      loading: false,
+      events: null,
+    }
+  }
 
   if (!loading && isEmptyObject(events)) {
     dispatch(getEvents())

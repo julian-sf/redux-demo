@@ -1,20 +1,21 @@
 import React from 'react'
 
+import { Events as IEvents } from '../api'
 import { useEvents } from '../store/events'
 import { useRenderCount } from '../utils/useRenderCount'
 import { Event } from './Event'
 
-export const Events = () => {
+export const Events = ({ providedEvents }: { providedEvents?: IEvents }) => {
   const { loading, events } = useEvents()
   const renderCount = useRenderCount()
 
-  if (loading) return null
+  if (!providedEvents && loading) return null
 
   return (
     <>
       <pre>Events render count: {renderCount}</pre>
       <div>
-        {Object.keys(events).map(id => {
+        {Object.keys(providedEvents || events).map(id => {
           const event = events[id]
 
           return <Event key={event.id} event={event} />
