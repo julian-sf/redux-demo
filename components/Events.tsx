@@ -6,10 +6,10 @@ import { useRenderCount } from '../utils/useRenderCount'
 import { Event } from './Event'
 
 export const Events = ({ providedEvents }: { providedEvents?: IEvents }) => {
-  const { loading, events } = useEvents()
+  const { initialized, events } = useEvents()
   const renderCount = useRenderCount()
 
-  if (!providedEvents && loading) return null
+  if (!providedEvents && !initialized) return null
 
   return (
     <>
