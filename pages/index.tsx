@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 
 import { AuthButtonContainer } from '../components/AuthButton/AuthButtonContainer'
-import { Events } from '../components/Events'
+import { EventsContainer } from '../components/Events/EventsContainer'
 
 const index = () => (
   <>
@@ -12,7 +12,7 @@ const index = () => (
       <button type={'button'}>Visit Other Page</button>
     </Link>
     <br />
-    <Events />
+    <EventsContainer />
   </>
 )
 

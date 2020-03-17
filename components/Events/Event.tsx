@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { EventData } from '../server/data/events'
+import { EventData } from '../../server/data/events'
 
 const Row = (props: { label: string; value: string }) => {
   const { label, value } = props
