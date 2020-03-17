@@ -7,8 +7,18 @@ export interface Events {
 }
 
 export const transformEventResponse = (events: EventData[]): Events => {
-  return events.reduce((accumulator, event) => {
+  return events.reduce((accumulator, event, index, array) => {
     accumulator[event.id] = event
+
+    if (index === 0) {
+      event.relatedEvents = [array[index + 1]?.id, array[index + 2]?.id]
+    } else if (index === array.length - 1) {
+      event.relatedEvents = [array[index - 2]?.id, array[index - 1]?.id]
+    } else {
+      event.relatedEvents = [array[index - 1]?.id, array[index + 1]?.id]
+    }
+
+    event.relatedEvents = event.relatedEvents.filter(related => !!related)
 
     return accumulator
   }, {})

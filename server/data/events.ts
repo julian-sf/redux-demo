@@ -20,6 +20,7 @@ export interface EventData {
   showTimesDescriptions?: Array<{ description: string; time: string }>
   startingPrice?: number | string
   boxOfficeHours?: Array<{ description: string; time: string }>
+  relatedEvents?: string[]
   seasons?: Array<{
     displayName: string
     periodStartDate: string
