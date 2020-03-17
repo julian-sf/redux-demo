@@ -2,7 +2,8 @@ import App from 'next/app'
 import React from 'react'
 import { Provider } from 'react-redux'
 
-import { initializeStore, RootState } from './index'
+import { initializeStore, RootState } from '../store'
+import { RouterContextProvider } from './router'
 
 let reduxStore
 
@@ -25,11 +26,13 @@ export const withRedux = (PageComponent, { ssr = true } = {}) => {
     const store = getOrInitializeStore(initialReduxState)
 
     return (
-      <Provider store={store}>
-        {/*<PersistGate persistor={store.__PERSISTOR} loading={null}>*/}
-        <PageComponent {...props} />
-        {/*</PersistGate>*/}
-      </Provider>
+      <RouterContextProvider>
+        <Provider store={store}>
+          {/*<PersistGate persistor={store.__PERSISTOR} loading={null}>*/}
+          <PageComponent {...props} />
+          {/*</PersistGate>*/}
+        </Provider>
+      </RouterContextProvider>
     )
   }
 
