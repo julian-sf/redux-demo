@@ -1,10 +1,12 @@
 import React from 'react'
 
 import { useLoggedIn, useUserName } from '../store/auth'
+import { useRenderCount } from '../utils/useRenderCount'
 
 export const AuthButton = () => {
   const { loggedIn, login, logout } = useLoggedIn()
   const userName = useUserName()
+  const renderCount = useRenderCount()
 
   return (
     <>
@@ -15,6 +17,7 @@ export const AuthButton = () => {
           </button>
         </div>
         {loggedIn !== 'unknown' && <div className={'user'}>User: {userName ?? '<empty>'}</div>}
+        AuthButton render count: {renderCount}
       </div>
       <style jsx>{`
         div {
