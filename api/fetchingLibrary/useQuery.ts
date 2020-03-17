@@ -1,4 +1,5 @@
 // ANY FETCHING LIBRARY CODE
+// All second requests would be taken from cache for example in useQuery from apollo-hooks
 
 import { useReducer, Dispatch, useEffect, useCallback } from 'react'
 

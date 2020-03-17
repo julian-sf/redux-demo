@@ -3,9 +3,8 @@ import React, { useState } from 'react'
 
 import { AuthButton } from '../components/AuthButton'
 import { Modal } from '../components/Modal'
-import { withRedux } from '../store/next'
 
-export default withRedux(() => {
+const Other = () => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -21,4 +20,6 @@ export default withRedux(() => {
       {open && <Modal onClose={() => setOpen(false)} />}
     </>
   )
-})
+}
+
+export default Other
