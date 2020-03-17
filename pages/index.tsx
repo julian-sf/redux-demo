@@ -13,10 +13,10 @@ export default withRedux(() => {
     <>
       <h1>Event List</h1>
       <AuthButton />
+      <Events />
       <button type={'button'} onClick={() => dispatch(resetEvents())}>
         Reset events in Redux
       </button>
-      <Events />
     </>
   )
 })
