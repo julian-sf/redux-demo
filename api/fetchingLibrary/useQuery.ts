@@ -1,6 +1,6 @@
 // ANY FETCHING LIBRARY CODE
 
-import { useReducer, Dispatch, useEffect } from 'react'
+import { useReducer, Dispatch, useEffect, useCallback } from 'react'
 
 type Action = {
   type: 'FETCH' | 'FETCH_ERROR' | 'FETCH_SUCCESS'
@@ -51,10 +51,15 @@ export const useFetchReducer: () => [State, Dispatch<Action>] = () => {
   return [state, dispatch]
 }
 
-export const useQuery = <T>(callback: () => Promise<T>, { onComplete }: { onComplete: (data: T) => void }) => {
+export const useQuery = <T>(
+  callback: () => Promise<T>,
+  { onComplete, skip = false }: { onComplete: (data: T) => void; skip?: boolean },
+) => {
   const [state, dispatch] = useFetchReducer()
 
-  useEffect(() => {
+  const handleQuery = useCallback(() => {
+    dispatch({ type: 'FETCH' })
+
     callback()
       .then((data: T) => {
         dispatch({ type: 'FETCH_SUCCESS', data })
@@ -63,5 +68,14 @@ export const useQuery = <T>(callback: () => Promise<T>, { onComplete }: { onComp
       .catch(error => dispatch({ type: 'FETCH_ERROR', error }))
   }, [callback, dispatch, onComplete])
 
-  return state
+  useEffect(() => {
+    if (!skip) {
+      handleQuery()
+    }
+  }, [handleQuery, skip])
+
+  return {
+    ...state,
+    fetch: handleQuery,
+  }
 }
