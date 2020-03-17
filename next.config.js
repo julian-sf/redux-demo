@@ -1,5 +1,5 @@
-const { buildClientEnv } = require('./next-utils/buildClientEnv');
+const { buildClientEnv } = require('./next-utils/buildClientEnv')
 
 module.exports = {
   env: buildClientEnv(),
-};
+}

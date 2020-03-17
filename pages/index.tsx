@@ -4,22 +4,27 @@ import { useDispatch } from 'react-redux'
 import { AuthButton } from '../components/AuthButton'
 import { Events } from '../components/Events'
 import { withRedux } from '../next-utils/store'
-import { resetEvents } from '../store/events'
+import { resetEvents, useEvents } from '../store/events'
 import { useRenderCount } from '../utils/useRenderCount'
 
 export default withRedux(() => {
   const renderCount = useRenderCount()
   const dispatch = useDispatch()
+  const { loading } = useEvents()
 
   return (
     <>
       <h1>Event List</h1>
-      <pre>Index render count: {renderCount}</pre>
+      {renderCount && <pre>Index render count: {renderCount}</pre>}
       <AuthButton />
-      <Events />
-      <button type={'button'} onClick={() => dispatch(resetEvents())}>
-        Reset events in Redux
-      </button>
+      {!loading && (
+        <>
+          <Events />
+          <button type={'button'} onClick={() => dispatch(resetEvents())}>
+            Reset events in Redux
+          </button>
+        </>
+      )}
     </>
   )
 })

@@ -17,7 +17,7 @@ export const AuthButton = () => {
           </button>
         </div>
         {loggedIn !== 'unknown' && <div className={'user'}>User: {userName ?? '<empty>'}</div>}
-        AuthButton render count: {renderCount}
+        {renderCount && `AuthButton render count: ${renderCount}`}
       </div>
       <style jsx>{`
         div {
