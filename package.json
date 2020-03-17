@@ -38,8 +38,7 @@
       "yarn lint"
     ],
     "**/*.{css,scss,js,jsx,ts,tsx,md}": [
-      "prettier --config .prettierrc.yaml --write",
-      "git add"
+      "prettier --config .prettierrc.yaml --write"
     ]
   },
   "dependencies": {
