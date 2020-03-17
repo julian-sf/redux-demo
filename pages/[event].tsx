@@ -56,9 +56,11 @@ export default withRedux(() => {
   return (
     <>
       <h1>{event?.name}</h1>
-      <pre>
-        {event?.name} detail render count: {renderCount}
-      </pre>
+      {renderCount && (
+        <pre>
+          {event?.name} detail render count: {renderCount}
+        </pre>
+      )}
       <AuthButton />
       <Link href={'/'}>
         <button>Back to index</button>

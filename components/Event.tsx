@@ -18,7 +18,7 @@ export const Event = ({ event }: { event: EventData }) => {
           </Link>
           <button onClick={() => setOpen(true)}>View Details</button>
         </div>
-        <pre>Event render count: {renderCount}</pre>
+        {renderCount && <pre>Event render count: {renderCount}</pre>}
       </div>
 
       {open && (
