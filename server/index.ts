@@ -29,7 +29,7 @@ app.get('/events', (req: Request, res: Response) => {
 
 app.get('/user', (req: Request, res: Response) => {
   if (isLoggedIn(req)) {
-    return res.status(200).json({ user: 'Somebody' })
+    return res.status(200).json({ user: 'Multi-rate User' })
   }
 
   return res.status(401).send()
@@ -39,7 +39,7 @@ app.post('/login', (req: Request, res: Response) => {
   res
     .status(200)
     .cookie('Auth', true)
-    .json({ user: 'Somebody' })
+    .send()
 })
 
 app.post('/logout', (req: Request, res: Response) => {
