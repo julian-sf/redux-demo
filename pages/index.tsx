@@ -1,19 +1,33 @@
-import React from 'react';
+import Link from 'next/link'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
-import { useEventsQuery } from '../api/events/useEventsQuery';
-import { AuthButtonContainer } from '../shared/components/AuthButton/AuthButtonContainer';
-import { Events } from '../shared/components/Events/Events';
+import { AuthButton } from '../components/AuthButton'
+import { Events } from '../components/Events'
+import { updateLoggedInStatus } from '../store/auth'
+import { getEvents, resetEvents } from '../store/events'
+import { withRedux } from '../store/next'
 
-const Index = () => {
-  const { events, loading } = useEventsQuery();
+export default withRedux(() => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getEvents())
+    dispatch(updateLoggedInStatus())
+  }, [dispatch])
 
   return (
     <>
       <h1>Event List</h1>
-      <AuthButtonContainer />
-      <Events loading={loading} events={events} />
+      <AuthButton />
+      <Link href={'/detail'}>
+        <button type={'button'}>Visit Other Page</button>
+      </Link>
+      <br />
+      <button type={'button'} onClick={() => dispatch(resetEvents())}>
+        Clear Events from Redux
+      </button>
+      <Events />
     </>
-  );
-};
-
-export default Index;
+  )
+})
