@@ -1,50 +1,53 @@
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
 
-import { EventType } from '../api/events/eventsQuery/eventsQuery.types';
-import { useEventsQuery } from '../api/events/useEventsQuery';
-import { useRouter } from '../next-utils/router';
-import { parseStringParam } from '../next-utils/urls';
-import { AuthButtonContainer } from '../shared/components/AuthButton/AuthButtonContainer';
-import { Events } from '../shared/components/Events/Events';
+import { AuthButton } from '../components/AuthButton'
+import { Modal } from '../components/Modal'
+import { useRouter } from '../next-utils/router'
+import { withRedux } from '../next-utils/store'
+import { parseStringParam } from '../next-utils/urls'
+import { EventData } from '../server/data/events'
+import { useEvents } from '../store/events'
 
-const EventPage = ({
-  events,
-  displayedEvent,
-  loading,
-}: {
-  events: EventType[];
-  displayedEvent: EventType;
-  loading: boolean;
-}) => (
-  <>
-    <h1>{displayedEvent?.name || 'Event List'}</h1>
-    <AuthButtonContainer />
-    <Link href={'/'}>
-      <button>Back to index</button>
-    </Link>
-    <h2>Related Events</h2>
-    <Events loading={loading} events={events.filter(({ id }) => displayedEvent?.relatedEvents?.includes(id))} />
-    <h2>Event Details</h2>
-    <pre>{JSON.stringify(displayedEvent ?? {}, null, 2)}</pre>
-  </>
-);
+export default withRedux(() => {
+  const [open, setOpen] = useState(false)
+  const { query, pushRoute, ready } = useRouter()
+  const { loading, events } = useEvents()
+  const [event, setEvent] = useState<EventData>()
 
-const EventPageContainer = () => {
-  const { query, push, ready } = useRouter();
-  const { events, loading } = useEventsQuery();
-  const [displayedEvent, setDisplayedEvent] = useState(undefined);
+  const eventId = parseStringParam(query?.event)
 
   useEffect(() => {
-    if (!ready || loading) return;
+    console.log('exit', !ready || loading)
+    if (!ready || loading) return
 
-    const eventId = parseStringParam(query?.event);
-    const eventToDisplay = events.find(event => event.id === eventId);
+    if (!events[eventId]) {
+      // go back to index
+      pushRoute('/')
 
-    !eventToDisplay ? push('/') : setDisplayedEvent(eventToDisplay);
-  }, [push, ready, events, loading, query]);
+      return
+    }
 
-  return <EventPage events={events} loading={loading} displayedEvent={displayedEvent} />;
-};
+    setEvent(events[eventId])
+  }, [eventId, loading, events, ready, pushRoute])
 
-export default EventPageContainer;
+  return (
+    <>
+      <h1>{event?.name}</h1>
+      <AuthButton />
+      <Link href={'/'}>
+        <button>Back to index</button>
+      </Link>
+      <br />
+      <button onClick={() => setOpen(true)}>Open Modal</button>
+
+      {open && (
+        <Modal onClose={() => setOpen(false)}>
+          <pre>Box Office Hours: {JSON.stringify(event?.boxOfficeHours, null, 2)}</pre>
+          <br />
+          <pre>Showtime Descriptions: {JSON.stringify(event?.showTimesDescriptions, null, 2)}</pre>
+        </Modal>
+      )}
+    </>
+  )
+})
