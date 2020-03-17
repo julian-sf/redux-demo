@@ -2,11 +2,11 @@
 // see "Routing" section in our README.md.
 
 // eslint-disable-next-line no-restricted-imports
-import NextRouter, { useRouter as useNextRouter, NextRouter as NextRouterI } from 'next/router';
-import { ParsedUrlQuery as _ParsedUrlQuery } from 'querystring';
-import React, { useContext, useMemo, useEffect, useState } from 'react';
+import NextRouter, { useRouter as useNextRouter, NextRouter as NextRouterI } from 'next/router'
+import { ParsedUrlQuery as _ParsedUrlQuery } from 'querystring'
+import React, { useContext, useMemo, useEffect, useState } from 'react'
 
-export type ParsedUrlQuery = _ParsedUrlQuery;
+export type ParsedUrlQuery = _ParsedUrlQuery
 
 /**
  * For the given route path and query hash, build `url` and `as` objects.
@@ -30,7 +30,7 @@ export function buildUrlAndAs(route: string, query?: ParsedUrlQuery) {
       pathname: route,
       query,
     },
-  };
+  }
 }
 
 function wrapNextRouter(router: NextRouterI) {
@@ -38,18 +38,18 @@ function wrapNextRouter(router: NextRouterI) {
     ...router,
 
     pushRoute(route: string, query?: ParsedUrlQuery, options?: { shallow?: boolean }) {
-      const { url, as } = buildUrlAndAs(route, query);
-      router.push(url, as, options);
+      const { url, as } = buildUrlAndAs(route, query)
+      router.push(url, as, options)
     },
 
     replaceRoute(route: string, query?: ParsedUrlQuery, options?: { shallow?: boolean }) {
-      const { url, as } = buildUrlAndAs(route, query);
-      router.replace(url, as, options);
+      const { url, as } = buildUrlAndAs(route, query)
+      router.replace(url, as, options)
     },
-  };
+  }
 }
 
-type WrappedRouter = ReturnType<typeof wrapNextRouter>;
+type WrappedRouter = ReturnType<typeof wrapNextRouter>
 
 const RouterContext = React.createContext<
   WrappedRouter & {
@@ -62,25 +62,25 @@ const RouterContext = React.createContext<
      *
      * See https://github.com/zeit/next.js/issues/8259 for more details.
      */
-    ready: boolean;
+    ready: boolean
   }
->(null as any);
+>(null as any)
 
 export function RouterContextProvider({ children }: { children?: React.ReactNode }) {
-  const router = useNextRouter();
+  const router = useNextRouter()
 
   // Our custom workaround for getting the `ready` value
   // until next.js give us a proper solution for it.
   // (https://github.com/zeit/next.js/issues/8259)
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setReady(true);
-    });
+      setReady(true)
+    })
 
-    return () => clearTimeout(timeout);
-  }, []);
+    return () => clearTimeout(timeout)
+  }, [])
 
   const wrappedRouter = useMemo(
     () => ({
@@ -88,13 +88,13 @@ export function RouterContextProvider({ children }: { children?: React.ReactNode
       ready,
     }),
     [router, ready],
-  );
+  )
 
-  return <RouterContext.Provider value={wrappedRouter}>{children}</RouterContext.Provider>;
+  return <RouterContext.Provider value={wrappedRouter}>{children}</RouterContext.Provider>
 }
 
-export const Router = wrapNextRouter(NextRouter);
+export const Router = wrapNextRouter(NextRouter)
 
 export function useRouter() {
-  return useContext(RouterContext);
+  return useContext(RouterContext)
 }
