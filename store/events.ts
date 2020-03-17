@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Events, fetchEvents } from '../api'
