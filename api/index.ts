@@ -1,42 +1,41 @@
-import people from './data/people.json'
-import peopleLoggedIn from './data/peopleLoggedIn.json'
+import { EventData } from '../server/data/events'
 
-let loggedIn = false
+const HOST = 'http://localhost:3333'
 
-export const setLoggedInState = (value: boolean) => (loggedIn = value)
-
-export interface Person {
-  name: string
-  id: string
-  bestFriend?: string
-  friends?: string[]
-  hobbies?: string[]
+export interface Events {
+  [id: string]: EventData
 }
 
-export type People = { [id: string]: Person }
-
-const fetchData = <T>(data: T, timeout = 100) => {
-  return new Promise<T>(resolve => {
-    setTimeout(() => {
-      resolve(data)
-    }, timeout)
-  })
-}
-
-export const transformPeopleResponse = (people: Person[]): People => {
-  return people.reduce((accumulator, person) => {
-    accumulator[person.id] = person
+export const transformEventResponse = (events: EventData[]): Events => {
+  return events.reduce((accumulator, event) => {
+    accumulator[event.id] = event
 
     return accumulator
   }, {})
 }
 
-const fetchPeople = (timeout?: number) => {
-  if (loggedIn) {
-    return fetchData<People>(transformPeopleResponse(peopleLoggedIn), timeout)
-  }
+export const fetchEvents = async () => {
+  const response = await fetch(`${HOST}/events`, { credentials: 'include' })
 
-  return fetchData<People>(transformPeopleResponse(people), timeout)
+  return transformEventResponse(await response.json())
 }
 
-export { fetchPeople }
+export const fetchLogin = async () => {
+  const response = await fetch(`${HOST}/login`, { method: 'POST', credentials: 'include' })
+
+  return await response.json()
+}
+
+export const fetchLogout = async () => {
+  return await fetch(`${HOST}/logout`, { method: 'POST', credentials: 'include' })
+}
+
+export const fetchUserStatus = async () => {
+  const response = await fetch(`${HOST}/user`, { credentials: 'include' })
+
+  if (!response.ok) {
+    return {}
+  }
+
+  return await response.json()
+}

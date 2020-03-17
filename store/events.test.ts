@@ -1,9 +1,7 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 
-import { transformPeopleResponse } from '../api'
-import people from '../api/data/people.json'
-import { getPeople, peopleSlice, resetPeople } from './people'
+import { eventSlice, getEvents, resetEvents } from './events'
 
 import { RootState } from './index'
 
@@ -18,21 +16,18 @@ describe('people store', () => {
 
   describe('resetPeople', () => {
     it('sends the right action', () => {
-      return store.dispatch<any>(resetPeople()).then(() => {
-        expect(store.getActions()).toEqual([peopleSlice.actions.resetPeople()])
+      return store.dispatch<any>(resetEvents()).then(() => {
+        expect(store.getActions()).toEqual([eventSlice.actions.resetEvents()])
       })
     })
   })
 
   describe('getPeople', () => {
     it('sends the right action', () => {
-      return store.dispatch<any>(getPeople()).then(() => {
+      return store.dispatch<any>(getEvents()).then(() => {
         expect(store.getActions()).toEqual([
           {
-            ...peopleSlice.actions.fetchPeople(),
-            payload: {
-              ...transformPeopleResponse(people),
-            },
+            ...eventSlice.actions.fetchEvents(),
           },
         ])
       })

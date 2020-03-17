@@ -2,35 +2,32 @@ import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { People } from '../components/People'
-import { login, logout, useLoggedIn } from '../store/auth'
+import { AuthButton } from '../components/AuthButton'
+import { Events } from '../components/Events'
+import { updateLoggedInStatus } from '../store/auth'
+import { getEvents, resetEvents } from '../store/events'
 import { withRedux } from '../store/next'
-import { getPeople, resetPeople } from '../store/people'
 
-const Home = () => {
+export default withRedux(() => {
   const dispatch = useDispatch()
-  const loggedIn = useLoggedIn()
 
   useEffect(() => {
-    dispatch(getPeople())
+    dispatch(getEvents())
+    dispatch(updateLoggedInStatus())
   }, [dispatch])
 
   return (
     <>
+      <h1>Event List</h1>
+      <AuthButton />
       <Link href={'/other'}>
         <button type={'button'}>Visit Other Page</button>
       </Link>
       <br />
-      <button type={'button'} onClick={() => dispatch(resetPeople())}>
-        Clear People from Redux
+      <button type={'button'} onClick={() => dispatch(resetEvents())}>
+        Clear Events from Redux
       </button>
-      <br />
-      <button type={'button'} onClick={() => dispatch((loggedIn ? logout : login)())}>
-        {loggedIn ? 'Logout' : 'Login'}
-      </button>
-      <People />
+      <Events />
     </>
   )
-}
-
-export default withRedux(Home)
+})

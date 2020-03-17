@@ -199,7 +199,7 @@ module.exports = {
     },
 
     {
-      files: ['**/*.test.js', '**/*.test.jsx', '**/*.test.ts', '**/*.test.tsx'],
+      files: ['**/*.test.*', '**/*.saga.*', 'sagas/**', 'server/**'],
       rules: {
         'import/no-extraneous-dependencies': [
           'error',

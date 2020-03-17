@@ -4,11 +4,11 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 import storage from 'redux-persist/lib/storage'
 
 import { authSlice } from './auth'
-import { peopleSlice } from './people'
+import { eventSlice } from './events'
 
 export const rootReducer = combineReducers({
   auth: authSlice.reducer,
-  people: peopleSlice.reducer,
+  events: eventSlice.reducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>
