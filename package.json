@@ -27,11 +27,6 @@
     "exec": "yarn server:run",
     "ext": "ts"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npx lint-staged"
-    }
-  },
   "//lint-staged-comment": "This configuration doesn't work w/ files with brackets in filenames. See lint-staged.config.js.",
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [

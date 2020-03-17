@@ -1,12 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { fetchEvents } from '../api'
 import { useQuery } from '../api/fetchingLibrary/useQuery'
+import { useAuthContext } from '../contexts/AuthContext/useAuthContext'
 import { Event } from './Event'
 
 export const Events = () => {
+  const { userInfo } = useAuthContext()
   const [events, setEvents] = useState({})
-  useQuery(fetchEvents, { onComplete: setEvents })
+  const { fetch } = useQuery(fetchEvents, { onComplete: setEvents, skip: true })
+
+  useEffect(() => {
+    fetch()
+  }, [userInfo.isLoggedIn, fetch])
 
   return (
     <>
