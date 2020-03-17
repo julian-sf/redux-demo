@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 import { AuthButton } from '../components/AuthButton'
+import { Events } from '../components/Events'
 import { useRouter } from '../next-utils/router'
 import { withRedux } from '../next-utils/store'
 import { parseStringParam } from '../next-utils/urls'
@@ -40,6 +41,19 @@ export default withRedux(() => {
       <Link href={'/'}>
         <button>Back to index</button>
       </Link>
+      <h2>Related Events</h2>
+      <Events
+        providedEvents={event.relatedEvents.reduce((acc, id) => {
+          const event = events[id]
+
+          if (event) {
+            acc[id] = events[id]
+          }
+
+          return acc
+        }, {})}
+      />
+      <h2>Event Details</h2>
       <pre>{JSON.stringify(event ?? {}, null, 2)}</pre>
     </>
   )

@@ -1,48 +1,33 @@
 export interface Image {
-  type: 'video' | 'image';
-  reference: string;
-  placeHolderImage?: string;
-  caption?: string;
-
-  [metaData: string]: string;
+  type: 'video' | 'image'
+  reference: string
+  placeHolderImage?: string
+  caption?: string
+  [metaData: string]: string
 }
 
 export interface EventData {
-  propertyId: string;
-  id: string;
-  name: string;
-  contentType: 'show';
-  description: string;
+  propertyId: string
+  id: string
+  name: string
+  contentType: 'show'
+  description: string
   images: {
-    unifiedGallery?: Image[];
-    overview: string;
-  };
-  priceRange?: '$' | '$$' | '$$$' | '$$$$' | '$$$$$';
-  showTimesDescriptions?: Array<{ description: string; time: string }>;
-  startingPrice?: number | string;
-  boxOfficeHours?: Array<{ description: string; time: string }>;
-  relatedEvents?: string[];
+    unifiedGallery?: Image[]
+    overview: string
+  }
+  priceRange?: '$' | '$$' | '$$$' | '$$$$' | '$$$$$'
+  showTimesDescriptions?: Array<{ description: string; time: string }>
+  startingPrice?: number | string
+  boxOfficeHours?: Array<{ description: string; time: string }>
+  relatedEvents?: string[]
   seasons?: Array<{
-    displayName: string;
-    periodStartDate: string;
-    periodEndDate: string;
-    id: string;
-  }>;
+    displayName: string
+    periodStartDate: string
+    periodEndDate: string
+    id: string
+  }>
 }
-
-export const transformEventResponse = (events: EventData[]): EventData[] => {
-  return events.map((event, index, array) => {
-    if (index === 0) {
-      event.relatedEvents = [array[index + 1]?.id, array[index + 2]?.id];
-    } else if (index === array.length - 1) {
-      event.relatedEvents = [array[index - 2]?.id, array[index - 1]?.id];
-    } else {
-      event.relatedEvents = [array[index - 1]?.id, array[index + 1]?.id];
-    }
-
-    return event;
-  }, {});
-};
 
 const events: EventData[] = [
   {
@@ -360,7 +345,6 @@ const events: EventData[] = [
       },
     ],
   },
-];
+]
 
-export const loadEvents = (auth = false) =>
-  transformEventResponse(auth ? events : events.filter(event => event.propertyId !== 'mgmresorts'));
+export const loadEvents = (auth = false) => (auth ? events : events.filter(event => event.propertyId !== 'mgmresorts'))
