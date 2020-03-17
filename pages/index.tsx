@@ -20,7 +20,7 @@ export default withRedux(() => {
     <>
       <h1>Event List</h1>
       <AuthButton />
-      <Link href={'/other'}>
+      <Link href={'/detail'}>
         <button type={'button'}>Visit Other Page</button>
       </Link>
       <br />
