@@ -7,7 +7,7 @@ import { updateLoggedInStatus } from './auth'
 
 import { RootState } from './index'
 
-const initialState = { data: {} as Events, loading: false }
+const initialState = { data: {} as Events, loading: false, initialized: false }
 
 export const eventSlice = createSlice({
   name: 'people',
@@ -18,11 +18,8 @@ export const eventSlice = createSlice({
     },
     fetchedEvents: (state, action: { payload: Events }) => {
       state.loading = false
+      state.initialized = true
       state.data = action.payload
-    },
-    resetEvents: state => {
-      state.loading = false
-      state.data = {}
     },
   },
 })
@@ -35,14 +32,11 @@ export const getEvents = () => async dispatch => {
   dispatch(eventSlice.actions.fetchedEvents(events))
 }
 
-export const resetEvents = () => async dispatch => {
-  dispatch(eventSlice.actions.resetEvents())
-}
-
 // hooks
 
 export const useEvents = (skip = false) => {
   const loading = useSelector((state: RootState) => state.events.loading)
+  const initialized = useSelector((state: RootState) => state.events.initialized)
   const events = useSelector((state: RootState) => state.events.data)
   const dispatch = useDispatch()
 
@@ -50,6 +44,7 @@ export const useEvents = (skip = false) => {
     return {
       loading: false,
       events: null,
+      initialized,
     }
   }
 
@@ -61,5 +56,6 @@ export const useEvents = (skip = false) => {
   return {
     loading,
     events,
+    initialized,
   }
 }
