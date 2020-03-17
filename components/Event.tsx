@@ -1,28 +1,68 @@
-import { useRouter } from 'next/router'
-import React from 'react'
+import Link from 'next/link'
+import React, { useState } from 'react'
 
 import { EventData } from '../server/data/events'
-
-const Row = (props: { label: string; value: string }) => {
-  const { label, value } = props
-
-  return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ flex: '0 0 90px' }}>{label}:</div>
-      <div>{value}</div>
-    </div>
-  )
-}
+import { useRenderCount } from '../utils/useRenderCount'
+import { Modal } from './Modal'
 
 export const Event = ({ event }: { event: EventData }) => {
-  const { push } = useRouter()
+  const [open, setOpen] = useState(false)
+  const renderCount = useRenderCount()
 
   return (
-    <div style={{ flex: '0 0 400px', paddingBottom: 20 }}>
-      <div style={{ height: 100, boxShadow: '0 8px 6px -6px black', border: '2px lightgrey' }}>
-        <Row label={'Name'} value={event.name} />
-        <button onClick={() => push('/[event]', `/${event.id}`)}>View Details</button>
+    <>
+      <div className={'container'}>
+        <div className={'card'}>
+          <Link href={'/[event]'} as={`/${event.id}`}>
+            <a>Name: {event.name}</a>
+          </Link>
+          <button onClick={() => setOpen(true)}>View Details</button>
+        </div>
+        <pre>Event render count: {renderCount}</pre>
       </div>
-    </div>
+
+      {open && (
+        <Modal onClose={() => setOpen(false)}>
+          <pre className={'code'}>{JSON.stringify(event ?? {}, null, 2)}</pre>
+        </Modal>
+      )}
+
+      <style jsx>{`
+        .container {
+          flex: 1 1 700px;
+          height: 100px;
+          box-shadow: 3px 3px 7px -3px rgba(0, 0, 0, 0.7);
+          border-radius: 10px;
+          border: 2px black;
+          margin-bottom: 20px;
+        }
+
+        .card {
+          padding: 20px;
+
+          display: flex;
+          flex-flow: row nowrap;
+        }
+
+        .card a {
+          flex: 1;
+        }
+
+        .card button {
+          flex: 0 1 100px;
+        }
+
+        .card + pre {
+          padding-left: 20px;
+        }
+
+        .code {
+          max-width: 80vw;
+          overflow: scroll;
+          background-color: lightgrey;
+          padding: 10px;
+        }
+      `}</style>
+    </>
   )
 }
