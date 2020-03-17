@@ -121,7 +121,25 @@ const events: EventData[] = [
       overview:
         '/content/dam/MGM/bellagio/entertainment/shows/o-by-cirque-du-soleil/bellagio-entertainment-shows-o-by-cirque-du-soleil-vip-suites-small.jpg',
     },
+    boxOfficeHours: [
+      { description: 'Tuesday', time: '5:00 PM - 8:30 PM' },
+      { description: 'Wednesday - Monday', time: '5:00 PM - 10:00 PM' },
+    ],
     contentType: 'show',
+    seasons: [
+      {
+        displayName: 'Cirque du Soleil VIP Packages 2019',
+        periodStartDate: '2019-01-01T00:00:00-08:00',
+        periodEndDate: '2019-12-31T00:00:00-08:00',
+        id: '1b1306fe-5e6c-4349-a9c5-e93683ec74bd',
+      },
+      {
+        displayName: 'Cirque du Soleil VIP Packages 2020',
+        periodStartDate: '2020-01-01T00:00:00-08:00',
+        periodEndDate: '2020-12-31T00:00:00-08:00',
+        id: '9a28ab2d-f459-45b0-8f8c-11763275b03f',
+      },
+    ],
   },
   {
     propertyId: '66964e2b-2550-4476-84c3-1a4c0c5c067f',
@@ -293,8 +311,26 @@ const events: EventData[] = [
     images: {
       overview: '/content/dam/MGM/corporate/getty-images/mgm-corporate-getty-nightlife.tif',
     },
+    boxOfficeHours: [
+      { description: 'Tuesday', time: '5:00 PM - 8:30 PM' },
+      { description: 'Wednesday - Monday', time: '5:00 PM - 10:00 PM' },
+    ],
     priceRange: '$',
     contentType: 'show',
+    seasons: [
+      {
+        displayName: "New Year's Eve in Las Vegas 2019",
+        periodStartDate: '2019-01-01T00:00:00-08:00',
+        periodEndDate: '2019-12-31T00:00:00-08:00',
+        id: '5f1306fe-5e6c-4349-a9c5-e93683ec74bd',
+      },
+      {
+        displayName: "New Year's Eve in Las Vegas 2020",
+        periodStartDate: '2020-01-01T00:00:00-08:00',
+        periodEndDate: '2020-12-31T00:00:00-08:00',
+        id: '1d28ab2d-f459-45b0-8f8c-11763275b03f',
+      },
+    ],
   },
 ]
 
