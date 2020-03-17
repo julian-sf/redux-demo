@@ -21,15 +21,37 @@ export default withRedux(() => {
   useEffect(() => {
     if (!ready || loading) return
 
-    if (!events[eventId]) {
-      // go back to index
-      pushRoute('/')
+    setEvent(events[eventId])
 
-      return
+    if (events[eventId]) {
+      return () => {}
     }
 
-    setEvent(events[eventId])
+    // set a timeout to go back to the index
+    const timeout = setTimeout(() => pushRoute('/'), 3000)
+
+    // and add a cleanup method if we unmount before then
+    return () => {
+      clearTimeout(timeout)
+    }
   }, [eventId, loading, events, ready, pushRoute])
+
+  if (!event) {
+    return (
+      <>
+        <div>Sorry you don't have access to this event. Taking you back to event selection...</div>
+        <style jsx>{`
+          div {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 100%;
+          }
+        `}</style>
+      </>
+    )
+  }
 
   return (
     <>
