@@ -18,7 +18,6 @@ export default withRedux(() => {
   const eventId = parseStringParam(query?.event)
 
   useEffect(() => {
-    console.log('exit', !ready || loading)
     if (!ready || loading) return
 
     if (!events[eventId]) {
