@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
 
-import { AuthButton } from '../components/AuthButton'
+import { AuthButtonContainer } from '../components/AuthButton/AuthButtonContainer'
 import { Modal } from '../components/Modal'
 
 const Other = () => {
@@ -10,7 +10,7 @@ const Other = () => {
   return (
     <>
       <h1>Event Detail</h1>
-      <AuthButton />
+      <AuthButtonContainer />
       <Link href={'/'}>
         <button>Back to index</button>
       </Link>
