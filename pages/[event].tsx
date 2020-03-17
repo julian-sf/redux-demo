@@ -12,20 +12,19 @@ import { useRenderCount } from '../utils/useRenderCount'
 
 export default withRedux(() => {
   const { query, pushRoute, ready } = useRouter()
-  const { loading, events } = useEvents()
-  const [event, setEvent] = useState<EventData>()
+  const { initialized, events } = useEvents()
+  const [displayedEvent, setDisplayedEvent] = useState<EventData>()
   const renderCount = useRenderCount()
 
   const eventId = parseStringParam(query?.event)
+  const eventData = events[eventId]
 
   useEffect(() => {
-    if (!ready || loading) return
+    if (!ready || !initialized) return
 
-    setEvent(events[eventId])
+    setDisplayedEvent(eventData)
 
-    if (events[eventId]) {
-      return () => {}
-    }
+    if (eventData) return
 
     // set a timeout to go back to the index
     const timeout = setTimeout(() => pushRoute('/'), 3000)
@@ -34,9 +33,9 @@ export default withRedux(() => {
     return () => {
       clearTimeout(timeout)
     }
-  }, [eventId, loading, events, ready, pushRoute])
+  }, [eventData, initialized, ready, pushRoute])
 
-  if (!event) {
+  if (!displayedEvent) {
     return (
       <>
         <div>Sorry you don't have access to this event. Taking you back to event selection...</div>
@@ -55,10 +54,10 @@ export default withRedux(() => {
 
   return (
     <>
-      <h1>{event?.name}</h1>
+      <h1>{displayedEvent?.name}</h1>
       {renderCount && (
         <pre>
-          {event?.name} detail render count: {renderCount}
+          {displayedEvent?.name} detail render count: {renderCount}
         </pre>
       )}
       <AuthButton />
@@ -67,7 +66,7 @@ export default withRedux(() => {
       </Link>
       <h2>Related Events</h2>
       <Events
-        providedEvents={event.relatedEvents.reduce((acc, id) => {
+        providedEvents={displayedEvent.relatedEvents.reduce((acc, id) => {
           const event = events[id]
 
           if (event) {
@@ -78,7 +77,7 @@ export default withRedux(() => {
         }, {})}
       />
       <h2>Event Details</h2>
-      <pre>{JSON.stringify(event ?? {}, null, 2)}</pre>
+      <pre>{JSON.stringify(displayedEvent ?? {}, null, 2)}</pre>
     </>
   )
 })
