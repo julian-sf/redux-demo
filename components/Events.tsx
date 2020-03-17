@@ -13,7 +13,7 @@ export const Events = ({ providedEvents }: { providedEvents?: IEvents }) => {
 
   return (
     <>
-      <pre>Events render count: {renderCount}</pre>
+      {renderCount && <pre>Events render count: {renderCount}</pre>}
       <div>
         {Object.keys(providedEvents || events).map(id => {
           const event = events[id]

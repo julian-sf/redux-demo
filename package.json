@@ -8,6 +8,7 @@
     "next:dev": "next dev",
     "next:start": "next start",
     "dev": "run-p -l server:watch next:dev",
+    "debug": "DEBUG=true run-p -l server:watch next:dev",
     "build": "next build",
     "start": "run-p -l server:run next:start",
     "lint": "eslint . --cache --ext js,ts,ts,tsx --ignore-pattern .eslintrc.js",
