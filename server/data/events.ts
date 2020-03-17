@@ -154,6 +154,10 @@ const events: EventData[] = [
 
     showTimesDescriptions: [{ description: 'Friday, May 29, 2020', time: '9:00 PM' }],
     startingPrice: '49.99',
+    boxOfficeHours: [
+      { description: 'Tuesday', time: '5:00 PM - 8:30 PM' },
+      { description: 'Wednesday - Monday', time: '5:00 PM - 10:00 PM' },
+    ],
     seasons: [
       {
         displayName: 'KAA Kevin James',
@@ -181,6 +185,10 @@ const events: EventData[] = [
       { description: 'March 15, 2020, 9:30 pm', time: 'Cancelled' },
     ],
     startingPrice: '71.37',
+    boxOfficeHours: [
+      { description: 'Tuesday', time: '5:00 PM - 8:30 PM' },
+      { description: 'Wednesday - Monday', time: '5:00 PM - 10:00 PM' },
+    ],
     seasons: [
       {
         displayName: 'David Copperfield 2017',
@@ -218,6 +226,10 @@ const events: EventData[] = [
       overview:
         '/content/dam/MGM/mgm-grand/entertainment/venues/grand-garden-arena/architecture/mgm-grand-entertainment-grand-garden-arena-lifestyle-audience-cheering.jpg',
     },
+    boxOfficeHours: [
+      { description: 'Tuesday', time: '5:00 PM - 8:30 PM' },
+      { description: 'Wednesday - Monday', time: '5:00 PM - 10:00 PM' },
+    ],
     priceRange: '$',
     startingPrice: '56',
     contentType: 'show',
