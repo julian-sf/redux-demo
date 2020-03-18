@@ -8,17 +8,7 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Current State
+## Made with the following
 
-This is a demo of the following:
-
-- [Next.js](https://nextjs.org/)
-- [Redux Toolkit](https://redux-toolkit.js.org/)
-- [Redux Thunk](https://github.com/reduxjs/redux-thunk)
-
-## TODO
-
-- [ ] Add more useful unit tests for business logic
-- [ ] Finish `redux-saga` branch
-- [ ] Add in mocked up detail page
-- [ ] Add offers & put offer information to modal
+- React context
+  [![Next JS](https://miro.medium.com/max/1042/1*9mESIE8IL4eEFZ6FIO4smA.png)](https://nextjs.org/)

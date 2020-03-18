@@ -41,7 +41,7 @@ describe('EventsContainer', () => {
       refetch: refetchMock,
     }));
 
-    const { debug, getByTestId, getAllByRole } = render(
+    const { debug, getAllByRole } = render(
       <AuthContextProvider>
         <LoginButton />
         <EventsContainer />
