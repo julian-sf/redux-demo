@@ -32,7 +32,7 @@ export const fetchEvents = async () => {
   return transformEventResponse(await response.json())
 }
 
-export const fetchUserStatus = async () => {
+export const fetchUserStatus = async (): Promise<{ user?: string }> => {
   if (typeof fetch === 'undefined') return {}
 
   const response = await fetch(`${HOST}/user`, { credentials: 'include' })
