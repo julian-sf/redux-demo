@@ -31,9 +31,11 @@ export const Loader = ({ loading = true, children }: { loading?: boolean; childr
       .backdrop {
         ${layerStyle};
 
-        background-color: black;
+        background-color: white;
         border-radius: 10px;
-        opacity: 5%;
+        opacity: 80%;
+
+        pointer-events: unset;
       }
     `}</style>
   </>
