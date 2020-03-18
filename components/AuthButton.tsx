@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { useLoggedIn, useUserName } from '../store/auth'
+import { useAuth, useUserName } from '../store/auth'
 import { useRenderCount } from '../utils/useRenderCount'
 
 export const AuthButton = () => {
-  const { loggedIn, login, logout } = useLoggedIn()
+  const { loggedIn, login, logout } = useAuth()
   const userName = useUserName()
   const renderCount = useRenderCount()
 
