@@ -209,6 +209,7 @@ module.exports = {
             peerDependencies: true,
           },
         ],
+        'react/display-name': 'off',
       },
     },
 
