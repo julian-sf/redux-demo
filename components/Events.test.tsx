@@ -2,7 +2,7 @@ import React from 'react'
 
 import { transformEventResponse } from '../api'
 import { loadEvents } from '../server/data/events'
-import { RootState } from '../store'
+import { RootState } from '../store/config'
 import { renderWithRedux } from '../utils/tests'
 import { Events } from './Events'
 

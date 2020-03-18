@@ -2,7 +2,7 @@ import App from 'next/app'
 import React from 'react'
 import { Provider } from 'react-redux'
 
-import { initializeStore, RootState } from '../store'
+import { initializeStore, RootState } from '../store/config'
 import { RouterContextProvider } from './router'
 
 let reduxStore

@@ -22,39 +22,14 @@ export default withRedux(() => {
   useEffect(() => {
     if (!ready || !initialized) return
 
+    if (!eventData) pushRoute('/')
+
     setDisplayedEvent(eventData)
-
-    if (eventData) return
-
-    // set a timeout to go back to the index
-    const timeout = setTimeout(() => pushRoute('/'), 3000)
-
-    // and add a cleanup method if we unmount before then
-    return () => {
-      clearTimeout(timeout)
-    }
   }, [eventData, initialized, ready, pushRoute])
-
-  if (!displayedEvent) {
-    return (
-      <>
-        <div>Sorry you don't have access to this event. Taking you back to event selection...</div>
-        <style jsx>{`
-          div {
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 100%;
-          }
-        `}</style>
-      </>
-    )
-  }
 
   return (
     <>
-      <h1>{displayedEvent?.name}</h1>
+      <h1>{displayedEvent?.name || 'Event List'}</h1>
       {renderCount && (
         <pre>
           {displayedEvent?.name} detail render count: {renderCount}
@@ -66,7 +41,7 @@ export default withRedux(() => {
       </Link>
       <h2>Related Events</h2>
       <Events
-        providedEvents={displayedEvent.relatedEvents.reduce((acc, id) => {
+        providedEvents={displayedEvent?.relatedEvents.reduce((acc, id) => {
           const event = events[id]
 
           if (event) {

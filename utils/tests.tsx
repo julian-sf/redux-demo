@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import React from 'react'
 import { Provider } from 'react-redux'
 
-import { initializeStore } from '../store'
+import { initializeStore } from '../store/config'
 
 export function renderWithRedux(
   ui,
