@@ -1,13 +1,63 @@
-import { render } from '@testing-library/react'
-import React from 'react'
+jest.mock('@apollo/react-hooks', () => ({
+  useQuery: jest.fn(() => ({
+    refetch: () => Promise.resolve({ data: { events: [] } }),
+  })),
+}));
 
-import { Events } from './Events'
+import { useQuery } from '@apollo/react-hooks';
+import { render, fireEvent } from '@testing-library/react';
+import React from 'react';
+import { act } from 'react-dom/test-utils';
+
+import { AuthContextProvider } from '../../contexts/AuthContext/AuthContext';
+import { useAuthContext } from '../../contexts/AuthContext/useAuthContext';
+import { EventsContainer } from './EventsContainer';
+
+// jest.mock('./Events', () => ({
+//   Events: jest.fn(() => null),
+// }));
+
+const LoginButton = () => {
+  const { setUserInfo } = useAuthContext();
+
+  return (
+    <button
+      type={'button'}
+      data-testid={'loginBtn'}
+      onClick={() => setUserInfo({ isLoggedIn: true, name: 'userName' })}
+    >
+      Login
+    </button>
+  );
+};
+
+jest.useFakeTimers();
 
 describe('EventsContainer', () => {
   it('tests', () => {
-    const { debug, container } = render(<Events events={[]} clearEvents={() => {}} />)
+    const refetchMock = jest.fn(() => Promise.resolve({ data: { events: [] } }));
 
-    debug()
-    expect(1).toBe(1)
-  })
-})
+    (useQuery as any).mockImplementationOnce(() => ({
+      refetch: refetchMock,
+    }));
+
+    const { debug, getByTestId, getAllByRole } = render(
+      <AuthContextProvider>
+        <LoginButton />
+        <EventsContainer />
+      </AuthContextProvider>,
+    );
+
+    debug();
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(refetchMock).toHaveBeenCalled();
+
+    fireEvent.click(getAllByRole('button')[0]);
+
+    expect(refetchMock).toHaveBeenCalledTimes(2);
+  });
+});
