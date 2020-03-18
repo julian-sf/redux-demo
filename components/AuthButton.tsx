@@ -17,11 +17,13 @@ export const AuthButton = () => {
           </button>
         </div>
         {loggedIn !== 'unknown' && <div className={'user'}>User: {userName ?? '<empty>'}</div>}
+        (simulated 250ms latency on all requests)
         {renderCount && `AuthButton render count: ${renderCount}`}
       </div>
       <style jsx>{`
         div {
           display: flex;
+          width: 740px;
         }
         .button-container {
           width: 150px;
