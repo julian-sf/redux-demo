@@ -28,7 +28,7 @@ export interface EventData {
   }>
 }
 
-const events: EventData[] = [
+export const events: EventData[] = [
   {
     propertyId: '66964e2b-2550-4476-84c3-1a4c0c5c067f',
     id: 'ka-by-cirque-du-soleil',

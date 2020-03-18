@@ -15,7 +15,7 @@ const Row = (props: { label: string; value: string }) => {
 
 export const Event = ({ event }: { event: EventData }) => {
   return (
-    <div style={{ flex: '0 0 400px', paddingBottom: 20 }}>
+    <div style={{ flex: '0 0 400px', paddingBottom: 20 }} data-testid={'event'}>
       <div style={{ height: 100, boxShadow: '0 8px 6px -6px black', border: '2px lightgrey' }}>
         <Row label={'Name'} value={event.name} />
       </div>
