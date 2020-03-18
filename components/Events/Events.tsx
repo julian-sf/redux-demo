@@ -1,9 +1,10 @@
 import React from 'react'
 
+import { EventData } from '../../server/data/events'
 import { Event } from './Event'
 
 type EventsProps = {
-  events: {}
+  events: EventData[]
   clearEvents(): void
 }
 
@@ -13,11 +14,9 @@ export const Events = ({ events, clearEvents }: EventsProps) => (
       Clear Events
     </button>
     <div style={{ display: 'flex', flexFlow: 'row wrap', margin: '20px 40px' }}>
-      {Object.keys(events).map((id, i) => {
-        const event = events[id]
-
-        return <Event key={i} event={event} />
-      })}
+      {events.map((event, i) => (
+        <Event key={i} event={event} />
+      ))}
     </div>
   </>
 )

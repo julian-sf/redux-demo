@@ -2,7 +2,6 @@ import { useMutation } from '@apollo/react-hooks'
 import React from 'react'
 
 import { LOGIN_MUTATION, LOGOUT_MUTATION } from '../../api'
-import { useQuery } from '../../api/fetchingLibrary/useQuery'
 import { useAuthContext } from '../../contexts/AuthContext/useAuthContext'
 import { AuthButton } from './AuthButton'
 

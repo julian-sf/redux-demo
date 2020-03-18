@@ -2,8 +2,10 @@ import gql from 'graphql-tag'
 
 import { EventData } from '../server/data/events'
 
-export interface Events {
-  [id: string]: EventData
+export type Event = EventData
+
+export type EventsResponse = {
+  events: Event[]
 }
 
 export const EVENTS_QUERY = gql`
