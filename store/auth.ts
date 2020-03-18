@@ -1,33 +1,29 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
+import { call, put, spawn, takeLatest } from 'redux-saga/effects'
 
 import { fetchLogin, fetchLogout, fetchUserStatus } from '../api'
-import { eventSlice, getEvents } from './events'
+import { CallResult } from '../utils/unpack'
 import { useSelector } from './useSelector'
 
-interface AuthSliceState {
-  isLoggedIn: boolean | 'unknown'
-  name?: string
-}
-
-export const initialAuthState: AuthSliceState = {
+const initialState: { isLoggedIn: boolean | 'unknown'; name?: string } = {
   isLoggedIn: 'unknown',
   name: '<loading>',
 }
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: initialAuthState,
+  initialState,
   reducers: {
-    checkLoginStatus: (state, action: PayloadAction<{ user?: string }>) => {
+    checkLoginStatus: (state: typeof initialState, action: PayloadAction<{ user?: string }>) => {
       state.isLoggedIn = typeof document !== 'undefined' && document.cookie.includes('Auth=true')
       state.name = action.payload.user
     },
-    login: (state, action: PayloadAction<{ user?: string }>) => {
+    loggedIn: (state: typeof initialState, action: PayloadAction<{ user?: string }>) => {
       state.isLoggedIn = true
       state.name = action.payload.user
     },
-    logout: state => {
+    loggedOut: (state: typeof initialState) => {
       state.isLoggedIn = false
       delete state.name
     },
@@ -35,29 +31,47 @@ export const authSlice = createSlice({
 })
 
 // actions
+const login = createAction('auth/login')
+const logout = createAction('auth/logout')
 
-export const login = () => async dispatch => {
-  dispatch(eventSlice.actions.fetchingEvents())
-  dispatch(authSlice.actions.login(await fetchLogin()))
-  dispatch(getEvents())
+// sagas
+
+function* loginSaga() {
+  yield takeLatest(login.type, function*() {
+    const result: CallResult<typeof fetchLogin> = yield call(fetchLogin)
+    yield put(authSlice.actions.loggedIn(result))
+  })
 }
 
-export const logout = () => async dispatch => {
-  dispatch(eventSlice.actions.fetchingEvents())
-  await fetchLogout()
-  dispatch(authSlice.actions.logout())
-  dispatch(getEvents())
+function* logoutSaga() {
+  yield takeLatest(logout.type, function*() {
+    yield call(fetchLogout)
+    yield put(authSlice.actions.loggedOut())
+  })
 }
 
-export const updateLoggedInStatus = () => async dispatch => {
-  dispatch(authSlice.actions.checkLoginStatus(await fetchUserStatus()))
+function* checkUserStatusSaga() {
+  const data: CallResult<typeof fetchUserStatus> = yield call(fetchUserStatus)
+  yield put(authSlice.actions.checkLoginStatus(data))
+}
+
+export function* authSagas() {
+  // spawn sagas
+  yield spawn(checkUserStatusSaga)
+  yield spawn(loginSaga)
+  yield spawn(logoutSaga)
 }
 
 // hooks
 
-export const useAuth = () => {
-  const loggedIn = useSelector(state => state.auth.isLoggedIn)
+export const useLoggedIn = () => {
+  const result = useSelector(state => state.auth.isLoggedIn)
   const dispatch = useDispatch()
+  let loggedIn: boolean | 'unknown' = 'unknown'
+
+  if (typeof window !== 'undefined') {
+    loggedIn = result
+  }
 
   return { loggedIn, login: () => dispatch(login()), logout: () => dispatch(logout()) }
 }

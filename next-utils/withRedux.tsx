@@ -1,8 +1,9 @@
 import App from 'next/app'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Provider } from 'react-redux'
 
-import { initializeStore, RootState } from '../store/config'
+import { initializeStore, RootState, sagaMiddleware } from '../store/config'
+import { sagas } from '../store/sagas'
 import { RouterContextProvider } from './router'
 
 let reduxStore
@@ -24,6 +25,10 @@ function getOrInitializeStore(initialState?: RootState) {
 export const withRedux = (PageComponent, { ssr = true } = {}) => {
   const WithRedux = ({ initialReduxState, ...props }) => {
     const store = getOrInitializeStore(initialReduxState)
+
+    useEffect(() => {
+      sagaMiddleware.run(sagas)
+    }, [])
 
     return (
       <RouterContextProvider>

@@ -1,27 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { useDispatch } from 'react-redux'
+import { call, put, spawn, takeLatest } from 'redux-saga/effects'
 
-import * as api from '../api'
-import { isEmptyObject } from '../utils/isEmptyObject'
-import { updateLoggedInStatus } from './auth'
+import { Events, fetchEvents } from '../api'
+import { authSlice } from './auth'
 import { useSelector } from './useSelector'
 
 interface EventSliceState {
-  data: api.Events
+  data: Events
   loading: boolean
   initialized: boolean
 }
 
-export const initialEventsState: EventSliceState = { data: {}, loading: false, initialized: false }
+const initialState: EventSliceState = { data: {}, loading: false, initialized: false }
 
 export const eventSlice = createSlice({
   name: 'event',
-  initialState: initialEventsState,
+  initialState,
   reducers: {
-    fetchingEvents: state => {
+    fetchEvents: state => {
       state.loading = true
     },
-    fetchedEvents: (state, action: PayloadAction<api.Events>) => {
+    fetchedEvents: (state, action: PayloadAction<Events>) => {
       state.loading = false
       state.initialized = true
       state.data = action.payload
@@ -29,12 +28,25 @@ export const eventSlice = createSlice({
   },
 })
 
-// dispatchable actions
+// sagas
 
-export const getEvents = () => async dispatch => {
-  dispatch(eventSlice.actions.fetchingEvents())
-  const events = await api.fetchEvents()
-  dispatch(eventSlice.actions.fetchedEvents(events))
+function* fetchEventSaga() {
+  const events = yield call(fetchEvents)
+  yield put(eventSlice.actions.fetchedEvents(events))
+}
+
+function* fetchEventTriggersSaga() {
+  yield takeLatest(
+    [authSlice.actions.loggedOut.type, authSlice.actions.loggedIn.type, eventSlice.actions.fetchEvents.type],
+    function*() {
+      yield call(fetchEventSaga)
+    },
+  )
+}
+
+export function* eventSagas() {
+  yield spawn(fetchEventSaga)
+  yield spawn(fetchEventTriggersSaga)
 }
 
 // hooks
@@ -43,7 +55,6 @@ export const useEvents = (skip = false) => {
   const loading = useSelector(state => state.events.loading)
   const initialized = useSelector(state => state.events.initialized)
   const events = useSelector(state => state.events.data)
-  const dispatch = useDispatch()
 
   if (skip) {
     return {
@@ -51,11 +62,6 @@ export const useEvents = (skip = false) => {
       events: null,
       initialized,
     }
-  }
-
-  if (!loading && isEmptyObject(events)) {
-    dispatch(getEvents())
-    dispatch(updateLoggedInStatus())
   }
 
   return {
