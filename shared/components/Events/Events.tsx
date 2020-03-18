@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { EventData } from '../../server/data/events';
+import { EventData } from '../../../server/data/events';
 import { Event } from './Event';
 
 type EventsProps = {
   events: EventData[];
-  clearEvents(): void;
 };
 
-export const Events = ({ events, clearEvents }: EventsProps) => (
+export const Events = ({ events }: EventsProps) => (
   <>
     <div>
       {events.map((event, i) => (

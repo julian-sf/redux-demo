@@ -1,15 +1,20 @@
-import Link from 'next/link';
 import React from 'react';
 
-import { AuthButtonContainer } from '../components/AuthButton/AuthButtonContainer';
-import { EventsContainer } from '../components/Events/EventsContainer';
+import { useEventsQuery } from '../api/useEventsQuery';
+import { AuthButtonContainer } from '../shared/components/AuthButton/AuthButtonContainer';
+import { Events } from '../shared/components/Events/Events';
 
-const index = () => (
-  <>
-    <h1>Event List</h1>
-    <AuthButtonContainer />
-    <EventsContainer />
-  </>
-);
+const Index = () => {
+  const { events } = useEventsQuery();
+  console.log(events);
 
-export default index;
+  return (
+    <>
+      <h1>Event List</h1>
+      <AuthButtonContainer />
+      <Events events={events} />
+    </>
+  );
+};
+
+export default Index;

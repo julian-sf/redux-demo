@@ -1,11 +1,11 @@
-import Link from 'next/link'
-import React, { useState } from 'react'
+import Link from 'next/link';
+import React, { useState } from 'react';
 
-import { AuthButtonContainer } from '../components/AuthButton/AuthButtonContainer'
-import { Modal } from '../components/Modal'
+import { AuthButtonContainer } from '../shared/components/AuthButton/AuthButtonContainer';
+import { Modal } from '../shared/components/Modal/Modal';
 
 const Other = () => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -19,7 +19,7 @@ const Other = () => {
 
       {open && <Modal onClose={() => setOpen(false)} />}
     </>
-  )
-}
+  );
+};
 
-export default Other
+export default Other;

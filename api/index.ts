@@ -1,21 +1,22 @@
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 
-import { EventData } from '../server/data/events'
+import { EventData } from '../server/data/events';
 
-export type Event = EventData
+export type Event = EventData;
 
 export type EventsResponse = {
-  events: Event[]
-}
+  events: Event[];
+};
 
 export const EVENTS_QUERY = gql`
   query events {
     events @rest(type: "events", path: "events") {
+      id
       name
       propertyId
     }
   }
-`
+`;
 
 export const LOGIN_MUTATION = gql`
   mutation login {
@@ -23,7 +24,7 @@ export const LOGIN_MUTATION = gql`
       user
     }
   }
-`
+`;
 
 export const LOGOUT_MUTATION = gql`
   mutation logout {
@@ -31,4 +32,4 @@ export const LOGOUT_MUTATION = gql`
       name
     }
   }
-`
+`;

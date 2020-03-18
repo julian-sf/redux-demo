@@ -1,7 +1,8 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 
-import { EventData } from '../../server/data/events';
-import { Modal } from '../Modal';
+import { EventData } from '../../../server/data/events';
+import { Modal } from '../Modal/Modal';
 
 export const Event = ({ event }: { event: EventData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,7 +11,9 @@ export const Event = ({ event }: { event: EventData }) => {
     <>
       <div className={'container'} data-testid={'event'}>
         <div className={'card'}>
-          <a>Name: {event.name}</a>
+          <Link href={'/[event]'} as={`/${event.id}`}>
+            <a>Name: {event.name}</a>
+          </Link>
           <button onClick={() => setIsModalOpen(true)}>View Details</button>
         </div>
       </div>

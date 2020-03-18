@@ -1,31 +1,32 @@
 export interface Image {
-  type: 'video' | 'image'
-  reference: string
-  placeHolderImage?: string
-  caption?: string
-  [metaData: string]: string
+  type: 'video' | 'image';
+  reference: string;
+  placeHolderImage?: string;
+  caption?: string;
+  [metaData: string]: string;
 }
 
 export interface EventData {
-  propertyId: string
-  id: string
-  name: string
-  contentType: 'show'
-  description: string
+  propertyId: string;
+  id: string;
+  name: string;
+  contentType: 'show';
+  description: string;
   images: {
-    unifiedGallery?: Image[]
-    overview: string
-  }
-  priceRange?: '$' | '$$' | '$$$' | '$$$$' | '$$$$$'
-  showTimesDescriptions?: Array<{ description: string; time: string }>
-  startingPrice?: number | string
-  boxOfficeHours?: Array<{ description: string; time: string }>
+    unifiedGallery?: Image[];
+    overview: string;
+  };
+  priceRange?: '$' | '$$' | '$$$' | '$$$$' | '$$$$$';
+  showTimesDescriptions?: Array<{ description: string; time: string }>;
+  startingPrice?: number | string;
+  boxOfficeHours?: Array<{ description: string; time: string }>;
+  relatedEvents?: string[];
   seasons?: Array<{
-    displayName: string
-    periodStartDate: string
-    periodEndDate: string
-    id: string
-  }>
+    displayName: string;
+    periodStartDate: string;
+    periodEndDate: string;
+    id: string;
+  }>;
 }
 
 export const events: EventData[] = [
@@ -296,6 +297,6 @@ export const events: EventData[] = [
     priceRange: '$',
     contentType: 'show',
   },
-]
+];
 
-export const loadEvents = (auth = false) => (auth ? events : events.filter(event => event.propertyId !== 'mgmresorts'))
+export const loadEvents = (auth = false) => (auth ? events : events.filter(event => event.propertyId !== 'mgmresorts'));
