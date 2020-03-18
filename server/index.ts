@@ -8,6 +8,9 @@ const app = express()
 const port = 3333
 
 app.use(
+  (req, res, next) => {
+    setTimeout(() => next(), 250)
+  },
   cookieParser(),
   cors({
     credentials: true,
