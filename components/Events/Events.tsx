@@ -1,22 +1,29 @@
-import React from 'react'
+import React from 'react';
 
-import { EventData } from '../../server/data/events'
-import { Event } from './Event'
+import { EventData } from '../../server/data/events';
+import { Event } from './Event';
 
 type EventsProps = {
-  events: EventData[]
-  clearEvents(): void
-}
+  events: EventData[];
+  clearEvents(): void;
+};
 
 export const Events = ({ events, clearEvents }: EventsProps) => (
   <>
-    <button type={'button'} onClick={clearEvents} data-testid={'clearEvents'}>
-      Clear Events
-    </button>
-    <div style={{ display: 'flex', flexFlow: 'row wrap', margin: '20px 40px' }}>
+    <div>
       {events.map((event, i) => (
         <Event key={i} event={event} />
       ))}
     </div>
+    <style jsx>{`
+      div {
+        display: flex;
+        flex-flow: row wrap;
+
+        margin: 20px 40px;
+        width: 75vw;
+        max-width: 700px;
+      }
+    `}</style>
   </>
-)
+);

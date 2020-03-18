@@ -1,15 +1,15 @@
-import React, { useCallback } from 'react'
+import React, { useCallback } from 'react';
 
-export const Modal = ({ onClose }: { onClose(): void }) => {
+export const Modal = ({ onClose, children }: { onClose(): void; children?: React.ReactNode }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const close = useCallback(() => onClose(), [])
+  const close = useCallback(() => onClose(), []);
 
   return (
     <>
       <div className={'overlay'} onClick={close} />
       <div className={'modal'}>
         <a type={'button'} className={'cross'} onClick={close} />
-        Content
+        {children || 'Content'}
       </div>
 
       <style jsx>{`
@@ -68,5 +68,5 @@ export const Modal = ({ onClose }: { onClose(): void }) => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
