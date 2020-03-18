@@ -7,10 +7,16 @@ import { loadEvents } from './data/events'
 const app = express()
 const port = 3333
 
+const slowdown = (latency: number) => (req, res, next) => {
+  if (latency <= 0) {
+    return next()
+  }
+
+  setTimeout(() => next(), latency)
+}
+
 app.use(
-  (req, res, next) => {
-    setTimeout(() => next(), 250)
-  },
+  slowdown(250),
   cookieParser(),
   cors({
     credentials: true,
