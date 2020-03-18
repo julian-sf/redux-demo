@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { fetchLogin, fetchLogout, fetchUserStatus } from '../api'
-import { getEvents } from './events'
-
-import { RootState } from './index'
+import { eventSlice, getEvents } from './events'
+import { useSelector } from './useSelector'
 
 const initialState: { isLoggedIn: boolean | 'unknown'; name?: string } = {
   isLoggedIn: 'unknown',
@@ -33,11 +32,13 @@ export const authSlice = createSlice({
 // actions
 
 export const login = () => async dispatch => {
+  dispatch(eventSlice.actions.fetchingEvents())
   dispatch(authSlice.actions.login(await fetchLogin()))
   dispatch(getEvents())
 }
 
 export const logout = () => async dispatch => {
+  dispatch(eventSlice.actions.fetchingEvents())
   await fetchLogout()
   dispatch(authSlice.actions.logout())
   dispatch(getEvents())
@@ -50,7 +51,7 @@ export const updateLoggedInStatus = () => async dispatch => {
 // selectors/hooks
 
 export const useLoggedIn = () => {
-  const result = useSelector((state: RootState) => state.auth.isLoggedIn)
+  const result = useSelector(state => state.auth.isLoggedIn)
   const dispatch = useDispatch()
   let loggedIn: boolean | 'unknown' = 'unknown'
 
@@ -62,5 +63,5 @@ export const useLoggedIn = () => {
 }
 
 export const useUserName = () => {
-  return useSelector((state: RootState) => state.auth.name)
+  return useSelector(state => state.auth.name)
 }
