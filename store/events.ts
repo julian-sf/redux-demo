@@ -1,16 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { Events, fetchEvents } from '../api'
 import { isEmptyObject } from '../utils/isEmptyObject'
 import { updateLoggedInStatus } from './auth'
-
-import { RootState } from './index'
+import { useSelector } from './useSelector'
 
 const initialState = { data: {} as Events, loading: false, initialized: false }
 
 export const eventSlice = createSlice({
-  name: 'people',
+  name: 'event',
   initialState,
   reducers: {
     fetchingEvents: state => {
@@ -35,9 +34,9 @@ export const getEvents = () => async dispatch => {
 // hooks
 
 export const useEvents = (skip = false) => {
-  const loading = useSelector((state: RootState) => state.events.loading)
-  const initialized = useSelector((state: RootState) => state.events.initialized)
-  const events = useSelector((state: RootState) => state.events.data)
+  const loading = useSelector(state => state.events.loading)
+  const initialized = useSelector(state => state.events.initialized)
+  const events = useSelector(state => state.events.data)
   const dispatch = useDispatch()
 
   if (skip) {

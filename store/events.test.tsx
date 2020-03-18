@@ -4,9 +4,8 @@ import { Provider } from 'react-redux'
 
 import { transformEventResponse } from '../api'
 import { loadEvents } from '../server/data/events'
+import { initializeStore } from './config'
 import { useEvents } from './events'
-
-import { initializeStore } from './index'
 
 jest.mock('../api/index', () => ({
   ...jest.requireActual('../api/index'),
