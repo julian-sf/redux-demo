@@ -1,26 +1,27 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { call, put, spawn, takeLatest } from 'redux-saga/effects'
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { call, put, select, spawn, takeLatest } from 'redux-saga/effects'
 
-import { Events, fetchEvents } from '../api'
-import { authSlice } from './auth'
+import * as api from '../api'
+import { authSlice, login, logout } from './auth'
+import { RootState } from './config'
 import { useSelector } from './useSelector'
 
 interface EventSliceState {
-  data: Events
+  data: api.Events
   loading: boolean
   initialized: boolean
 }
 
-const initialState: EventSliceState = { data: {}, loading: false, initialized: false }
+export const initialEventsState: EventSliceState = { data: {}, loading: false, initialized: false }
 
 export const eventSlice = createSlice({
   name: 'event',
-  initialState,
+  initialState: initialEventsState,
   reducers: {
-    fetchEvents: state => {
+    fetchingEvents: state => {
       state.loading = true
     },
-    fetchedEvents: (state, action: PayloadAction<Events>) => {
+    fetchedEvents: (state, action: PayloadAction<api.Events>) => {
       state.loading = false
       state.initialized = true
       state.data = action.payload
@@ -28,45 +29,46 @@ export const eventSlice = createSlice({
   },
 })
 
+export const fetchEvents = createAction('event/fetchEvents')
+
 // sagas
 
-function* fetchEventSaga() {
-  const events = yield call(fetchEvents)
-  yield put(eventSlice.actions.fetchedEvents(events))
+export function* eventsLoadingSaga() {
+  yield takeLatest([login.type, logout.type], function*() {
+    yield put(eventSlice.actions.fetchingEvents())
+  })
+
+  yield takeLatest([authSlice.actions.loggedOut.type, authSlice.actions.loggedIn.type], function*() {
+    yield put(fetchEvents())
+  })
 }
 
-function* fetchEventTriggersSaga() {
-  yield takeLatest(
-    [authSlice.actions.loggedOut.type, authSlice.actions.loggedIn.type, eventSlice.actions.fetchEvents.type],
-    function*() {
-      yield call(fetchEventSaga)
-    },
-  )
+export function* fetchEventTriggersSaga() {
+  yield takeLatest(fetchEvents.type, function*() {
+    const events = yield call(api.fetchEvents)
+    yield put(eventSlice.actions.fetchedEvents(events))
+  })
 }
 
 export function* eventSagas() {
-  yield spawn(fetchEventSaga)
+  // spawn sagas
   yield spawn(fetchEventTriggersSaga)
+  yield spawn(eventsLoadingSaga)
+
+  // initialize
+  const initialized: RootState['events']['initialized'] = yield select((state: RootState) => state.events.initialized)
+
+  if (!initialized) {
+    yield put(fetchEvents())
+  }
 }
 
 // hooks
 
-export const useEvents = (skip = false) => {
-  const loading = useSelector(state => state.events.loading)
-  const initialized = useSelector(state => state.events.initialized)
-  const events = useSelector(state => state.events.data)
-
-  if (skip) {
-    return {
-      loading: false,
-      events: null,
-      initialized,
-    }
-  }
-
+export const useEvents = () => {
   return {
-    loading,
-    events,
-    initialized,
+    loading: useSelector(state => state.events.loading),
+    events: useSelector(state => state.events.data),
+    initialized: useSelector(state => state.events.initialized),
   }
 }

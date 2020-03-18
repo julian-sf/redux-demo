@@ -1,5 +1,5 @@
 import App from 'next/app'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Provider } from 'react-redux'
 
 import { initializeStore, RootState, sagaMiddleware } from '../store/config'
@@ -17,6 +17,7 @@ function getOrInitializeStore(initialState?: RootState) {
   // Create store if unavailable on the client and set it on the window object
   if (!reduxStore) {
     reduxStore = initializeStore(initialState)
+    sagaMiddleware.run(sagas)
   }
 
   return reduxStore
@@ -25,10 +26,6 @@ function getOrInitializeStore(initialState?: RootState) {
 export const withRedux = (PageComponent, { ssr = true } = {}) => {
   const WithRedux = ({ initialReduxState, ...props }) => {
     const store = getOrInitializeStore(initialReduxState)
-
-    useEffect(() => {
-      sagaMiddleware.run(sagas)
-    }, [])
 
     return (
       <RouterContextProvider>
