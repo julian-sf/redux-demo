@@ -1,4 +1,4 @@
-import { createAction, createSlice, PrepareAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { fetchLogin, fetchLogout, fetchUserStatus } from '../api'
@@ -6,31 +6,20 @@ import { getEvents } from './events'
 
 import { RootState } from './index'
 
-const seeIfLoggedIn = () => {
-  return typeof document !== 'undefined' && document.cookie.includes('Auth=true')
-}
-
 const initialState: { isLoggedIn: boolean | 'unknown'; name?: string } = {
   isLoggedIn: 'unknown',
   name: '<loading>',
 }
 
-// pulled out from `createSlice` to make typing cleaner
-const _checkLoginStatus = createAction<PrepareAction<{ user?: string }>>('checkLoginStatus', result => ({
-  payload: result,
-}))
-
-const _login = createAction('login', (result: { user: string }) => ({ payload: result }))
-
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    [_checkLoginStatus.type]: (state: typeof initialState, action: ReturnType<typeof _checkLoginStatus>) => {
-      state.isLoggedIn = seeIfLoggedIn()
+    checkLoginStatus: (state: typeof initialState, action: PayloadAction<{ user?: string }>) => {
+      state.isLoggedIn = typeof document !== 'undefined' && document.cookie.includes('Auth=true')
       state.name = action.payload.user
     },
-    [_login.type]: (state: typeof initialState, action: ReturnType<typeof _login>) => {
+    login: (state: typeof initialState, action: PayloadAction<{ user?: string }>) => {
       state.isLoggedIn = true
       state.name = action.payload.user
     },
