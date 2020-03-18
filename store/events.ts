@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Events, fetchEvents } from '../api'
@@ -16,7 +16,7 @@ export const eventSlice = createSlice({
     fetchingEvents: state => {
       state.loading = true
     },
-    fetchedEvents: (state, action: { payload: Events }) => {
+    fetchedEvents: (state, action: PayloadAction<Events>) => {
       state.loading = false
       state.initialized = true
       state.data = action.payload
