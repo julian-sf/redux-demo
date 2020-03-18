@@ -1,6 +1,7 @@
+import { useMutation } from '@apollo/react-hooks'
 import React from 'react'
 
-import { fetchLogin, fetchLogout } from '../../api'
+import { LOGIN_MUTATION, LOGOUT_MUTATION } from '../../api'
 import { useQuery } from '../../api/fetchingLibrary/useQuery'
 import { useAuthContext } from '../../contexts/AuthContext/useAuthContext'
 import { AuthButton } from './AuthButton'
@@ -11,14 +12,12 @@ export const AuthButtonContainer = () => {
     setUserInfo,
   } = useAuthContext()
 
-  const { fetch: login } = useQuery(fetchLogin, {
-    onComplete: ({ user }) => setUserInfo({ isLoggedIn: true, name: user }),
-    skip: true,
+  const [login] = useMutation(LOGIN_MUTATION, {
+    onCompleted: ({ login: { user } }) => setUserInfo({ isLoggedIn: true, name: user }),
   })
 
-  const { fetch: logout } = useQuery(fetchLogout, {
-    onComplete: () => setUserInfo({ isLoggedIn: false, name: undefined }),
-    skip: true,
+  const [logout] = useMutation(LOGOUT_MUTATION, {
+    onCompleted: () => setUserInfo({ isLoggedIn: false, name: undefined }),
   })
 
   return <AuthButton isLoggedIn={isLoggedIn} username={name} login={login} logout={logout} />

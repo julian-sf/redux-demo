@@ -13,10 +13,10 @@ export const Events = ({ events, clearEvents }: EventsProps) => (
       Clear Events
     </button>
     <div style={{ display: 'flex', flexFlow: 'row wrap', margin: '20px 40px' }}>
-      {Object.keys(events).map(id => {
+      {Object.keys(events).map((id, i) => {
         const event = events[id]
 
-        return <Event key={event.id} event={event} />
+        return <Event key={i} event={event} />
       })}
     </div>
   </>

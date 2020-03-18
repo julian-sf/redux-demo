@@ -1,18 +1,18 @@
+import { useQuery } from '@apollo/react-hooks'
 import React, { useState, useEffect } from 'react'
 
-import { fetchEvents } from '../../api'
-import { useQuery } from '../../api/fetchingLibrary/useQuery'
+import { EVENTS_QUERY } from '../../api'
 import { useAuthContext } from '../../contexts/AuthContext/useAuthContext'
 import { Events } from './Events'
 
 export const EventsContainer = () => {
   const { userInfo } = useAuthContext()
   const [events, setEvents] = useState({})
-  const { fetch } = useQuery(fetchEvents, { onComplete: setEvents, skip: true })
+  const { refetch: fetchEvents } = useQuery(EVENTS_QUERY, { fetchPolicy: 'cache-first' })
 
   useEffect(() => {
-    fetch()
-  }, [userInfo.isLoggedIn, fetch])
+    fetchEvents().then(({ data }: any) => setEvents(data.events))
+  }, [userInfo.isLoggedIn, fetchEvents])
 
   return <Events events={events} clearEvents={() => setEvents({})} />
 }
