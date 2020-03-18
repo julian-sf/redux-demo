@@ -18,7 +18,7 @@ This is a demo of the following:
 
 ## TODO
 
-- [ ] Add more useful unit tests for business logic
 - [ ] Finish `redux-saga` branch
-- [ ] Add in mocked up detail page
-- [ ] Add offers & put offer information to modal
+- [x] Add more useful unit tests for business logic
+- [x] Add in mocked up detail page
+- [x] Add offers & put offer information to modal
