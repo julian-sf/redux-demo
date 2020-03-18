@@ -5,24 +5,29 @@ import { fetchLogin, fetchLogout, fetchUserStatus } from '../api'
 import { eventSlice, getEvents } from './events'
 import { useSelector } from './useSelector'
 
-const initialState: { isLoggedIn: boolean | 'unknown'; name?: string } = {
+interface AuthSliceState {
+  isLoggedIn: boolean | 'unknown'
+  name?: string
+}
+
+export const initialAuthState: AuthSliceState = {
   isLoggedIn: 'unknown',
   name: '<loading>',
 }
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: initialAuthState,
   reducers: {
-    checkLoginStatus: (state: typeof initialState, action: PayloadAction<{ user?: string }>) => {
+    checkLoginStatus: (state, action: PayloadAction<{ user?: string }>) => {
       state.isLoggedIn = typeof document !== 'undefined' && document.cookie.includes('Auth=true')
       state.name = action.payload.user
     },
-    login: (state: typeof initialState, action: PayloadAction<{ user?: string }>) => {
+    login: (state, action: PayloadAction<{ user?: string }>) => {
       state.isLoggedIn = true
       state.name = action.payload.user
     },
-    logout: (state: typeof initialState) => {
+    logout: state => {
       state.isLoggedIn = false
       delete state.name
     },
@@ -48,16 +53,11 @@ export const updateLoggedInStatus = () => async dispatch => {
   dispatch(authSlice.actions.checkLoginStatus(await fetchUserStatus()))
 }
 
-// selectors/hooks
+// hooks
 
-export const useLoggedIn = () => {
-  const result = useSelector(state => state.auth.isLoggedIn)
+export const useAuth = () => {
+  const loggedIn = useSelector(state => state.auth.isLoggedIn)
   const dispatch = useDispatch()
-  let loggedIn: boolean | 'unknown' = 'unknown'
-
-  if (typeof window !== 'undefined') {
-    loggedIn = result
-  }
 
   return { loggedIn, login: () => dispatch(login()), logout: () => dispatch(logout()) }
 }
