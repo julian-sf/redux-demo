@@ -5,12 +5,6 @@ import { events } from '../../../server/data/events';
 import { Events } from './Events';
 
 describe('Events', () => {
-  it('displays clear events button', () => {
-    const { getByTestId } = render(<Events events={[]} />);
-
-    expect(getByTestId('clearEvents')).toBeTruthy();
-  });
-
   it('displays all events', () => {
     const { getAllByTestId, getByText } = render(<Events events={events} />);
 
