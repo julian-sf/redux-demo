@@ -19,6 +19,14 @@ export const EVENTS_QUERY = gql`
   }
 `;
 
+export const USER_STATUS_QUERY = gql`
+  query user {
+    user @rest(type: "user", path: "user") {
+      user
+    }
+  }
+`;
+
 export const LOGIN_MUTATION = gql`
   mutation login {
     login(input: {}) @rest(type: "login", path: "login", method: "POST") {

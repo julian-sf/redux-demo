@@ -37,11 +37,7 @@ const EventPageContainer = () => {
     !eventToDisplay ? push('/') : setDisplayedEvent(eventToDisplay);
   }, [push, ready, events, loading, query]);
 
-  return (
-    <>
-      <EventPage events={events} displayedEvent={displayedEvent} />
-    </>
-  );
+  return <EventPage events={events} displayedEvent={displayedEvent} />;
 };
 
 export default EventPageContainer;

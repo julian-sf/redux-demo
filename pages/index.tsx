@@ -6,7 +6,6 @@ import { Events } from '../shared/components/Events/Events';
 
 const Index = () => {
   const { events } = useEventsQuery();
-  console.log(events);
 
   return (
     <>
