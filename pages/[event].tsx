@@ -1,15 +1,14 @@
-import { useQuery } from '@apollo/react-hooks';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-import { useEventsQuery } from '../api/useEventsQuery/useEventsQuery';
+import { EventType } from '../api/events/eventsQuery/eventsQuery.types';
+import { useEventsQuery } from '../api/events/useEventsQuery';
 import { parseStringParam } from '../next-utils/urls';
 import { useRouter } from '../next-utils/useRouter';
-import { EventData } from '../server/data/events';
 import { AuthButtonContainer } from '../shared/components/AuthButton/AuthButtonContainer';
 import { Events } from '../shared/components/Events/Events';
 
-const EventPage = ({ events, displayedEvent }: { events: EventData[]; displayedEvent: EventData }) => (
+const EventPage = ({ events, displayedEvent }: { events: EventType[]; displayedEvent: EventType }) => (
   <>
     <h1>{displayedEvent?.name || 'Event List'}</h1>
     <AuthButtonContainer />

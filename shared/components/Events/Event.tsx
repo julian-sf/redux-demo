@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-import { EventData } from '../../../server/data/events';
+import { EventType } from '../../../api/events/eventsQuery/eventsQuery.types';
 import { Modal } from '../Modal/Modal';
 
-export const Event = ({ event }: { event: EventData }) => {
+export const Event = ({ event }: { event: EventType }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (

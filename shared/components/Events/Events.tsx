@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { EventData } from '../../../server/data/events';
+import { EventType } from '../../../api/events/eventsQuery/eventsQuery.types';
 import { Event } from './Event';
 
 type EventsProps = {
-  events: EventData[];
+  events: EventType[];
 };
 
 export const Events = ({ events }: EventsProps) => (

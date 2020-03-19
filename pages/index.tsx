@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useEventsQuery } from '../api/useEventsQuery/useEventsQuery';
+import { useEventsQuery } from '../api/events/useEventsQuery';
 import { AuthButtonContainer } from '../shared/components/AuthButton/AuthButtonContainer';
 import { Events } from '../shared/components/Events/Events';
 
