@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/react-hooks';
 import React, { createContext, useState, useEffect } from 'react';
 
-import { USER_STATUS_QUERY } from '../../api';
+import { USER_STATUS_QUERY } from '../../api/queries';
 
 export const AuthContext = createContext(undefined);
 

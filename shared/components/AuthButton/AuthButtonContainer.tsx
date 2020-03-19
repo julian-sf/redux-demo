@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/react-hooks';
 import React from 'react';
 
-import { LOGIN_MUTATION, LOGOUT_MUTATION } from '../../../api';
+import { LOGIN_MUTATION, LOGOUT_MUTATION } from '../../../api/queries';
 import { useAuthContext } from '../../../contexts/AuthContext/useAuthContext';
 import { AuthButton } from './AuthButton';
 
