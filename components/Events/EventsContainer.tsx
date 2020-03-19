@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useEventsQuery } from '../../api/useEventsQuery';
+import { useEventsQuery } from '../../api/useEventsQuery/useEventsQuery';
 import { Events } from './Events';
 
 export const EventsContainer = () => {

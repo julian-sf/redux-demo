@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/react-hooks';
 import { useEffect } from 'react';
 
-import { useAuthContext } from '../contexts/AuthContext/useAuthContext';
+import { useAuthContext } from '../../contexts/AuthContext/useAuthContext';
 
-import { EventsResponse, EVENTS_QUERY } from '.';
+import { EventsResponse, EVENTS_QUERY } from '..';
 
 export const useEventsQuery = () => {
   const { userInfo } = useAuthContext();

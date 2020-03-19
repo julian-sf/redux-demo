@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/react-hooks';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-import { useEventsQuery } from '../api/useEventsQuery';
+import { useEventsQuery } from '../api/useEventsQuery/useEventsQuery';
 import { parseStringParam } from '../next-utils/urls';
 import { useRouter } from '../next-utils/useRouter';
 import { EventData } from '../server/data/events';
