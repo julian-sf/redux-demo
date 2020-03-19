@@ -14,6 +14,7 @@ export const EVENTS_QUERY = gql`
       id
       name
       propertyId
+      relatedEvents
     }
   }
 `;

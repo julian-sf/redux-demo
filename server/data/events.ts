@@ -34,6 +34,7 @@ export const events: EventData[] = [
     propertyId: '66964e2b-2550-4476-84c3-1a4c0c5c067f',
     id: 'ka-by-cirque-du-soleil',
     name: 'KÀ by Cirque du Soleil ',
+    relatedEvents: ['kat-kevin-james', 'david-copperfield'],
     description:
       'A masterpiece in storytelling, KÀ tells the epic tale of twins on a journey to fulfill their shared destiny.',
     images: {
@@ -116,6 +117,7 @@ export const events: EventData[] = [
     propertyId: 'mgmresorts',
     id: 'cirque-du-soleil-vip-packages',
     name: 'Cirque du Soleil VIP Packages',
+    relatedEvents: ['ka-by-cirque-du-soleil', 'david-copperfield'],
     description:
       'Cirque du Soleil productions have everything from music to illusion and from acrobatics to artistry. You will never look at entertainment the same.',
     images: {
@@ -151,6 +153,7 @@ export const events: EventData[] = [
     propertyId: '66964e2b-2550-4476-84c3-1a4c0c5c067f',
     id: 'david-copperfield',
     name: 'David Copperfield',
+    relatedEvents: ['kat-kevin-james', 'mgm-resorts-entertainment'],
     description:
       'Hailed as the "greatest illusionist of our time," join David Copperfield for an intimate evening of grand illusion.',
     images: {
@@ -196,6 +199,7 @@ export const events: EventData[] = [
     propertyId: '1f3ed672-3f8f-44d8-9215-81da3c845d83',
     id: 'mgm-resorts-entertainment',
     name: 'Entertainment',
+    relatedEvents: ['david-copperfield', 'brad-garretts-comedy-club'],
     description: "As your gateway, The Signature puts you at the doorstep of Las Vegas' most amazing experiences.",
     images: {
       overview:
@@ -289,6 +293,7 @@ export const events: EventData[] = [
     propertyId: 'mgmresorts',
     id: 'new-years-eve-in-las-vegas',
     name: "New Year's Eve in Las Vegas",
+    relatedEvents: ['david-copperfield', 'mgm-resorts-entertainment'],
     description:
       'Thank you for celebrating with MGM Resorts as we toasted to 2020. To see what entertainment is in store for 2020, visit our Entertainment page.',
     images: {

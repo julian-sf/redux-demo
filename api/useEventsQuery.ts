@@ -7,13 +7,14 @@ import { EventsResponse, EVENTS_QUERY } from '.';
 
 export const useEventsQuery = () => {
   const { userInfo } = useAuthContext();
-  const { data, refetch } = useQuery<EventsResponse>(EVENTS_QUERY, { fetchPolicy: 'cache-first' });
+  const { data, refetch, loading } = useQuery<EventsResponse>(EVENTS_QUERY, { fetchPolicy: 'cache-first' });
 
   useEffect(() => {
     refetch();
   }, [userInfo.isLoggedIn, refetch]);
 
   return {
+    loading,
     events: data ? data.events : [],
   };
 };
