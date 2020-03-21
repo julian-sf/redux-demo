@@ -1,41 +1,59 @@
-import { MockedProvider } from '@apollo/react-testing';
+jest.mock('@apollo/react-hooks', () => ({
+  useQuery: jest.fn(() => ({
+    data: { events: [{ name: 'test', id: 'test', propertyId: 'test', relatedEvents: ['12'] }] },
+    loading: false,
+    refetch: () => {},
+  })),
+}));
+
+import * as ApolloMock from '@apollo/react-hooks';
 import { renderHook, act } from '@testing-library/react-hooks';
-import React from 'react';
-import wait from 'waait';
+import React, { useState } from 'react';
 
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
-import { EVENTS_QUERY } from './eventsQuery/eventsQuery';
 import { useEventsQuery } from './useEventsQuery';
 
-const userInfo = { isLoggedIn: false, name: undefined };
-
-const mocks = [
-  {
-    request: {
-      query: EVENTS_QUERY,
-    },
-    result: () => ({
-      data: { events: [{ name: 'test', id: 'test', propertyId: 'test', relatedEvents: ['12'] }] },
-    }),
-  },
-];
-
 describe('EventsContainer', () => {
-  it('Returns loader when loading events, returns events when loaded', async () => {
+  it('returns events when loaded', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <AuthContext.Provider value={{ userInfo }}>{children}</AuthContext.Provider>
-      </MockedProvider>
+      <AuthContext.Provider value={{ userInfo: { isLoggedIn: false, name: undefined } }}>
+        {children}
+      </AuthContext.Provider>
     );
 
-    const { result, rerender } = renderHook(() => useEventsQuery(), { wrapper });
-
-    expect(result.current.loading).toBeTruthy();
-
-    await act(async () => await wait(0));
-
-    rerender();
+    const { result } = renderHook(() => useEventsQuery(), { wrapper });
 
     expect(result.current.events.length).toBe(1);
+  });
+
+  it('fetches events again on user login', () => {
+    let setUserInfoRef = undefined;
+
+    const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+      const [userInfo, setUserInfo] = useState({ userInfo: { isLoggedIn: false, name: undefined } });
+      setUserInfoRef = setUserInfo;
+
+      return <AuthContext.Provider value={{ userInfo, setUserInfo }}>{children}</AuthContext.Provider>;
+    };
+
+    const { result } = renderHook(() => useEventsQuery(), { wrapper: AuthProvider });
+
+    expect(result.current.loading).toBeFalsy();
+    expect(result.current.events).toHaveLength(1);
+
+    const refetchRef = jest.fn();
+    (ApolloMock.useQuery as any).mockImplementationOnce(() => ({
+      data: { events: [] },
+      loading: false,
+      refetch: refetchRef,
+    }));
+
+    act(() => {
+      setUserInfoRef({ isLoggedIn: true, name: 'test' });
+    });
+
+    expect(refetchRef).toBeCalledTimes(1);
+    expect(result.current.loading).toBeFalsy();
+    expect(result.current.events).toHaveLength(0);
   });
 });

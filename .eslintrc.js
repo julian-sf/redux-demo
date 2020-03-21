@@ -176,13 +176,13 @@ module.exports = {
       // wildcard inclusions
       {
         blankLine: 'always',
-        prev: ['multiline-block-like', 'multiline-const', 'multiline-expression'],
+        prev: ['multiline-block-like'],
         next: '*',
       },
       {
         blankLine: 'always',
         prev: '*',
-        next: ['multiline-block-like', 'multiline-const', 'multiline-expression', 'switch', 'return'],
+        next: ['multiline-block-like', 'switch', 'return'],
       },
 
       // specific exclusions for case statements
@@ -256,4 +256,4 @@ module.exports = {
       },
     },
   ],
-}
+};
