@@ -2,13 +2,11 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 
 import { EventType } from '../../../api/events/eventsQuery/eventsQuery.types';
-import { useRenderCount } from '../../../utils/useRenderCount';
 import { Loader } from '../Loader/Loader';
 import { Modal } from '../Modal/Modal';
 
 export const Event = ({ event, loading }: { event: EventType; loading: boolean }) => {
   const [open, setOpen] = useState(false);
-  const renderCount = useRenderCount();
 
   return (
     <>
@@ -21,7 +19,6 @@ export const Event = ({ event, loading }: { event: EventType; loading: boolean }
             <button onClick={() => setOpen(true)}>View Details</button>
           </div>
         </Loader>
-        {renderCount && <pre>Event render count: {renderCount}</pre>}
       </div>
 
       {open && (
