@@ -7,6 +7,15 @@ export const EVENTS_QUERY = gql`
       name
       propertyId
       relatedEvents
+      contentType
+      description
+      images
+      priceRange
+      showTimesDescriptions
+      startingPrice
+      boxOfficeHours
+      relatedEvents
+      seasons
     }
   }
 `;
