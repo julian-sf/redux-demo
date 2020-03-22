@@ -40,7 +40,7 @@ export default withRedux(() => {
         <button>Back to index</button>
       </Link>
       <h2>Related Events</h2>
-      <Events providedEvents={displayedEvent?.relatedEvents} />
+      <Events specificEventIds={displayedEvent?.relatedEvents} />
       <h2>Event Details</h2>
       <pre>{JSON.stringify(displayedEvent ?? {}, null, 2)}</pre>
     </>

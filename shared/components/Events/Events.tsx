@@ -4,17 +4,19 @@ import { useEvents } from '../../../store/events';
 import { useRenderCount } from '../../../utils/useRenderCount';
 import { Event } from './Event';
 
-export const Events = ({ providedEvents }: { providedEvents?: string[] }) => {
+export const Events = ({ specificEventIds }: { specificEventIds?: string[] }) => {
   const { initialized, events } = useEvents();
   const renderCount = useRenderCount();
 
-  if (!providedEvents && !initialized) return null;
+  if (!initialized) return null;
+
+  const eventIds = specificEventIds || Object.keys(events);
 
   return (
     <>
       {renderCount && <pre>Events render count: {renderCount}</pre>}
       <div>
-        {(providedEvents || Object.keys(events)).map(id => {
+        {eventIds.map(id => {
           const event = events[id];
 
           return event && <Event key={event.id} event={event} />;
