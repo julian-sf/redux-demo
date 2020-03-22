@@ -12,7 +12,7 @@ export const Event = ({ event, loading }: { event: EventType; loading: boolean }
 
   return (
     <>
-      <div className={'container'}>
+      <div className={'container'} data-testid={'event'}>
         <Loader loading={loading}>
           <div className={'card'}>
             <Link href={'/[event]'} as={`/${event.id}`}>

@@ -40,8 +40,6 @@ export const transformEventResponse = (events: EventData[]): EventData[] => {
       event.relatedEvents = [array[index - 1]?.id, array[index + 1]?.id];
     }
 
-    event.relatedEvents = event.relatedEvents.filter(related => !!related);
-
     return event;
   }, {});
 };
