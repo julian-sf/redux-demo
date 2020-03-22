@@ -25,7 +25,7 @@ export const AuthButtonContainer = () => {
   return (
     <AuthButton
       isLoggedIn={isLoggedIn}
-      username={name}
+      userName={name}
       login={() => setAuthTransitioning(login)}
       logout={() => setAuthTransitioning(logout)}
     />

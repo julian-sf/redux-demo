@@ -1,33 +1,42 @@
-import React from 'react'
+import React from 'react';
+
+import { useRenderCount } from '../../../utils/useRenderCount';
 
 type AuthButtonProps = {
-  isLoggedIn: boolean
-  username: string
-  login(): void
-  logout(): void
-}
+  isLoggedIn: boolean;
+  userName: string;
+  login(): void;
+  logout(): void;
+};
 
-export const AuthButton = ({ isLoggedIn, username, login, logout }: AuthButtonProps) => (
-  <>
-    <div>
-      <div className={'button-container'}>
-        <button type={'button'} onClick={() => (isLoggedIn ? logout() : login())}>
-          {isLoggedIn ? 'Logout' : 'Login'}
-        </button>
+export const AuthButton = ({ isLoggedIn, userName, login, logout }: AuthButtonProps) => {
+  const renderCount = useRenderCount();
+
+  return (
+    <>
+      <div>
+        <div className={'button-container'}>
+          <button type={'button'} onClick={() => (isLoggedIn ? logout() : login())}>
+            {isLoggedIn ? 'Logout' : 'Login'}
+          </button>
+        </div>
+        <div className={'user'}>User: {userName ?? '<empty>'}</div>
+        (simulated 250ms latency on all requests)
+        {renderCount && `AuthButton render count: ${renderCount}`}
       </div>
-      {isLoggedIn && <div className={'user'}>User: {username ?? '<empty>'}</div>}
-    </div>
-    <style jsx>{`
-      div {
-        display: flex;
-      }
-      .button-container {
-        width: 150px;
-      }
+      <style jsx>{`
+        div {
+          display: flex;
+          width: 740px;
+        }
+        .button-container {
+          width: 150px;
+        }
 
-      .user {
-        flex: 1;
-      }
-    `}</style>
-  </>
-)
+        .user {
+          flex: 1;
+        }
+      `}</style>
+    </>
+  );
+};
