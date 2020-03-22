@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 
 import { EventType } from '../api/events/eventsQuery/eventsQuery.types';
 import { useEventsQuery } from '../api/events/useEventsQuery';
+import { useRouter } from '../next-utils/router';
 import { parseStringParam } from '../next-utils/urls';
-import { useRouter } from '../next-utils/useRouter';
 import { AuthButtonContainer } from '../shared/components/AuthButton/AuthButtonContainer';
 import { Events } from '../shared/components/Events/Events';
 
