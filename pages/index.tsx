@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 
-import { AuthButton } from '../components/AuthButton'
-import { Events } from '../components/Events'
-import { withRedux } from '../next-utils/withRedux'
-import { useRenderCount } from '../utils/useRenderCount'
+import { AuthButton } from '../components/AuthButton';
+import { Events } from '../components/Events';
+import { withRedux } from '../next-utils/withRedux';
+import { useRenderCount } from '../utils/useRenderCount';
 
 export default withRedux(() => {
-  const renderCount = useRenderCount()
+  const renderCount = useRenderCount();
 
   return (
     <>
@@ -15,5 +15,5 @@ export default withRedux(() => {
       <AuthButton />
       <Events />
     </>
-  )
-})
+  );
+});

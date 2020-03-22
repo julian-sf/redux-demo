@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 
-import { useAuth, useUserName } from '../store/auth'
-import { useRenderCount } from '../utils/useRenderCount'
+import { useAuth, useUserName } from '../store/auth';
+import { useRenderCount } from '../utils/useRenderCount';
 
 export const AuthButton = () => {
-  const { loggedIn, login, logout } = useAuth()
-  const userName = useUserName()
-  const renderCount = useRenderCount()
+  const { loggedIn, login, logout } = useAuth();
+  const userName = useUserName();
+  const renderCount = useRenderCount();
 
   return (
     <>
@@ -34,5 +34,5 @@ export const AuthButton = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
