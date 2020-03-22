@@ -40,7 +40,7 @@
   "//lint-staged-comment": "This configuration doesn't work w/ files with brackets in filenames. See lint-staged.config.js.",
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "yarn lint"
+      "yarn lint:fix"
     ],
     "**/*.{css,scss,js,jsx,ts,tsx,md}": [
       "prettier --config .prettierrc.yaml --write"
