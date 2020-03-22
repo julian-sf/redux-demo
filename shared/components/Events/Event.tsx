@@ -1,16 +1,18 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-import { EventType } from '../../../api/events/eventsQuery/eventsQuery.types';
+import { EventData } from '../../../server/data/events';
+import { useEvents } from '../../../store/events';
 import { Loader } from '../Loader/Loader';
 import { Modal } from '../Modal/Modal';
 
-export const Event = ({ event, loading }: { event: EventType; loading: boolean }) => {
+export const Event = ({ event }: { event: EventData }) => {
   const [open, setOpen] = useState(false);
+  const { loading } = useEvents();
 
   return (
     <>
-      <div className={'container'} data-testid={'event'}>
+      <div className={'container'}>
         <Loader loading={loading}>
           <div className={'card'}>
             <Link href={'/[event]'} as={`/${event.id}`}>

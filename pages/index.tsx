@@ -1,19 +1,13 @@
 import React from 'react';
 
-import { useEventsQuery } from '../api/events/useEventsQuery';
-import { AuthButtonContainer } from '../shared/components/AuthButton/AuthButtonContainer';
+import { withRedux } from '../next-utils/withRedux';
+import { AuthButton } from '../shared/components/AuthButton/AuthButton';
 import { Events } from '../shared/components/Events/Events';
 
-const Index = () => {
-  const { events, loading } = useEventsQuery();
-
-  return (
-    <>
-      <h1>Event List</h1>
-      <AuthButtonContainer />
-      <Events loading={loading} events={events} />
-    </>
-  );
-};
-
-export default Index;
+export default withRedux(() => (
+  <>
+    <h1>Event List</h1>
+    <AuthButton />
+    <Events />
+  </>
+));

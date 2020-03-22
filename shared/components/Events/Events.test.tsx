@@ -1,16 +1,64 @@
-import { render } from '@testing-library/react';
 import React from 'react';
 
-import { EventType } from '../../../api/events/eventsQuery/eventsQuery.types';
 import { loadEvents } from '../../../server/data/events';
+import { RootState } from '../../../store/config';
+import { normalizeEventData } from '../../../store/events';
+import { renderWithRedux } from '../../../utils/tests';
 import { Events } from './Events';
 
-describe('Events', () => {
-  it('displays all events', () => {
-    const { getAllByTestId, getByText } = render(<Events loading={false} events={loadEvents(true) as EventType[]} />);
+jest.mock('../../../api/events', () => ({
+  ...jest.requireActual('../../../api/events'),
+  fetchEvents: jest.fn(),
+}));
 
-    expect(getByText(/Cirque du Soleil VIP Packages/)).toBeTruthy();
-    expect(getByText(/Kevin James/)).toBeTruthy();
-    expect(getAllByTestId('event').length).toBe(7);
+const apiMock = jest.requireMock('../../../api/events');
+const results = loadEvents();
+
+describe('Events component', () => {
+  // This test can be more cleanly replaced with the following test:
+  //   [store/events.test.tsx] events store > useEvents > fetches when store is not initialized
+  it('fetches when store is not initialized', async () => {
+    // setup mocks
+    apiMock.fetchEvents.mockImplementationOnce(() => results);
+
+    // dispatch actions
+    const wrapper = renderWithRedux(<Events />);
+
+    // make sure the mock was called
+    expect(apiMock.fetchEvents).toHaveBeenCalled();
+
+    // there should be 5 items on display with names...
+    expect(await wrapper.findAllByText(/Name:/)).toHaveLength(5);
+
+    // verify two of the links generated
+    expect(await wrapper.findByText('Name: David Copperfield')).toHaveProperty(
+      'href',
+      'http://localhost/david-copperfield',
+    );
+
+    expect(await wrapper.findByText('Name: Entertainment')).toHaveProperty(
+      'href',
+      'http://localhost/mgm-resorts-entertainment',
+    );
+  });
+
+  it('uses store when it is initialized', async () => {
+    const wrapper = renderWithRedux(<Events />, {
+      preloadedState: { events: { initialized: true, data: normalizeEventData(results), loading: false } } as RootState,
+    });
+
+    // there should be 5 items on display with names...
+    expect(await wrapper.findAllByText(/Name:/)).toHaveLength(5);
+
+    // verify two of the links generated
+    expect(await wrapper.findByText('Name: David Copperfield')).toHaveProperty(
+      'href',
+      'http://localhost/david-copperfield',
+    );
+
+    expect(await wrapper.findByText('Name: Entertainment')).toHaveProperty(
+      'href',
+      'http://localhost/mgm-resorts-entertainment',
+    );
   });
 });

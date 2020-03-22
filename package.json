@@ -40,31 +40,24 @@
   "//lint-staged-comment": "This configuration doesn't work w/ files with brackets in filenames. See lint-staged.config.js.",
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "yarn lint"
+      "yarn lint:fix"
     ],
     "**/*.{css,scss,js,jsx,ts,tsx,md}": [
       "prettier --config .prettierrc.yaml --write"
     ]
   },
   "dependencies": {
-    "@apollo/react-hooks": "^3.1.3",
     "@reduxjs/toolkit": "^1.2.5",
-    "apollo-cache-inmemory": "^1.6.5",
-    "apollo-client": "^2.6.8",
-    "apollo-link": "^1.2.13",
-    "apollo-link-rest": "0.7.3",
-    "graphql": "^14.6.0",
-    "graphql-anywhere": "^4.2.6",
-    "graphql-tag": "^2.10.3",
     "next": "9.3.0",
-    "node-fetch": "^2.6.0",
     "react": "16.13.0",
     "react-dom": "16.13.0",
+    "react-redux": "^7.2.0",
     "react-spinners": "^0.8.1",
+    "redux": "^4.0.5",
+    "redux-persist": "^6.0.0",
     "uuid": "^7.0.2"
   },
   "devDependencies": {
-    "@apollo/react-testing": "^3.1.3",
     "@babel/core": "^7.8.7",
     "@testing-library/react": "^10.0.1",
     "@testing-library/react-hooks": "^3.2.1",
@@ -75,6 +68,8 @@
     "@types/next": "^9.0.0",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
+    "@types/react-redux": "^7.1.7",
+    "@types/redux-mock-store": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^2.23.0",
     "@typescript-eslint/parser": "^2.23.0",
     "babel-jest": "^25.1.0",
@@ -94,6 +89,8 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
     "react-test-renderer": "^16.13.0",
+    "redux-mock-store": "^1.5.4",
+    "redux-thunk": "^2.3.0",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   }

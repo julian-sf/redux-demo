@@ -10,5 +10,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Made with the following
 
-- React context
-  [![Next JS](https://miro.medium.com/max/1042/1*9mESIE8IL4eEFZ6FIO4smA.png)](https://nextjs.org/)
+[![Redux Toolkit](https://p39.f2.n0.cdn.getcloudapp.com/items/E0uqRE6D/Image%202020-03-18%20at%202.41.05%20AM.png)](https://redux-toolkit.js.org/)
+[![Next JS](https://miro.medium.com/max/1042/1*9mESIE8IL4eEFZ6FIO4smA.png)](https://nextjs.org/)

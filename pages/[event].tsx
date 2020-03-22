@@ -1,50 +1,41 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-import { EventType } from '../api/events/eventsQuery/eventsQuery.types';
-import { useEventsQuery } from '../api/events/useEventsQuery';
 import { useRouter } from '../next-utils/router';
 import { parseStringParam } from '../next-utils/urls';
-import { AuthButtonContainer } from '../shared/components/AuthButton/AuthButtonContainer';
+import { withRedux } from '../next-utils/withRedux';
+import { EventData } from '../server/data/events';
+import { AuthButton } from '../shared/components/AuthButton/AuthButton';
 import { Events } from '../shared/components/Events/Events';
+import { useEvents } from '../store/events';
 
-const EventPage = ({
-  events,
-  displayedEvent,
-  loading,
-}: {
-  events: EventType[];
-  displayedEvent: EventType;
-  loading: boolean;
-}) => (
-  <>
-    <h1>{displayedEvent?.name || 'Event List'}</h1>
-    <AuthButtonContainer />
-    <Link href={'/'}>
-      <button>Back to index</button>
-    </Link>
-    <h2>Related Events</h2>
-    <Events loading={loading} events={events.filter(({ id }) => displayedEvent?.relatedEvents?.includes(id))} />
-    <h2>Event Details</h2>
-    <pre>{JSON.stringify(displayedEvent ?? {}, null, 2)}</pre>
-  </>
-);
+export default withRedux(() => {
+  const { query, pushRoute, ready } = useRouter();
+  const { initialized, events } = useEvents();
+  const [displayedEvent, setDisplayedEvent] = useState<EventData | undefined>(undefined);
 
-const EventPageContainer = () => {
-  const { query, push, ready } = useRouter();
-  const { events, loading } = useEventsQuery();
-  const [displayedEvent, setDisplayedEvent] = useState(undefined);
+  const eventId = parseStringParam(query?.event);
+  const eventData = events[eventId];
 
   useEffect(() => {
-    if (!ready || loading) return;
+    if (!ready || !initialized) return;
 
-    const eventId = parseStringParam(query?.event);
-    const eventToDisplay = events.find(event => event.id === eventId);
+    if (!eventData) pushRoute('/');
 
-    !eventToDisplay ? push('/') : setDisplayedEvent(eventToDisplay);
-  }, [push, ready, events, loading, query]);
+    setDisplayedEvent(eventData);
+  }, [eventData, initialized, ready, pushRoute]);
 
-  return <EventPage events={events} loading={loading} displayedEvent={displayedEvent} />;
-};
-
-export default EventPageContainer;
+  return (
+    <>
+      <h1>{displayedEvent?.name || 'Event List'}</h1>
+      <AuthButton />
+      <Link href={'/'}>
+        <button>Back to index</button>
+      </Link>
+      <h2>Related Events</h2>
+      <Events specificEventIds={displayedEvent?.relatedEvents} />
+      <h2>Event Details</h2>
+      <pre>{JSON.stringify(displayedEvent ?? {}, null, 2)}</pre>
+    </>
+  );
+});
