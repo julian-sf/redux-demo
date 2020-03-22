@@ -8,13 +8,11 @@ import { EventData } from '../server/data/events';
 import { AuthButton } from '../shared/components/AuthButton/AuthButton';
 import { Events } from '../shared/components/Events/Events';
 import { useEvents } from '../store/events';
-import { useRenderCount } from '../utils/useRenderCount';
 
 export default withRedux(() => {
   const { query, pushRoute, ready } = useRouter();
   const { initialized, events } = useEvents();
   const [displayedEvent, setDisplayedEvent] = useState<EventData | undefined>(undefined);
-  const renderCount = useRenderCount();
 
   const eventId = parseStringParam(query?.event);
   const eventData = events[eventId];
@@ -30,11 +28,6 @@ export default withRedux(() => {
   return (
     <>
       <h1>{displayedEvent?.name || 'Event List'}</h1>
-      {renderCount && (
-        <pre>
-          {displayedEvent?.name} detail render count: {renderCount}
-        </pre>
-      )}
       <AuthButton />
       <Link href={'/'}>
         <button>Back to index</button>

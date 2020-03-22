@@ -1,12 +1,10 @@
 import React from 'react';
 
 import { useEvents } from '../../../store/events';
-import { useRenderCount } from '../../../utils/useRenderCount';
 import { Event } from './Event';
 
 export const Events = ({ specificEventIds }: { specificEventIds?: string[] }) => {
   const { initialized, events } = useEvents();
-  const renderCount = useRenderCount();
 
   if (!initialized) return null;
 
@@ -14,7 +12,6 @@ export const Events = ({ specificEventIds }: { specificEventIds?: string[] }) =>
 
   return (
     <>
-      {renderCount && <pre>Events render count: {renderCount}</pre>}
       <div>
         {eventIds.map(id => {
           const event = events[id];
