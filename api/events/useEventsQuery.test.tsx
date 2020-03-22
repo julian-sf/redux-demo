@@ -42,6 +42,7 @@ describe('EventsContainer', () => {
     expect(result.current.events).toHaveLength(1);
 
     const refetchRef = jest.fn();
+
     (ApolloMock.useQuery as any).mockImplementationOnce(() => ({
       data: { events: [] },
       loading: false,
