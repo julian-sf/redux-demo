@@ -1,13 +1,13 @@
-import { useRef } from 'react'
+import { useRef } from 'react';
 
 export const useRenderCount = () => {
-  const renderCount = useRef(0)
+  const renderCount = useRef(0);
 
   if ((process.env.DEBUG ?? '').toLowerCase() !== 'true') {
-    return null
+    return null;
   }
 
-  renderCount.current += 1
+  renderCount.current += 1;
 
-  return renderCount.current
-}
+  return renderCount.current;
+};

@@ -1,16 +1,16 @@
-import Link from 'next/link'
-import React, { useState } from 'react'
+import Link from 'next/link';
+import React, { useState } from 'react';
 
-import { EventData } from '../server/data/events'
-import { useEvents } from '../store/events'
-import { useRenderCount } from '../utils/useRenderCount'
-import { Loader } from './Loader'
-import { Modal } from './Modal'
+import { EventData } from '../server/data/events';
+import { useEvents } from '../store/events';
+import { useRenderCount } from '../utils/useRenderCount';
+import { Loader } from './Loader';
+import { Modal } from './Modal';
 
 export const Event = ({ event }: { event: EventData }) => {
-  const [open, setOpen] = useState(false)
-  const renderCount = useRenderCount()
-  const { loading } = useEvents()
+  const [open, setOpen] = useState(false);
+  const renderCount = useRenderCount();
+  const { loading } = useEvents();
 
   return (
     <>
@@ -70,5 +70,5 @@ export const Event = ({ event }: { event: EventData }) => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};

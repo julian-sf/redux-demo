@@ -1,8 +1,8 @@
-import { render } from '@testing-library/react'
-import React from 'react'
-import { Provider } from 'react-redux'
+import { render } from '@testing-library/react';
+import React from 'react';
+import { Provider } from 'react-redux';
 
-import { initializeStore } from '../store/config'
+import { initializeStore } from '../store/config';
 
 export function renderWithRedux(
   ui,
@@ -14,5 +14,5 @@ export function renderWithRedux(
     // to reference it in our tests (just try to avoid using
     // this to test implementation details).
     store,
-  }
+  };
 }

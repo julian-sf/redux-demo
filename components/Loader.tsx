@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react'
-import { BarLoader } from 'react-spinners'
+import React, { ReactNode } from 'react';
+import { BarLoader } from 'react-spinners';
 
 const layerStyle = `
   position: absolute;
@@ -7,7 +7,7 @@ const layerStyle = `
   width: 100%;
   left: 0;
   top: 0;
-`
+`;
 
 export const Loader = ({ loading = true, children }: { loading?: boolean; children?: ReactNode }) => (
   <>
@@ -39,4 +39,4 @@ export const Loader = ({ loading = true, children }: { loading?: boolean; childr
       }
     `}</style>
   </>
-)
+);
