@@ -1,29 +1,37 @@
 import React from 'react';
 
-import { EventType } from '../../../api/events/eventsQuery/eventsQuery.types';
+import { Events as IEvents } from '../../../api';
+import { useEvents } from '../../../store/events';
+import { useRenderCount } from '../../../utils/useRenderCount';
 import { Event } from './Event';
 
-type EventsProps = {
-  events: EventType[];
-  loading: boolean;
+export const Events = ({ providedEvents }: { providedEvents?: IEvents }) => {
+  const { initialized, events } = useEvents();
+  const renderCount = useRenderCount();
+
+  if (!providedEvents && !initialized) return null;
+
+  return (
+    <>
+      {renderCount && <pre>Events render count: {renderCount}</pre>}
+      <div>
+        {Object.keys(providedEvents || events).map(id => {
+          const event = events[id];
+
+          return <Event key={event.id} event={event} />;
+        })}
+      </div>
+
+      <style jsx>{`
+        div {
+          display: flex;
+          flex-flow: row wrap;
+
+          margin: 20px 40px;
+          width: 75vw;
+          max-width: 700px;
+        }
+      `}</style>
+    </>
+  );
 };
-
-export const Events = ({ events, loading }: EventsProps) => (
-  <>
-    <div>
-      {events.map((event, i) => (
-        <Event key={i} event={event} loading={loading} />
-      ))}
-    </div>
-    <style jsx>{`
-      div {
-        display: flex;
-        flex-flow: row wrap;
-
-        margin: 20px 40px;
-        width: 75vw;
-        max-width: 700px;
-      }
-    `}</style>
-  </>
-);

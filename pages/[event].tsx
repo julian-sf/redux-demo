@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-import { AuthButton } from '../components/AuthButton';
-import { Events } from '../components/Events';
 import { useRouter } from '../next-utils/router';
 import { parseStringParam } from '../next-utils/urls';
 import { withRedux } from '../next-utils/withRedux';
 import { EventData } from '../server/data/events';
+import { AuthButton } from '../shared/components/AuthButton/AuthButton';
+import { Events } from '../shared/components/Events/Events';
 import { useEvents } from '../store/events';
 import { useRenderCount } from '../utils/useRenderCount';
 
