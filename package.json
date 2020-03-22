@@ -42,7 +42,6 @@
     "react": "16.13.0",
     "react-dom": "16.13.0",
     "react-test-renderer": "^16.13.1",
-    "redux-persist": "^6.0.0",
     "uuid": "^7.0.2"
   },
   "devDependencies": {
