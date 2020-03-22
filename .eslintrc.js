@@ -199,7 +199,7 @@ module.exports = {
     },
 
     {
-      files: ['**/*.test.*', '**/*.saga.*', 'sagas/**', 'server/**'],
+      files: ['**/*test.*', '**/*tests.*', '**/*saga.*', 'sagas/**', 'server/**'],
       rules: {
         'import/no-extraneous-dependencies': [
           'error',
@@ -209,6 +209,7 @@ module.exports = {
             peerDependencies: true,
           },
         ],
+        'react/display-name': 'off',
       },
     },
 

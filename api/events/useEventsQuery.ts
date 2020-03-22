@@ -20,7 +20,7 @@ export const useEventsQuery = () => {
   }, [userInfo.isLoggedIn, refetch]);
 
   return {
-    loading,
+    loading: loading || userInfo.authInTransition,
     events: data ? data.events : [],
   };
 };

@@ -3,6 +3,7 @@ export interface Image {
   reference: string;
   placeHolderImage?: string;
   caption?: string;
+
   [metaData: string]: string;
 }
 
@@ -29,12 +30,27 @@ export interface EventData {
   }>;
 }
 
-export const events: EventData[] = [
+export const transformEventResponse = (events: EventData[]): EventData[] => {
+  return events.map((event, index, array) => {
+    if (index === 0) {
+      event.relatedEvents = [array[index + 1]?.id, array[index + 2]?.id];
+    } else if (index === array.length - 1) {
+      event.relatedEvents = [array[index - 2]?.id, array[index - 1]?.id];
+    } else {
+      event.relatedEvents = [array[index - 1]?.id, array[index + 1]?.id];
+    }
+
+    event.relatedEvents = event.relatedEvents.filter(related => !!related);
+
+    return event;
+  }, {});
+};
+
+const events: EventData[] = [
   {
     propertyId: '66964e2b-2550-4476-84c3-1a4c0c5c067f',
     id: 'ka-by-cirque-du-soleil',
     name: 'KÀ by Cirque du Soleil ',
-    relatedEvents: ['kat-kevin-james', 'david-copperfield'],
     description:
       'A masterpiece in storytelling, KÀ tells the epic tale of twins on a journey to fulfill their shared destiny.',
     images: {
@@ -117,14 +133,31 @@ export const events: EventData[] = [
     propertyId: 'mgmresorts',
     id: 'cirque-du-soleil-vip-packages',
     name: 'Cirque du Soleil VIP Packages',
-    relatedEvents: ['ka-by-cirque-du-soleil', 'david-copperfield'],
     description:
       'Cirque du Soleil productions have everything from music to illusion and from acrobatics to artistry. You will never look at entertainment the same.',
     images: {
       overview:
         '/content/dam/MGM/bellagio/entertainment/shows/o-by-cirque-du-soleil/bellagio-entertainment-shows-o-by-cirque-du-soleil-vip-suites-small.jpg',
     },
+    boxOfficeHours: [
+      { description: 'Tuesday', time: '5:00 PM - 8:30 PM' },
+      { description: 'Wednesday - Monday', time: '5:00 PM - 10:00 PM' },
+    ],
     contentType: 'show',
+    seasons: [
+      {
+        displayName: 'Cirque du Soleil VIP Packages 2019',
+        periodStartDate: '2019-01-01T00:00:00-08:00',
+        periodEndDate: '2019-12-31T00:00:00-08:00',
+        id: '1b1306fe-5e6c-4349-a9c5-e93683ec74bd',
+      },
+      {
+        displayName: 'Cirque du Soleil VIP Packages 2020',
+        periodStartDate: '2020-01-01T00:00:00-08:00',
+        periodEndDate: '2020-12-31T00:00:00-08:00',
+        id: '9a28ab2d-f459-45b0-8f8c-11763275b03f',
+      },
+    ],
   },
   {
     propertyId: '66964e2b-2550-4476-84c3-1a4c0c5c067f',
@@ -139,6 +172,10 @@ export const events: EventData[] = [
 
     showTimesDescriptions: [{ description: 'Friday, May 29, 2020', time: '9:00 PM' }],
     startingPrice: '49.99',
+    boxOfficeHours: [
+      { description: 'Tuesday', time: '5:00 PM - 8:30 PM' },
+      { description: 'Wednesday - Monday', time: '5:00 PM - 10:00 PM' },
+    ],
     seasons: [
       {
         displayName: 'KAA Kevin James',
@@ -153,7 +190,6 @@ export const events: EventData[] = [
     propertyId: '66964e2b-2550-4476-84c3-1a4c0c5c067f',
     id: 'david-copperfield',
     name: 'David Copperfield',
-    relatedEvents: ['kat-kevin-james', 'mgm-resorts-entertainment'],
     description:
       'Hailed as the "greatest illusionist of our time," join David Copperfield for an intimate evening of grand illusion.',
     images: {
@@ -167,6 +203,10 @@ export const events: EventData[] = [
       { description: 'March 15, 2020, 9:30 pm', time: 'Cancelled' },
     ],
     startingPrice: '71.37',
+    boxOfficeHours: [
+      { description: 'Tuesday', time: '5:00 PM - 8:30 PM' },
+      { description: 'Wednesday - Monday', time: '5:00 PM - 10:00 PM' },
+    ],
     seasons: [
       {
         displayName: 'David Copperfield 2017',
@@ -199,12 +239,15 @@ export const events: EventData[] = [
     propertyId: '1f3ed672-3f8f-44d8-9215-81da3c845d83',
     id: 'mgm-resorts-entertainment',
     name: 'Entertainment',
-    relatedEvents: ['david-copperfield', 'brad-garretts-comedy-club'],
     description: "As your gateway, The Signature puts you at the doorstep of Las Vegas' most amazing experiences.",
     images: {
       overview:
         '/content/dam/MGM/mgm-grand/entertainment/venues/grand-garden-arena/architecture/mgm-grand-entertainment-grand-garden-arena-lifestyle-audience-cheering.jpg',
     },
+    boxOfficeHours: [
+      { description: 'Tuesday', time: '5:00 PM - 8:30 PM' },
+      { description: 'Wednesday - Monday', time: '5:00 PM - 10:00 PM' },
+    ],
     priceRange: '$',
     startingPrice: '56',
     contentType: 'show',
@@ -293,15 +336,33 @@ export const events: EventData[] = [
     propertyId: 'mgmresorts',
     id: 'new-years-eve-in-las-vegas',
     name: "New Year's Eve in Las Vegas",
-    relatedEvents: ['david-copperfield', 'mgm-resorts-entertainment'],
     description:
       'Thank you for celebrating with MGM Resorts as we toasted to 2020. To see what entertainment is in store for 2020, visit our Entertainment page.',
     images: {
       overview: '/content/dam/MGM/corporate/getty-images/mgm-corporate-getty-nightlife.tif',
     },
+    boxOfficeHours: [
+      { description: 'Tuesday', time: '5:00 PM - 8:30 PM' },
+      { description: 'Wednesday - Monday', time: '5:00 PM - 10:00 PM' },
+    ],
     priceRange: '$',
     contentType: 'show',
+    seasons: [
+      {
+        displayName: "New Year's Eve in Las Vegas 2019",
+        periodStartDate: '2019-01-01T00:00:00-08:00',
+        periodEndDate: '2019-12-31T00:00:00-08:00',
+        id: '5f1306fe-5e6c-4349-a9c5-e93683ec74bd',
+      },
+      {
+        displayName: "New Year's Eve in Las Vegas 2020",
+        periodStartDate: '2020-01-01T00:00:00-08:00',
+        periodEndDate: '2020-12-31T00:00:00-08:00',
+        id: '1d28ab2d-f459-45b0-8f8c-11763275b03f',
+      },
+    ],
   },
 ];
 
-export const loadEvents = (auth = false) => (auth ? events : events.filter(event => event.propertyId !== 'mgmresorts'));
+export const loadEvents = (auth = false) =>
+  transformEventResponse(auth ? events : events.filter(event => event.propertyId !== 'mgmresorts'));

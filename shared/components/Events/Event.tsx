@@ -2,24 +2,30 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 
 import { EventType } from '../../../api/events/eventsQuery/eventsQuery.types';
+import { useRenderCount } from '../../../utils/useRenderCount';
+import { Loader } from '../Loader/Loader';
 import { Modal } from '../Modal/Modal';
 
-export const Event = ({ event }: { event: EventType }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export const Event = ({ event, loading }: { event: EventType; loading: boolean }) => {
+  const [open, setOpen] = useState(false);
+  const renderCount = useRenderCount();
 
   return (
     <>
-      <div className={'container'} data-testid={'event'}>
-        <div className={'card'}>
-          <Link href={'/[event]'} as={`/${event.id}`}>
-            <a>Name: {event.name}</a>
-          </Link>
-          <button onClick={() => setIsModalOpen(true)}>View Details</button>
-        </div>
+      <div className={'container'}>
+        <Loader loading={loading}>
+          <div className={'card'}>
+            <Link href={'/[event]'} as={`/${event.id}`}>
+              <a>Name: {event.name}</a>
+            </Link>
+            <button onClick={() => setOpen(true)}>View Details</button>
+          </div>
+        </Loader>
+        {renderCount && <pre>Event render count: {renderCount}</pre>}
       </div>
 
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
+      {open && (
+        <Modal onClose={() => setOpen(false)}>
           <pre className={'code'}>{JSON.stringify(event ?? {}, null, 2)}</pre>
         </Modal>
       )}

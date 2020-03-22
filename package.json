@@ -8,11 +8,16 @@
     "next:dev": "next dev",
     "next:start": "next start",
     "dev": "run-p -l server:watch next:dev",
+    "debug": "DEBUG=true run-p -l server:watch next:dev",
     "build": "next build",
     "start": "run-p -l server:run next:start",
     "lint": "eslint . --cache --ext js,ts,ts,tsx --ignore-pattern .eslintrc.js",
+    "lint:fix": "yarn lint --fix",
     "format": "npx prettier --config .prettierrc.yaml \"**/*.{js,jsx,ts,tsx,md}\" --write",
-    "test": "jest"
+    "format:test": "npx prettier --config .prettierrc.yaml \"**/*.{js,jsx,ts,tsx,md}\" -l",
+    "test": "jest",
+    "tsc": "tsc",
+    "verify": "run-p -l format:test lint tsc"
   },
   "nodemonConfig": {
     "ignore": [
@@ -26,6 +31,20 @@
     ],
     "exec": "yarn server:run",
     "ext": "ts"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged"
+    }
+  },
+  "//lint-staged-comment": "This configuration doesn't work w/ files with brackets in filenames. See lint-staged.config.js.",
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "yarn lint"
+    ],
+    "**/*.{css,scss,js,jsx,ts,tsx,md}": [
+      "prettier --config .prettierrc.yaml --write"
+    ]
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
@@ -41,7 +60,7 @@
     "node-fetch": "^2.6.0",
     "react": "16.13.0",
     "react-dom": "16.13.0",
-    "react-test-renderer": "^16.13.1",
+    "react-spinners": "^0.8.1",
     "uuid": "^7.0.2"
   },
   "devDependencies": {
@@ -74,6 +93,7 @@
     "nodemon": "^2.0.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
+    "react-test-renderer": "^16.13.0",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   }

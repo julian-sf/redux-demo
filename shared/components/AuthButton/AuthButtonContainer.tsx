@@ -6,18 +6,28 @@ import { useAuthContext } from '../../../contexts/AuthContext/useAuthContext';
 import { AuthButton } from './AuthButton';
 
 export const AuthButtonContainer = () => {
-  const {
-    userInfo: { isLoggedIn, name },
-    setUserInfo,
-  } = useAuthContext();
+  const { userInfo, setUserInfo } = useAuthContext();
+  const { isLoggedIn, name } = userInfo;
 
   const [login] = useMutation(LOGIN_MUTATION, {
-    onCompleted: ({ login: { user } }) => setUserInfo({ isLoggedIn: true, name: user }),
+    onCompleted: ({ login: { user } }) => setUserInfo({ isLoggedIn: true, name: user, authInTransition: false }),
   });
 
   const [logout] = useMutation(LOGOUT_MUTATION, {
-    onCompleted: () => setUserInfo({ isLoggedIn: false, name: undefined }),
+    onCompleted: () => setUserInfo({ isLoggedIn: false, name: undefined, authInTransition: false }),
   });
 
-  return <AuthButton isLoggedIn={isLoggedIn} username={name} login={login} logout={logout} />;
+  const setAuthTransitioning = (action: () => void) => {
+    setUserInfo({ ...userInfo, authInTransition: true });
+    action();
+  };
+
+  return (
+    <AuthButton
+      isLoggedIn={isLoggedIn}
+      username={name}
+      login={() => setAuthTransitioning(login)}
+      logout={() => setAuthTransitioning(logout)}
+    />
+  );
 };

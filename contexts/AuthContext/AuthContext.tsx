@@ -7,8 +7,14 @@ export const AuthContext = createContext(undefined);
 
 const INITIAL_STATE = {
   isLoggedIn: false,
+  authInTransition: false,
   name: undefined,
 };
+
+export interface AuthContextValue {
+  userInfo: typeof INITIAL_STATE;
+  setUserInfo(info: typeof INITIAL_STATE): void;
+}
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [userInfo, setUserInfo] = useState(INITIAL_STATE);
@@ -17,7 +23,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     if (!loading && data) {
-      setUserInfo({ isLoggedIn: true, name: data.user.user });
+      setUserInfo({ isLoggedIn: true, authInTransition: false, name: data.user.user });
     }
   }, [loading, data]);
 

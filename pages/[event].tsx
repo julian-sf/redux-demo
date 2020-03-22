@@ -8,7 +8,15 @@ import { useRouter } from '../next-utils/useRouter';
 import { AuthButtonContainer } from '../shared/components/AuthButton/AuthButtonContainer';
 import { Events } from '../shared/components/Events/Events';
 
-const EventPage = ({ events, displayedEvent }: { events: EventType[]; displayedEvent: EventType }) => (
+const EventPage = ({
+  events,
+  displayedEvent,
+  loading,
+}: {
+  events: EventType[];
+  displayedEvent: EventType;
+  loading: boolean;
+}) => (
   <>
     <h1>{displayedEvent?.name || 'Event List'}</h1>
     <AuthButtonContainer />
@@ -16,7 +24,7 @@ const EventPage = ({ events, displayedEvent }: { events: EventType[]; displayedE
       <button>Back to index</button>
     </Link>
     <h2>Related Events</h2>
-    <Events events={events.filter(({ id }) => displayedEvent?.relatedEvents?.includes(id))} />
+    <Events loading={loading} events={events.filter(({ id }) => displayedEvent?.relatedEvents?.includes(id))} />
     <h2>Event Details</h2>
     <pre>{JSON.stringify(displayedEvent ?? {}, null, 2)}</pre>
   </>
@@ -36,7 +44,7 @@ const EventPageContainer = () => {
     !eventToDisplay ? push('/') : setDisplayedEvent(eventToDisplay);
   }, [push, ready, events, loading, query]);
 
-  return <EventPage events={events} displayedEvent={displayedEvent} />;
+  return <EventPage events={events} loading={loading} displayedEvent={displayedEvent} />;
 };
 
 export default EventPageContainer;
