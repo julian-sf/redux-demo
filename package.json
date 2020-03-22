@@ -12,8 +12,12 @@
     "build": "next build",
     "start": "run-p -l server:run next:start",
     "lint": "eslint . --cache --ext js,ts,ts,tsx --ignore-pattern .eslintrc.js",
+    "lint:fix": "yarn lint --fix",
     "format": "npx prettier --config .prettierrc.yaml \"**/*.{js,jsx,ts,tsx,md}\" --write",
-    "test": "jest"
+    "format:test": "npx prettier --config .prettierrc.yaml \"**/*.{js,jsx,ts,tsx,md}\" -l",
+    "test": "jest",
+    "tsc": "tsc",
+    "verify": "run-p -l format:test lint tsc"
   },
   "nodemonConfig": {
     "ignore": [

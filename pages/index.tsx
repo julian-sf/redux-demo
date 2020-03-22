@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { AuthButton } from '../components/AuthButton';
-import { Events } from '../components/Events';
 import { withRedux } from '../next-utils/withRedux';
+import { AuthButton } from '../shared/components/AuthButton/AuthButton';
+import { Events } from '../shared/components/Events/Events';
 import { useRenderCount } from '../utils/useRenderCount';
 
 export default withRedux(() => {
