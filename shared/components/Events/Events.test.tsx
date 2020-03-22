@@ -1,18 +1,18 @@
 import React from 'react';
 
-import { transformEventResponse } from '../../../api';
 import { loadEvents } from '../../../server/data/events';
 import { RootState } from '../../../store/config';
+import { normalizeEventData } from '../../../store/events';
 import { renderWithRedux } from '../../../utils/tests';
 import { Events } from './Events';
 
-jest.mock('../../../api/index', () => ({
-  ...jest.requireActual('../../../api/index'),
+jest.mock('../../../api/events', () => ({
+  ...jest.requireActual('../../../api/events'),
   fetchEvents: jest.fn(),
 }));
 
-const apiMock = jest.requireMock('../../../api/index');
-const results = transformEventResponse(loadEvents());
+const apiMock = jest.requireMock('../../../api/events');
+const results = loadEvents();
 
 describe('Events component', () => {
   // This test can be more cleanly replaced with the following test:
@@ -44,7 +44,7 @@ describe('Events component', () => {
 
   it('uses store when it is initialized', async () => {
     const wrapper = renderWithRedux(<Events />, {
-      preloadedState: { events: { initialized: true, data: results, loading: false } } as RootState,
+      preloadedState: { events: { initialized: true, data: normalizeEventData(results), loading: false } } as RootState,
     });
 
     // there should be 5 items on display with names...

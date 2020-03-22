@@ -3,6 +3,7 @@ export interface Image {
   reference: string;
   placeHolderImage?: string;
   caption?: string;
+
   [metaData: string]: string;
 }
 
@@ -28,6 +29,20 @@ export interface EventData {
     id: string;
   }>;
 }
+
+export const transformEventResponse = (events: EventData[]): EventData[] => {
+  return events.map((event, index, array) => {
+    if (index === 0) {
+      event.relatedEvents = [array[index + 1]?.id, array[index + 2]?.id];
+    } else if (index === array.length - 1) {
+      event.relatedEvents = [array[index - 2]?.id, array[index - 1]?.id];
+    } else {
+      event.relatedEvents = [array[index - 1]?.id, array[index + 1]?.id];
+    }
+
+    return event;
+  }, {});
+};
 
 const events: EventData[] = [
   {
@@ -347,4 +362,5 @@ const events: EventData[] = [
   },
 ];
 
-export const loadEvents = (auth = false) => (auth ? events : events.filter(event => event.propertyId !== 'mgmresorts'));
+export const loadEvents = (auth = false) =>
+  transformEventResponse(auth ? events : events.filter(event => event.propertyId !== 'mgmresorts'));

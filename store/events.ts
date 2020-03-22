@@ -1,18 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
-import * as api from '../api';
+import { EventList, fetchEvents, NormalizedEvents } from '../api/events';
 import { isEmptyObject } from '../utils/isEmptyObject';
 import { updateLoggedInStatus } from './auth';
 import { useSelector } from './useSelector';
 
 interface EventSliceState {
-  data: api.Events;
+  data: NormalizedEvents;
   loading: boolean;
   initialized: boolean;
 }
 
 export const initialEventsState: EventSliceState = { data: {}, loading: false, initialized: false };
+
+export const normalizeEventData = (eventList: EventList): NormalizedEvents =>
+  eventList.reduce((acc, event) => {
+    acc[event.id] = event;
+
+    return acc;
+  }, {});
 
 export const eventSlice = createSlice({
   name: 'event',
@@ -21,10 +28,10 @@ export const eventSlice = createSlice({
     fetchingEvents: state => {
       state.loading = true;
     },
-    fetchedEvents: (state, action: PayloadAction<api.Events>) => {
+    fetchedEvents: (state, action: PayloadAction<EventList>) => {
       state.loading = false;
       state.initialized = true;
-      state.data = action.payload;
+      state.data = normalizeEventData(action.payload);
     },
   },
 });
@@ -33,7 +40,7 @@ export const eventSlice = createSlice({
 
 export const getEvents = () => async dispatch => {
   dispatch(eventSlice.actions.fetchingEvents());
-  const events = await api.fetchEvents();
+  const events = await fetchEvents();
   dispatch(eventSlice.actions.fetchedEvents(events));
 };
 
