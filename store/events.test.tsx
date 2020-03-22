@@ -2,18 +2,17 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { transformEventResponse } from '../api';
 import { loadEvents } from '../server/data/events';
 import { initializeStore } from './config';
-import { useEvents } from './events';
+import { normalizeEventData, useEvents } from './events';
 
-jest.mock('../api/index', () => ({
-  ...jest.requireActual('../api/index'),
+jest.mock('../api/events', () => ({
+  ...jest.requireActual('../api/events'),
   fetchEvents: jest.fn(),
 }));
 
-const apiMock = jest.requireMock('../api/index');
-const results = transformEventResponse(loadEvents());
+const apiMock = jest.requireMock('../api/events');
+const results = loadEvents();
 
 describe('events store', () => {
   describe('useEvents', () => {
@@ -43,7 +42,7 @@ describe('events store', () => {
       expect(result.error).toBeUndefined();
       expect(result.current.initialized).toBeTruthy();
       expect(result.current.loading).toBeFalsy();
-      expect(result.current.events).toEqual(results);
+      expect(result.current.events).toEqual(normalizeEventData(results));
     });
   });
 });

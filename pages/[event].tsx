@@ -13,7 +13,7 @@ import { useRenderCount } from '../utils/useRenderCount';
 export default withRedux(() => {
   const { query, pushRoute, ready } = useRouter();
   const { initialized, events } = useEvents();
-  const [displayedEvent, setDisplayedEvent] = useState<EventData>();
+  const [displayedEvent, setDisplayedEvent] = useState<EventData | undefined>(undefined);
   const renderCount = useRenderCount();
 
   const eventId = parseStringParam(query?.event);
@@ -40,17 +40,7 @@ export default withRedux(() => {
         <button>Back to index</button>
       </Link>
       <h2>Related Events</h2>
-      <Events
-        providedEvents={displayedEvent?.relatedEvents.reduce((acc, id) => {
-          const event = events[id];
-
-          if (event) {
-            acc[id] = events[id];
-          }
-
-          return acc;
-        }, {})}
-      />
+      <Events providedEvents={displayedEvent?.relatedEvents} />
       <h2>Event Details</h2>
       <pre>{JSON.stringify(displayedEvent ?? {}, null, 2)}</pre>
     </>

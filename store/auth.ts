@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
-import { fetchLogin, fetchLogout, fetchUserStatus } from '../api';
+import { fetchLogin, fetchLogout, fetchUserStatus } from '../api/auth';
 import { eventSlice, getEvents } from './events';
 import { useSelector } from './useSelector';
 
