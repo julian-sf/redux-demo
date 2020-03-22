@@ -3,13 +3,11 @@ import React, { useState } from 'react';
 
 import { EventData } from '../../../server/data/events';
 import { useEvents } from '../../../store/events';
-import { useRenderCount } from '../../../utils/useRenderCount';
 import { Loader } from '../Loader/Loader';
 import { Modal } from '../Modal/Modal';
 
 export const Event = ({ event }: { event: EventData }) => {
   const [open, setOpen] = useState(false);
-  const renderCount = useRenderCount();
   const { loading } = useEvents();
 
   return (
@@ -23,7 +21,6 @@ export const Event = ({ event }: { event: EventData }) => {
             <button onClick={() => setOpen(true)}>View Details</button>
           </div>
         </Loader>
-        {renderCount && <pre>Event render count: {renderCount}</pre>}
       </div>
 
       {open && (
