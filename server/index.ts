@@ -5,7 +5,7 @@ import express, { Request, Response } from 'express';
 import { loadEvents } from './data/events';
 
 const app = express();
-const port = 3333;
+const port = 4444;
 
 const slowdown = (latency: number) => (req, res, next) => {
   if (latency <= 0) {

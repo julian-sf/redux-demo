@@ -5,7 +5,7 @@
   "scripts": {
     "server:watch": "nodemon",
     "server:run": "ts-node --project server/tsconfig.json server/index.ts",
-    "next:dev": "next dev",
+    "next:dev": "next dev -p 4000",
     "next:start": "next start",
     "dev": "run-p -l server:watch next:dev",
     "debug": "DEBUG=true run-p -l server:watch next:dev",
