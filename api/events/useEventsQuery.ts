@@ -12,6 +12,7 @@ export const useEventsQuery = () => {
   const { data, refetch, loading } = useQuery<EventsResponse>(EVENTS_QUERY, { fetchPolicy: 'cache-first' });
 
   useEffect(() => {
+    // Refetch does not use cache, it executes API call, so we want to avoid API call on first render
     if (isMountedRef.current) {
       refetch();
     } else {
