@@ -26,13 +26,11 @@ export const withRedux = (PageComponent, { ssr = true } = {}) => {
     const store = getOrInitializeStore(initialReduxState);
 
     return (
-      <RouterContextProvider>
-        <Provider store={store}>
-          {/*<PersistGate persistor={store.__PERSISTOR} loading={null}>*/}
-          <PageComponent {...props} />
-          {/*</PersistGate>*/}
-        </Provider>
-      </RouterContextProvider>
+      <Provider store={store}>
+        {/*<PersistGate persistor={store.__PERSISTOR} loading={null}>*/}
+        <PageComponent {...props} />
+        {/*</PersistGate>*/}
+      </Provider>
     );
   };
 
