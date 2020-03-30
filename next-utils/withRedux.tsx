@@ -28,7 +28,9 @@ export const withRedux = (PageComponent, { ssr = true } = {}) => {
     return (
       <Provider store={store}>
         {/*<PersistGate persistor={store.__PERSISTOR} loading={null}>*/}
-        <PageComponent {...props} />
+        <RouterContextProvider>
+          <PageComponent {...props} />
+        </RouterContextProvider>
         {/*</PersistGate>*/}
       </Provider>
     );

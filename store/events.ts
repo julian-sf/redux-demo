@@ -36,15 +36,11 @@ export const eventSlice = createSlice({
   },
 });
 
-// dispatchable actions
-
 export const getEvents = () => async dispatch => {
   dispatch(eventSlice.actions.fetchingEvents());
   const events = await fetchEvents();
   dispatch(eventSlice.actions.fetchedEvents(events));
 };
-
-// hooks
 
 export const useEvents = (skip = false) => {
   const loading = useSelector(state => state.events.loading);
@@ -55,7 +51,7 @@ export const useEvents = (skip = false) => {
   if (skip) {
     return {
       loading: false,
-      events: null,
+      events: [],
       initialized,
     };
   }

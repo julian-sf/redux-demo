@@ -4,20 +4,14 @@ import { useEvents } from '../../../store/events';
 import { Event } from './Event';
 
 export const Events = ({ specificEventIds }: { specificEventIds?: string[] }) => {
-  const { initialized, events } = useEvents();
-
-  if (!initialized) return null;
-
-  const eventIds = specificEventIds || Object.keys(events);
+  const { events } = useEvents();
 
   return (
     <>
       <div>
-        {eventIds.map(id => {
-          const event = events[id];
-
-          return event && <Event key={event.id} event={event} />;
-        })}
+        {(specificEventIds || Object.keys(events)).map(id => (
+          <Event key={events[id].id} event={events[id]} />
+        ))}
       </div>
 
       <style jsx>{`
