@@ -12,6 +12,9 @@
 /.next/
 /out/
 
+# Jetbrains
+.idea/
+
 # ESLint
 .eslintcache
 
