@@ -7,7 +7,7 @@ module.exports = {
       jsx: true, // Allows for the parsing of JSX
     },
   },
-  plugins: ['@typescript-eslint', 'eslint-comments', 'import', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'eslint-comments', 'import', 'react-hooks', 'unused-imports'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'prettier',
@@ -32,9 +32,15 @@ module.exports = {
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
+      typescript: {
+        alwaysTryTypes: true,
+      },
     },
   },
   rules: {
+    // Remove unused imports
+    'unused-imports/no-unused-imports-ts': 'error',
+
     // Checks rules of Hooks
     'react-hooks/rules-of-hooks': 'error',
     // Checks effect dependencies
@@ -46,8 +52,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/no-object-literal-type-assertion': 'off',
-    '@typescript-eslint/no-empty-function': 'off',
-    '@typescript-eslint/ban-ts-ignore': 'off',
 
     // Force private members to be prefixed with `_`
     '@typescript-eslint/member-naming': [
@@ -75,6 +79,9 @@ module.exports = {
         caughtErrorsIgnorePattern: '^_',
       },
     ],
+
+    // This rule is actually detrimental: please see https://github.com/palantir/tslint/issues/3248#issuecomment-470746880
+    '@typescript-eslint/prefer-interface': 'off',
 
     'unicorn/filename-case': 'off',
 
@@ -124,7 +131,6 @@ module.exports = {
 
     'react/jsx-no-target-blank': 'off',
     'react/jsx-props-no-spreading': 'off',
-    'react/jsx-curly-brace-presence': [1, { props: 'always', children: 'never' }],
 
     'react/jsx-filename-extension': [
       1,
@@ -169,6 +175,10 @@ module.exports = {
     'class-methods-use-this': 'off',
     'no-use-before-define': ['error'],
 
+    // Remove restriction on `ForOfStatement` as it's just a highly opinionated rule that doesn't have much merit IMO
+    // see https://github.com/airbnb/javascript/issues/1271 for more info
+    'no-restricted-syntax': ['error', 'ForInStatement', 'LabeledStatement', 'WithStatement'],
+
     // line spacing
     'padding-line-between-statements': [
       'error',
@@ -198,26 +208,12 @@ module.exports = {
       },
     },
 
-    {
-      files: ['**/*test.*', '**/*tests.*', '**/*saga.*', 'sagas/**', 'server/**'],
-      rules: {
-        'import/no-extraneous-dependencies': [
-          'error',
-          {
-            devDependencies: true,
-            optionalDependencies: true,
-            peerDependencies: true,
-          },
-        ],
-        'react/display-name': 'off',
-      },
-    },
-
     // Allow for devDependencies to be imported
     // in the project config, story and test files
     {
-      files: ['bin/**', 'build/**', 'next.config.js'],
+      files: ['bin/**', 'build/**', 'next.config.js', '**/*test.*', '**/*tests.*'],
       rules: {
+        'react/display-name': 'off',
         'import/no-extraneous-dependencies': [
           'error',
           {
