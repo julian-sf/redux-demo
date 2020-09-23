@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { loadEvents } from '../../../server/data/events';
-import { RootState } from '../../../store/config';
-import { normalizeEventData } from '../../../store/events';
+import { normalizeEventData } from '../../../store/events/slice';
+import { RootState } from '../../../store/types';
 import { renderWithRedux } from '../../../utils/tests';
 import { Events } from './Events';
 
@@ -44,7 +44,7 @@ describe('Events component', () => {
 
   it('uses store when it is initialized', async () => {
     const wrapper = renderWithRedux(<Events />, {
-      preloadedState: { events: { initialized: true, data: normalizeEventData(results), loading: false } } as RootState,
+      preloadedState: { event: { initialized: true, data: normalizeEventData(results), loading: false } } as RootState,
     });
 
     // there should be 5 items on display with names...

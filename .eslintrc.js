@@ -38,6 +38,29 @@ module.exports = {
     },
   },
   rules: {
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'react-redux',
+            importNames: ['useSelector'],
+            message: 'Use "import { useSelector } from \'src/store/utils\'" instead.',
+          },
+          {
+            name: 'react-hooks-testing-library',
+            importNames: ['renderHook'],
+            message: "Use \"import { renderHookWith } from 'test-utils/testing-library/renderHookWith'",
+          },
+          {
+            name: 'next/router',
+            importNames: ['default', 'useRouter', 'Router'],
+            message: "Use './src/routes' instead.",
+          },
+        ],
+      },
+    ],
+
     // Remove unused imports
     'unused-imports/no-unused-imports-ts': 'error',
 
@@ -229,7 +252,6 @@ module.exports = {
     {
       files: [
         'next-env.d.ts',
-        '.eslintrc.js',
         'next.config.js',
         'pages/**/*.tsx',
         'server/index.ts',

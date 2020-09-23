@@ -4,7 +4,7 @@ import { HOST } from './index';
 
 export type EventList = EventData[];
 
-export type NormalizedEvent = Omit<EventData, 'relatedEvents'> & { relatedEvents: NormalizedEvent[] };
+export type NormalizedEvent = Omit<EventData, 'relatedEvents'> & { relatedEvents: string[] };
 
 export interface NormalizedEvents {
   [id: string]: NormalizedEvent;

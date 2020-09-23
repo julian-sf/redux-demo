@@ -16,7 +16,7 @@ const slowdown = (latency: number) => (req, res, next) => {
 };
 
 app.use(
-  slowdown(250),
+  slowdown(500),
   cookieParser(),
   cors({
     credentials: true,

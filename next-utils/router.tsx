@@ -1,55 +1,93 @@
-// For docs about how routing works or to add a new route,
-// see "Routing" section in our README.md.
-
 // eslint-disable-next-line no-restricted-imports
 import NextRouter, { useRouter as useNextRouter, NextRouter as NextRouterI } from 'next/router';
 import { ParsedUrlQuery as _ParsedUrlQuery } from 'querystring';
 import React, { useContext, useMemo, useEffect, useState } from 'react';
 
+import { UrlQueryParams } from './urls';
+
 export type ParsedUrlQuery = _ParsedUrlQuery;
+
+export const routes = [
+  '/',
+  '/region',
+  '/resort',
+  '/room',
+  '/reserve',
+  '/pay',
+  '/confirmation',
+  '/additem',
+  '/myvegas/redeem',
+  '/myvegas/redeem/resolve',
+] as const;
+export type Route = typeof routes[number];
 
 /**
  * For the given route path and query hash, build `url` and `as` objects.
  *
- * For example, when BASE_PATH === '/book-room':
  * ```ts
  * buildUrlAndAs('/region', query: { property: 'abc', region: 'def' }) ===
  * {
  *   url: { pathname: '/region', query: { property: 'abc', region: 'def' } },
- *   as: { pathname: '/book-room/region', query: { property: 'abc', region: 'def' } }
+ *   as: { pathname: '/region', query: { property: 'abc', region: 'def' } }
  * }
  * ```
  */
-export function buildUrlAndAs(route: string, query?: ParsedUrlQuery) {
+export function buildUrlAndAs(route: string, query?: UrlQueryParams) {
+  const construct = { pathname: route, query };
+
   return {
-    url: {
-      pathname: route,
-      query,
-    },
-    as: {
-      pathname: route,
-      query,
-    },
+    url: construct,
+    as: construct,
   };
 }
 
 function wrapNextRouter(router: NextRouterI) {
+  /**
+   * When navigating to a dynamic route,
+   * you might find it easier to use this function instead of `Router.replace()`.
+   *
+   * Example usage:
+   * ```ts
+   * Router.replaceRoute('/[property]/book-room', {
+   *   property: 'aria',
+   *   region: regionId,
+   * })
+   * ```
+   */
+  const replaceRoute = (route: string, query?: UrlQueryParams, options?: { shallow?: boolean }) => {
+    const { url, as } = buildUrlAndAs(route, query);
+    console.debug('[replaceRoute] url', url, 'as', as, 'with', options);
+    router.replace(url, as, options);
+  };
+
   return {
     ...router,
 
-    pushRoute(route: string, query?: ParsedUrlQuery, options?: { shallow?: boolean }) {
+    /**
+     * When navigating to a dynamic route,
+     * you might find it easier to use this function instead of `Router.push()`.
+     *
+     * Example usage:
+     * ```ts
+     * Router.pushRoute('/[property]/book-room', {
+     *   property: 'aria',
+     *   region: regionId,
+     * })
+     * ```
+     */
+    pushRoute: (route: string, query?: UrlQueryParams, options?: { shallow?: boolean }) => {
       const { url, as } = buildUrlAndAs(route, query);
+      console.debug('[pushRoute] url', url, 'as', as, 'with', options);
       router.push(url, as, options);
     },
-
-    replaceRoute(route: string, query?: ParsedUrlQuery, options?: { shallow?: boolean }) {
-      const { url, as } = buildUrlAndAs(route, query);
-      router.replace(url, as, options);
+    replaceRoute,
+    shallowUpdateQuery(query: UrlQueryParams, route?: string) {
+      replaceRoute(route || router.route, query, { shallow: true });
     },
   };
 }
 
-type WrappedRouter = ReturnType<typeof wrapNextRouter>;
+type WrappedRouter = ReturnType<typeof wrapNextRouter> & { route: Route; ready: boolean };
 
 const RouterContext = React.createContext<
   WrappedRouter & {
@@ -76,17 +114,21 @@ export function RouterContextProvider({ children }: { children?: React.ReactNode
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setReady(true);
+      if (router.route && router.route.indexOf(router.basePath) !== 0) {
+        setReady(true);
+      }
     });
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [router.basePath, router.route]);
 
   const wrappedRouter = useMemo(
-    () => ({
-      ...wrapNextRouter(router),
-      ready,
-    }),
+    () =>
+      ({
+        ...wrapNextRouter(router),
+        ready,
+        route: router.route,
+      } as WrappedRouter),
     [router, ready],
   );
 

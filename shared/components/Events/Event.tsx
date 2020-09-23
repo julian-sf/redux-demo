@@ -1,19 +1,20 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-import { EventData } from '../../../server/data/events';
-import { useEvents } from '../../../store/events';
+import { NormalizedEvent } from '../../../api/events';
+import { selectEventsLoading } from '../../../store/events/selectors';
+import { useSelector } from '../../../store/utils';
 import { Loader } from '../Loader/Loader';
 import { Modal } from '../Modal/Modal';
 
-export const Event = ({ event }: { event: EventData }) => {
+export const Event = ({ event }: { event: NormalizedEvent }) => {
   const [open, setOpen] = useState(false);
-  const { loading } = useEvents();
+  const eventsLoading = useSelector(selectEventsLoading);
 
   return (
     <>
       <div className={'container'}>
-        <Loader loading={loading}>
+        <Loader loading={eventsLoading}>
           <div className={'card'}>
             <Link href={'/[event]'} as={`/${event.id}`}>
               <a>Name: {event.name}</a>

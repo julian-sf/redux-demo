@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { useEvents } from '../../../store/events';
+import { selectEvents } from '../../../store/events/selectors';
+import { useSelector } from '../../../store/utils';
 import { Event } from './Event';
 
 export const Events = ({ specificEventIds }: { specificEventIds?: string[] }) => {
-  const { events } = useEvents();
+  const events = useSelector(selectEvents);
 
   return (
     <>

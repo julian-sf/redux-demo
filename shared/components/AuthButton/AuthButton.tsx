@@ -1,21 +1,25 @@
 import React from 'react';
 
-import { useAuth, useUserName } from '../../../store/auth';
+import { useLogin, useLogout } from '../../../store/auth/dispatchers';
+import { selectIsLoggedIn, selectUserName } from '../../../store/auth/selectors';
+import { useSelector } from '../../../store/utils';
 
 export const AuthButton = () => {
-  const { loggedIn, login, logout } = useAuth();
-  const userName = useUserName();
+  const login = useLogin();
+  const logout = useLogout();
+  const userName = useSelector(selectUserName);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   return (
     <>
       <div>
         <div className={'button-container'}>
-          <button type={'button'} onClick={() => (loggedIn ? logout() : login())}>
-            {loggedIn === 'unknown' ? 'Login' : loggedIn ? 'Logout' : 'Login'}
+          <button type={'button'} onClick={() => (isLoggedIn ? logout() : login())}>
+            {isLoggedIn === 'unknown' ? 'Login' : isLoggedIn ? 'Logout' : 'Login'}
           </button>
         </div>
-        {loggedIn !== 'unknown' && <div className={'user'}>User: {userName ?? '<empty>'}</div>}
-        (simulated 250ms latency on all requests)
+        {isLoggedIn !== 'unknown' && <div className={'user'}>User: {userName ?? '<empty>'}</div>}
+        (simulated 500ms latency on all requests)
       </div>
       <style jsx>{`
         div {

@@ -2,9 +2,9 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { loadEvents } from '../server/data/events';
-import { initializeStore } from './config';
-import { normalizeEventData, useEvents } from './events';
+import { loadEvents } from '../../server/data/events';
+import { initializeStore } from '../initializeStore';
+import { normalizeEventData, useEvents } from './slice';
 
 jest.mock('../api/events', () => ({
   ...jest.requireActual('../api/events'),
@@ -25,7 +25,7 @@ describe('events store', () => {
             {...props}
             store={initializeStore({
               auth: { isLoggedIn: 'unknown' },
-              events: {
+              event: {
                 initialized: false,
                 loading: false,
                 data: {},
