@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { EventList } from '../../api/events';
+import { EventList, NormalizedEvents } from '../../api/events';
 import { eventActions } from './actions';
 import { EventSlice } from './types';
 
 export const initialEventsState: EventSlice = { loading: true };
 
 export const normalizeEventData = (eventList: EventList): EventSlice['data'] =>
-  eventList.reduce((acc, event) => {
+  eventList.reduce<NormalizedEvents>((acc, event) => {
     acc[event.id] = event;
 
     return acc;

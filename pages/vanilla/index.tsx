@@ -11,7 +11,7 @@ import { useSelector } from '../../store/utils';
 const VanillaContextIndex = () => {
   const userLoading = useSelector(selectUserLoading);
   const { update } = useContext(VanillaEventsContext);
-  const { loading: fetchLoading, data } = useFetchEventChain(userLoading);
+  const { loading: fetchLoading, data } = useFetchEventChain({ skip: userLoading });
 
   useUpdateContextOnIndex({ loading: fetchLoading || userLoading, data, update });
 

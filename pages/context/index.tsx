@@ -12,7 +12,7 @@ import { useSelector } from '../../store/utils';
 const ContextIndexPage = () => {
   const userLoading = useSelector(selectUserLoading);
   const update = useContextSelector(EventsContext, value => value.update);
-  const { loading: fetchLoading, data } = useFetchEventChain(userLoading);
+  const { loading: fetchLoading, data } = useFetchEventChain({ skip: userLoading });
 
   useUpdateContextOnIndex({ loading: fetchLoading || userLoading, data, update });
 

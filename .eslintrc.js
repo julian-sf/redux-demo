@@ -95,6 +95,8 @@ module.exports = {
     // that could have some additional props in the future)
     '@typescript-eslint/no-empty-interface': 'off',
 
+    '@typescript-eslint/no-empty-function': 'off',
+
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {

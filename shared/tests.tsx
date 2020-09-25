@@ -1,17 +1,17 @@
 import { render } from '@testing-library/react';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Provider } from 'react-redux';
 
-import { initializeStore } from '../store/initializeStore';
+import { initializeStore, initialRootState } from '../store/initializeStore';
 import { RootState } from '../store/types';
 
 export function renderWithRedux(
-  ui,
+  ui: ReactElement,
   {
     preloadedState,
     store = initializeStore(preloadedState),
-  }: { preloadedState: RootState; store?: ReturnType<typeof initializeStore> } = {
-    preloadedState: undefined,
+  }: { preloadedState?: RootState; store?: ReturnType<typeof initializeStore> } = {
+    preloadedState: initialRootState,
   },
 ) {
   return {

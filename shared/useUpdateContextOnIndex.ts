@@ -8,7 +8,7 @@ export const useUpdateContextOnIndex = ({
   update,
 }: {
   loading: boolean;
-  data: NormalizedEvents;
+  data?: NormalizedEvents;
   update(data: NormalizedEvents): void;
 }) => {
   useEffect(() => {

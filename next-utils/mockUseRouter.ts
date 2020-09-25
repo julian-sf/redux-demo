@@ -1,4 +1,5 @@
 // Reset any default implementations when imported
+
 import { ParsedUrlQuery, useRouter } from './router';
 import * as router from './router';
 
@@ -43,6 +44,6 @@ export function mockUseRouter(
     shallowUpdateQuery: props.shallowUpdateQuery ?? jest.fn(),
     pushRoute: props.pushRoute ?? jest.fn(),
     prefetch: props.prefetch ?? jest.fn(),
-    events: undefined,
+    events: undefined as any,
   }));
 }

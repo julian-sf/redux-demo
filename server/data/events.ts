@@ -3,8 +3,6 @@ export interface Image {
   reference: string;
   placeHolderImage?: string;
   caption?: string;
-
-  [metaData: string]: string;
 }
 
 export interface EventData {
@@ -56,8 +54,6 @@ const events: EventData[] = [
         {
           type: 'video',
           caption: 'KÀ by Cirque du Soleil',
-          hlsMultirateStreamURL:
-            'https://mgm.scene7.com/is/content/MGM/mgm-grand-entertainment-ka-in-market-video-720-30-sec-AVS.m3u8',
           placeHolderImage:
             '/content/dam/MGM/mgm-grand/entertainment/shows/ka-by-cirque-du-soleil/lifestyle/mgm-grand-entertainment-ka-characters-man-and-woman.tif',
           reference: 'http://s7d2.scene7.com/is/image/MGM/mgm-grand-entertainment-ka-in-market-video-720-30-sec-AVS',
@@ -260,8 +256,6 @@ const events: EventData[] = [
       unifiedGallery: [
         {
           type: 'video',
-          hlsMultirateStreamURL:
-            'https://mgm.scene7.com/is/content/MGM/mgm-grand-entertainment-brad-garrett-comedy-club-promo-video-AVS.m3u8',
           placeHolderImage:
             '/content/dam/MGM/mgm-grand/entertainment/shows/brad-garretts-comedy-club/architectures/mgm-grand-entertainment-shows-brad-garrett-comedy-club-sign.jpg',
           reference:

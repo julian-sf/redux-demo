@@ -5,7 +5,7 @@ import { normalizeEventData } from '../store/events/slice';
 
 const initialState: { loading: boolean; data?: NormalizedEvents } = { loading: false, data: undefined };
 
-export const useFetchEventChain = (skip = false) => {
+export const useFetchEventChain = ({ skip = false }: { skip?: boolean }) => {
   const [fetchOne, updateFetchOne] = useState(initialState);
   const [fetchTwo, updateFetchTwo] = useState(initialState);
   const [fetchThree, updateFetchThree] = useState(initialState);
