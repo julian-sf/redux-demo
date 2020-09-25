@@ -11,6 +11,7 @@ import { RouterContextProvider } from '../next-utils/router';
 import { useLogin } from '../store/auth/dispatchers';
 import { selectIsLoggedIn } from '../store/auth/selectors';
 import { isAuthed } from '../store/auth/slice';
+import { useFetchEvents } from '../store/events/dispatchers';
 import { useSelector } from '../store/utils';
 import { wrapper } from '../store/wrapper';
 
@@ -23,10 +24,14 @@ whyDidYouRender(React, {
 export default wrapper.withRedux(({ Component, pageProps }: AppProps) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const login = useLogin();
+  const fetch = useFetchEvents();
 
   useEffect(() => {
-    if (!isLoggedIn && isAuthed()) login({ fetch: window?.location.pathname.includes('redux') });
-  }, [isLoggedIn, login]);
+    if (!isLoggedIn && isAuthed()) {
+      login();
+      if (window?.location.pathname.includes('redux')) fetch();
+    }
+  }, [fetch, isLoggedIn, login]);
 
   return (
     <RouterContextProvider>

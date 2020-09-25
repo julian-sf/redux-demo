@@ -1,10 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useContextSelector } from 'use-context-selector';
 
 import { EventsContext } from '../comparison/context/EventsContext';
+import { VanillaEventsContext } from '../comparison/vanilla/VanillaEventsContext';
 import { useRouter } from '../next-utils/router';
 import { useLogin, useLogout } from '../store/auth/dispatchers';
 import { selectIsLoggedIn, selectUserLoading, selectUserName } from '../store/auth/selectors';
+import { useFetchEvents } from '../store/events/dispatchers';
 import { useSelector } from '../store/utils';
 
 export const AuthButton = () => {
@@ -12,28 +14,36 @@ export const AuthButton = () => {
 
   const login = useLogin();
   const logout = useLogout();
+  const fetch = useFetchEvents();
 
   const update = useContextSelector(EventsContext, value => value?.update);
+  const { update: vanillaUpdate } = useContext(VanillaEventsContext);
 
   const userName = useSelector(selectUserName);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const loading = useSelector(selectUserLoading);
 
-  const wrappedLogout = useCallback(() => {
+  const clearContexts = useCallback(() => {
     if (route?.includes('context')) {
       update({});
     }
 
-    logout({ fetch: !route?.includes('context') });
-  }, [logout, route, update]);
+    if (route?.includes('vanilla')) {
+      vanillaUpdate({});
+    }
+  }, [route, update, vanillaUpdate]);
+
+  const wrappedLogout = useCallback(() => {
+    clearContexts();
+    logout();
+    if (!route?.includes('context')) fetch();
+  }, [clearContexts, fetch, logout, route]);
 
   const wrappedLogin = useCallback(() => {
-    if (route?.includes('context')) {
-      update({});
-    }
-
-    login({ fetch: !route?.includes('context') });
-  }, [login, route, update]);
+    clearContexts();
+    login();
+    if (!route?.includes('context')) fetch();
+  }, [clearContexts, fetch, login, route]);
 
   return (
     <>

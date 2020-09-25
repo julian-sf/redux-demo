@@ -26,10 +26,6 @@ export const authSlice = createSlice({
         slice.isLoggedIn = false;
         slice.loading = false;
       })
-      .addCase(authActions.updateLoginStatus, slice => {
-        slice.isLoggedIn = isAuthed();
-        slice.loading = false;
-      })
       .addMatcher(
         (action): action is ReturnType<typeof authActions.logout.pending> =>
           action.type === authActions.login.pending.type || action.type === authActions.logout.pending.type,
