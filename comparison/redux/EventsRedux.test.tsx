@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { loadEvents } from '../../../server/data/events';
-import { normalizeEventData } from '../../../store/events/slice';
-import { RootState } from '../../../store/types';
-import { renderWithRedux } from '../../../utils/tests';
-import { Events } from './Events';
+import { loadEvents } from '../../server/data/events';
+import { renderWithRedux } from '../../shared/tests';
+import { normalizeEventData } from '../../store/events/slice';
+import { initialRootState } from '../../store/initializeStore';
+import { RootState } from '../../store/types';
+import { EventsRedux } from './EventsRedux';
 
 jest.mock('../../../api/events', () => ({
   ...jest.requireActual('../../../api/events'),
@@ -22,7 +23,7 @@ describe('Events component', () => {
     apiMock.fetchEvents.mockImplementationOnce(() => results);
 
     // dispatch actions
-    const wrapper = renderWithRedux(<Events />);
+    const wrapper = renderWithRedux(<EventsRedux />);
 
     // make sure the mock was called
     expect(apiMock.fetchEvents).toHaveBeenCalled();
@@ -43,8 +44,11 @@ describe('Events component', () => {
   });
 
   it('uses store when it is initialized', async () => {
-    const wrapper = renderWithRedux(<Events />, {
-      preloadedState: { event: { initialized: true, data: normalizeEventData(results), loading: false } } as RootState,
+    const wrapper = renderWithRedux(<EventsRedux />, {
+      preloadedState: {
+        ...initialRootState,
+        event: { initialized: true, data: normalizeEventData(results), loading: false },
+      } as RootState,
     });
 
     // there should be 5 items on display with names...

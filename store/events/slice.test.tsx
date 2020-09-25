@@ -4,7 +4,9 @@ import { Provider } from 'react-redux';
 
 import { loadEvents } from '../../server/data/events';
 import { initializeStore } from '../initializeStore';
-import { normalizeEventData, useEvents } from './slice';
+import { useSelector } from '../utils';
+import { selectEvents } from './selectors';
+import { normalizeEventData } from './slice';
 
 jest.mock('../api/events', () => ({
   ...jest.requireActual('../api/events'),
@@ -19,20 +21,8 @@ describe('events store', () => {
     it('fetches when store is not initialized', async () => {
       apiMock.fetchEvents.mockImplementationOnce(() => results);
 
-      const { result } = renderHook(() => useEvents(), {
-        wrapper: props => (
-          <Provider
-            {...props}
-            store={initializeStore({
-              auth: { isLoggedIn: 'unknown' },
-              event: {
-                initialized: false,
-                loading: false,
-                data: {},
-              },
-            })}
-          />
-        ),
+      const { result } = renderHook(() => useSelector(selectEvents), {
+        wrapper: props => <Provider {...props} store={initializeStore()} />,
       });
 
       // tell react we EXPECT changes to happen on promise resolution and wait for them to finish

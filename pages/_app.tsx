@@ -4,6 +4,7 @@
 import NextApp from 'next/app';
 import React from 'react';
 
+import { EventsProvider } from '../comparison/context/EventsContext';
 import { RouterContextProvider } from '../next-utils/router';
 import { wrapper } from '../store/wrapper';
 
@@ -15,7 +16,11 @@ class App extends NextApp {
   }
 
   render() {
-    return <RouterContextProvider>{this._renderPage()}</RouterContextProvider>;
+    return (
+      <RouterContextProvider>
+        <EventsProvider>{this._renderPage()}</EventsProvider>
+      </RouterContextProvider>
+    );
   }
 }
 

@@ -3,7 +3,7 @@ import NextRouter, { useRouter as useNextRouter, NextRouter as NextRouterI } fro
 import { ParsedUrlQuery as _ParsedUrlQuery } from 'querystring';
 import React, { useContext, useMemo, useEffect, useState } from 'react';
 
-import { UrlQueryParams } from './urls';
+import { parseStringParam, UrlQueryParams } from './urls';
 
 export type ParsedUrlQuery = _ParsedUrlQuery;
 
@@ -21,6 +21,10 @@ export const routes = [
 ] as const;
 export type Route = typeof routes[number];
 
+// List of all dynamic params that we support, like `/[property]/`.
+// If we have more, add them here.
+const dynamicParams = ['event'];
+
 /**
  * For the given route path and query hash, build `url` and `as` objects.
  *
@@ -33,12 +37,23 @@ export type Route = typeof routes[number];
  * ```
  */
 export function buildUrlAndAs(route: string, query?: UrlQueryParams) {
-  const construct = { pathname: route, query };
+  const url = { pathname: route, query };
+  const as = { ...url };
 
-  return {
-    url: construct,
-    as: construct,
-  };
+  if (query) {
+    dynamicParams.forEach(name => {
+      if (query[name] !== undefined) {
+        const v = parseStringParam(query[name]);
+
+        if (v && as.pathname.includes(`[${name}]`)) {
+          as.pathname = as.pathname.replace(`[${name}]`, encodeURIComponent(v));
+          delete as.query![name];
+        }
+      }
+    });
+  }
+
+  return { url, as };
 }
 
 function wrapNextRouter(router: NextRouterI) {
@@ -56,31 +71,30 @@ function wrapNextRouter(router: NextRouterI) {
    */
   const replaceRoute = (route: string, query?: UrlQueryParams, options?: { shallow?: boolean }) => {
     const { url, as } = buildUrlAndAs(route, query);
-    console.debug('[replaceRoute] url', url, 'as', as, 'with', options);
     router.replace(url, as, options);
+  };
+
+  /**
+   * When navigating to a dynamic route,
+   * you might find it easier to use this function instead of `Router.push()`.
+   *
+   * Example usage:
+   * ```ts
+   * Router.pushRoute('/[property]/book-room', {
+   *   property: 'aria',
+   *   region: regionId,
+   * })
+   * ```
+   */
+  const pushRoute = (route: string, query?: UrlQueryParams, options?: { shallow?: boolean }) => {
+    const { url, as } = buildUrlAndAs(route, query);
+    router.push(url, as, options);
   };
 
   return {
     ...router,
-
-    /**
-     * When navigating to a dynamic route,
-     * you might find it easier to use this function instead of `Router.push()`.
-     *
-     * Example usage:
-     * ```ts
-     * Router.pushRoute('/[property]/book-room', {
-     *   property: 'aria',
-     *   region: regionId,
-     * })
-     * ```
-     */
-    pushRoute: (route: string, query?: UrlQueryParams, options?: { shallow?: boolean }) => {
-      const { url, as } = buildUrlAndAs(route, query);
-      console.debug('[pushRoute] url', url, 'as', as, 'with', options);
-      router.push(url, as, options);
-    },
     replaceRoute,
+    pushRoute,
     shallowUpdateQuery(query: UrlQueryParams, route?: string) {
       replaceRoute(route || router.route, query, { shallow: true });
     },
@@ -114,13 +128,13 @@ export function RouterContextProvider({ children }: { children?: React.ReactNode
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (router.route && router.route.indexOf(router.basePath) !== 0) {
+      if (router.route && !ready) {
         setReady(true);
       }
     });
 
     return () => clearTimeout(timeout);
-  }, [router.basePath, router.route]);
+  }, [ready, router.route]);
 
   const wrappedRouter = useMemo(
     () =>

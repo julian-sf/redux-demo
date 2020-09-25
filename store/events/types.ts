@@ -1,7 +1,6 @@
 import { NormalizedEvents } from '../../api/events';
 
 export type EventSlice = {
-  data: NormalizedEvents;
+  data?: NormalizedEvents;
   loading: boolean;
-  initialized: boolean;
 };

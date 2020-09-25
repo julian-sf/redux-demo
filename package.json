@@ -51,6 +51,7 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "fs": "^0.0.1-security",
     "next": "Superformula/next.js#patch/packages/next",
     "next-redux-wrapper": "^6.0.2",
     "react": "16.13.1",
@@ -60,6 +61,8 @@
     "react-syntax-highlighter": "^13.5.3",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
+    "swr": "^0.3.4",
+    "use-context-selector": "^1.1.4",
     "uuid": "^7.0.2"
   },
   "devDependencies": {

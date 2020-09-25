@@ -1,26 +1,34 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-import { NormalizedEvent } from '../../../api/events';
-import { selectEventsLoading } from '../../../store/events/selectors';
-import { useSelector } from '../../../store/utils';
-import { Loader } from '../Loader/Loader';
-import { Modal } from '../Modal/Modal';
+import { NormalizedEvent } from '../api/events';
+import { Loader } from './Loader';
+import { Modal } from './Modal';
+import { useRenderCount } from './useRenderCount';
 
-export const Event = ({ event }: { event: NormalizedEvent }) => {
+export const Event = ({
+  event,
+  eventsLoading,
+  userLoading,
+}: {
+  event: NormalizedEvent;
+  eventsLoading: boolean;
+  userLoading: boolean;
+}) => {
   const [open, setOpen] = useState(false);
-  const eventsLoading = useSelector(selectEventsLoading);
+  const renderCount = useRenderCount();
 
   return (
     <>
       <div className={'container'}>
-        <Loader loading={eventsLoading}>
+        <Loader loading={userLoading || eventsLoading}>
           <div className={'card'}>
             <Link href={'/[event]'} as={`/${event.id}`}>
               <a>Name: {event.name}</a>
             </Link>
             <button onClick={() => setOpen(true)}>View Details</button>
           </div>
+          <div className={'card'}>Event Renders: {renderCount}</div>
         </Loader>
       </div>
 

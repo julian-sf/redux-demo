@@ -1,4 +1,5 @@
 export type AuthSlice = {
-  isLoggedIn: boolean | 'unknown';
+  isLoggedIn: boolean;
   name?: string;
+  loading: boolean;
 };

@@ -1,19 +1,33 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { fetchLogin, fetchLogout } from '../../api/auth';
-import { Router } from '../../next-utils/router';
 import { eventActions } from '../events/actions';
+import { RootState } from '../types';
 
 export const authActions = {
-  login: createAsyncThunk('auth/login', async (_, { dispatch }) => {
+  login: createAsyncThunk<
+    { name: string },
+    {
+      fetch?: boolean;
+    },
+    { state: RootState }
+  >('auth/login', async ({ fetch }, { dispatch }) => {
     const { user: name } = await fetchLogin();
-    dispatch(eventActions.fetch());
+    if (fetch) dispatch(eventActions.fetch());
+    dispatch(authActions.updateLoginStatus());
 
     return { name };
   }),
-  logout: createAsyncThunk('auth/logout', async (_, { dispatch }) => {
+  logout: createAsyncThunk<
+    void,
+    {
+      fetch?: boolean;
+    },
+    { state: RootState }
+  >('auth/logout', async ({ fetch }, { dispatch }) => {
     await fetchLogout();
-    dispatch(eventActions.fetch());
-    Router.pushRoute('/');
+    dispatch(authActions.updateLoginStatus());
+    if (fetch) dispatch(eventActions.fetch());
   }),
+  updateLoginStatus: createAction('auth/updateLoginStatus'),
 };
