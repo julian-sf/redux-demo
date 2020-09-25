@@ -3,10 +3,16 @@ import React from 'react';
 import { Provider } from 'react-redux';
 
 import { initializeStore } from '../store/initializeStore';
+import { RootState } from '../store/types';
 
 export function renderWithRedux(
   ui,
-  { preloadedState, store = initializeStore(preloadedState) } = { preloadedState: undefined },
+  {
+    preloadedState,
+    store = initializeStore(preloadedState),
+  }: { preloadedState: RootState; store?: ReturnType<typeof initializeStore> } = {
+    preloadedState: undefined,
+  },
 ) {
   return {
     ...render(<Provider store={store}>{ui}</Provider>),
