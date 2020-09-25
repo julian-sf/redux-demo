@@ -6,15 +6,17 @@ import { useFetchEventChain } from '../comparison/useFetchEvents';
 export const useUpdateContextOnIndex = ({
   loading,
   update,
+  shouldUpdate,
 }: {
   loading: boolean;
   update(data: NormalizedEvents): void;
+  shouldUpdate: boolean;
 }) => {
-  const { loading: fetchLoading, data } = useFetchEventChain({ skip: loading });
+  const { loading: fetchLoading, data } = useFetchEventChain({ skip: loading || !shouldUpdate });
 
   useEffect(() => {
-    if (!fetchLoading && data) {
+    if (!fetchLoading && data && shouldUpdate) {
       update(data);
     }
-  }, [data, fetchLoading, update]);
+  }, [data, fetchLoading, shouldUpdate, update]);
 };

@@ -16,8 +16,8 @@ export const AuthButton = () => {
   const logout = useLogout();
   const fetch = useFetchEvents();
 
-  const update = useContextSelector(MemoizedEventsContext, value => value?.update);
-  const { update: vanillaUpdate } = useContext(VanillaEventsContext);
+  const setShouldUpdate = useContextSelector(MemoizedEventsContext, value => value?.setShouldUpdate);
+  const { setShouldUpdate: vanillaShouldUpdate } = useContext(VanillaEventsContext);
 
   const userName = useSelector(selectUserName);
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -25,13 +25,13 @@ export const AuthButton = () => {
 
   const clearContexts = useCallback(() => {
     if (route?.includes('context')) {
-      update({});
+      setShouldUpdate(true);
     }
 
     if (route?.includes('vanilla')) {
-      vanillaUpdate({});
+      vanillaShouldUpdate(true);
     }
-  }, [route, update, vanillaUpdate]);
+  }, [route, setShouldUpdate, vanillaShouldUpdate]);
 
   const wrappedLogout = useCallback(() => {
     clearContexts();

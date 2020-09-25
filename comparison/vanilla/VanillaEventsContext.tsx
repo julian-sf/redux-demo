@@ -1,14 +1,26 @@
-import React, { createContext, FunctionComponent, useState } from 'react';
+import React, { createContext, FunctionComponent, useCallback, useState } from 'react';
 
 import { NormalizedEvents } from '../../api/events';
 
 export const VanillaEventsContext = createContext<{
   data?: NormalizedEvents;
   update(newEvent: NormalizedEvents): void;
-}>({ update() {} });
+  shouldUpdate: boolean;
+  setShouldUpdate(newValue: boolean): void;
+}>({ update() {}, shouldUpdate: false, setShouldUpdate() {} });
 
 export const VanillaEventsProvider: FunctionComponent = ({ children }) => {
-  const [data, update] = useState<NormalizedEvents | undefined>(undefined);
+  const [data, updateData] = useState<NormalizedEvents | undefined>(undefined);
+  const [shouldUpdate, setShouldUpdate] = useState(false);
 
-  return <VanillaEventsContext.Provider value={{ data, update }}>{children}</VanillaEventsContext.Provider>;
+  const update = useCallback((data: NormalizedEvents) => {
+    updateData(data);
+    setShouldUpdate(false);
+  }, []);
+
+  return (
+    <VanillaEventsContext.Provider value={{ data, update, shouldUpdate, setShouldUpdate }}>
+      {children}
+    </VanillaEventsContext.Provider>
+  );
 };

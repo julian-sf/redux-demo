@@ -9,9 +9,10 @@ import { useSelector } from '../../store/utils';
 
 const VanillaContextIndex = () => {
   const userLoading = useSelector(selectUserLoading);
-  const { update } = useContext(VanillaEventsContext);
+  const { update, shouldUpdate: contextShouldUpdate, data } = useContext(VanillaEventsContext);
+  const shouldUpdate = contextShouldUpdate || !data;
 
-  useUpdateContextOnIndex({ loading: userLoading, update });
+  useUpdateContextOnIndex({ loading: userLoading, update, shouldUpdate });
 
   return (
     <>

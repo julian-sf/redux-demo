@@ -10,17 +10,17 @@ import { AuthButton } from './AuthButton';
 
 export const Navigation = (props: { title: string; subtitle?: string }) => {
   const { route } = useRouter();
-  const update = useContextSelector(MemoizedEventsContext, value => value?.update);
-  const { update: updateVanilla } = useContext(VanillaEventsContext);
+  const setShouldUpdate = useContextSelector(MemoizedEventsContext, value => value?.setShouldUpdate);
+  const { setShouldUpdate: setVanillaShouldUpdate } = useContext(VanillaEventsContext);
   const fetchEvents = useFetchEvents();
 
   const clearVanilla = useCallback(() => {
-    if (!route?.includes('vanilla')) updateVanilla({});
-  }, [route, updateVanilla]);
+    if (!route?.includes('vanilla')) setVanillaShouldUpdate(true);
+  }, [route, setVanillaShouldUpdate]);
 
   const clearContext = useCallback(() => {
-    if (!route?.includes('context')) update({});
-  }, [route, update]);
+    if (!route?.includes('context')) setShouldUpdate(true);
+  }, [route, setShouldUpdate]);
 
   const clearRedux = useCallback(() => {
     if (route?.includes('context')) {

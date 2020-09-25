@@ -11,8 +11,11 @@ import { useSelector } from '../../store/utils';
 const MemoizedContextIndex = () => {
   const userLoading = useSelector(selectUserLoading);
   const update = useContextSelector(MemoizedEventsContext, value => value.update);
+  const data = useContextSelector(MemoizedEventsContext, value => value.data);
+  const memoizedShouldUpdate = useContextSelector(MemoizedEventsContext, value => value.shouldUpdate);
+  const shouldUpdate = memoizedShouldUpdate || !data;
 
-  useUpdateContextOnIndex({ loading: userLoading, update });
+  useUpdateContextOnIndex({ loading: userLoading, update, shouldUpdate });
 
   return (
     <>
