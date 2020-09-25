@@ -4,7 +4,7 @@ import { EventList } from '../../api/events';
 import { eventActions } from './actions';
 import { EventSlice } from './types';
 
-export const initialEventsState: EventSlice = { loading: true };
+export const initialEventsState: EventSlice = { loading: false };
 
 export const normalizeEventData = (eventList: EventList): EventSlice['data'] =>
   eventList.reduce((acc, event) => {

@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { authActions } from './actions';
 import { AuthSlice } from './types';
 
-const isAuthed = () => typeof document !== 'undefined' && document.cookie.includes('Auth=true');
+export const isAuthed = () => typeof document !== 'undefined' && document.cookie.includes('Auth=true');
 
 export const initialAuthState: AuthSlice = {
   isLoggedIn: false,

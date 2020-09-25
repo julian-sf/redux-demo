@@ -8,7 +8,7 @@ export const EventsContext = createContext<{ data?: NormalizedEvents; update(new
 );
 
 export const EventsProvider: FunctionComponent = ({ children }) => {
-  const [state, setState] = useState<NormalizedEvents | undefined>(undefined);
+  const [data, update] = useState<NormalizedEvents | undefined>(undefined);
 
-  return <EventsContext.Provider value={{ data: state, update: setState }}>{children}</EventsContext.Provider>;
+  return <EventsContext.Provider value={{ data, update }}>{children}</EventsContext.Provider>;
 };

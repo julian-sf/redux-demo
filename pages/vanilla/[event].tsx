@@ -1,7 +1,6 @@
-import React from 'react';
-import { useContextSelector } from 'use-context-selector';
+import React, { useContext } from 'react';
 
-import { EventsContext } from '../../comparison/context/EventsContext';
+import { VanillaEventsContext } from '../../comparison/vanilla/VanillaEventsContext';
 import { useRouter } from '../../next-utils/router';
 import { parseStringParam } from '../../next-utils/urls';
 import { EventDetailPage } from '../../shared/EventDetailPage';
@@ -9,9 +8,7 @@ import { useUpdateEventContext } from '../../shared/useUpdateEventContext';
 
 const ContextEventPage = () => {
   const { query } = useRouter();
-
-  const events = useContextSelector(EventsContext, value => value.data);
-  const update = useContextSelector(EventsContext, value => value.update);
+  const { data: events, update } = useContext(VanillaEventsContext);
 
   useUpdateEventContext({ events, update });
 

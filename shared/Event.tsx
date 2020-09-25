@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 
 import { NormalizedEvent } from '../api/events';
+import { useRouter } from '../next-utils/router';
 import { Loader } from './Loader';
 import { Modal } from './Modal';
 import { useRenderCount } from './useRenderCount';
@@ -15,15 +16,18 @@ export const Event = ({
   eventsLoading: boolean;
   userLoading: boolean;
 }) => {
+  const { pathname } = useRouter();
   const [open, setOpen] = useState(false);
   const renderCount = useRenderCount();
+
+  const simplePath = pathname.replace('/[event]', '');
 
   return (
     <>
       <div className={'container'}>
         <Loader loading={userLoading || eventsLoading}>
           <div className={'card'}>
-            <Link href={'/[event]'} as={`/${event.id}`}>
+            <Link href={`${simplePath}/[event]`} as={`${simplePath}/${event.id}`}>
               <a>Name: {event.name}</a>
             </Link>
             <button onClick={() => setOpen(true)}>View Details</button>

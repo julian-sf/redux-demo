@@ -22,9 +22,11 @@ export const Events = ({
         {(!events || Object.keys(events).length === 0) && !specificEventIds ? (
           <div>Loading events...</div>
         ) : (
-          (specificEventIds || Object.keys(events ?? [])).map(id => (
-            <Event userLoading={false} eventsLoading={loadingEvents} key={events?.[id].id} event={events?.[id]} />
-          ))
+          ((events && specificEventIds) || Object.keys(events ?? [])).map(id => {
+            const event = events[id];
+
+            return <Event userLoading={false} eventsLoading={loadingEvents} key={events?.[id].id} event={event} />;
+          })
         )}
       </div>
       <style jsx>{`
@@ -40,3 +42,5 @@ export const Events = ({
     </>
   );
 };
+
+Events.whyDidYouRender = true;

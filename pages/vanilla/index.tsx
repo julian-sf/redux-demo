@@ -1,17 +1,16 @@
-import React from 'react';
-import { useContextSelector } from 'use-context-selector';
+import React, { useContext } from 'react';
 
-import { EventsContainer } from '../../comparison/context/EventsContainer';
-import { EventsContext } from '../../comparison/context/EventsContext';
 import { useFetchEventChain } from '../../comparison/useFetchEvents';
+import { VanillaEventsContainer } from '../../comparison/vanilla/VanillaEventsContainer';
+import { VanillaEventsContext } from '../../comparison/vanilla/VanillaEventsContext';
 import { Navigation } from '../../shared/Navigation';
 import { useUpdateContextOnIndex } from '../../shared/useUpdateContextOnIndex';
 import { selectUserLoading } from '../../store/auth/selectors';
 import { useSelector } from '../../store/utils';
 
-const ContextIndexPage = () => {
+const VanillaContextIndex = () => {
   const userLoading = useSelector(selectUserLoading);
-  const update = useContextSelector(EventsContext, value => value.update);
+  const { update } = useContext(VanillaEventsContext);
   const { loading: fetchLoading, data } = useFetchEventChain(userLoading);
 
   useUpdateContextOnIndex({ loading: fetchLoading || userLoading, data, update });
@@ -19,9 +18,9 @@ const ContextIndexPage = () => {
   return (
     <>
       <Navigation title={'Event List'} subtitle={'Context Example'} />
-      <EventsContainer />
+      <VanillaEventsContainer />
     </>
   );
 };
 
-export default ContextIndexPage;
+export default VanillaContextIndex;

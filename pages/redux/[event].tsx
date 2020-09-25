@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 
-import { useRouter } from '../next-utils/router';
-import { parseStringParam } from '../next-utils/urls';
-import { EventDetailPage } from '../shared/EventDetailPage';
-import { useFetchEvents } from '../store/events/dispatchers';
-import { selectEvents } from '../store/events/selectors';
-import { useSelector } from '../store/utils';
+import { useRouter } from '../../next-utils/router';
+import { parseStringParam } from '../../next-utils/urls';
+import { EventDetailPage } from '../../shared/EventDetailPage';
+import { useFetchEvents } from '../../store/events/dispatchers';
+import { selectEvents } from '../../store/events/selectors';
+import { useSelector } from '../../store/utils';
 
 const EventPage = () => {
   const fetchEvents = useFetchEvents();
@@ -26,7 +26,7 @@ const EventPage = () => {
     }
   }, [eventData, events, fetchEvents, pushRoute]);
 
-  return <EventDetailPage eventData={eventData} />;
+  return <EventDetailPage events={events} eventData={eventData} />;
 };
 
 export default EventPage;
