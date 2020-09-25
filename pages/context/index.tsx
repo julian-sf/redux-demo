@@ -18,7 +18,7 @@ const ContextIndexPage = () => {
 
   return (
     <>
-      <Navigation title={'Event List'} subtitle={'Context Example'} />
+      <Navigation title={'Event List'} subtitle={'Memoized Context Example'} />
       <EventsContainer />
     </>
   );

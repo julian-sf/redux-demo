@@ -17,7 +17,7 @@ const VanillaContextIndex = () => {
 
   return (
     <>
-      <Navigation title={'Event List'} subtitle={'Context Example'} />
+      <Navigation title={'Event List'} subtitle={'Vanilla Context Example'} />
       <VanillaEventsContainer />
     </>
   );
