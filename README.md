@@ -1,4 +1,4 @@
-# Redux w/ RTK & Thunks
+# Companion POC for [Comparison of Context vs Redux Selection](https://paper.dropbox.com/doc/Comparison-of-Context-vs-Redux-Selection--A8Qkv1l1SUhvUL~jTCHKrWQ8Ag-SSsl7OIFW7ILlRkKWe5Fc)
 
 Start Next.js and Express (fake backend w/ mocked auth)
 
@@ -7,8 +7,3 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Made with the following
-
-[![Redux Toolkit](https://p39.f2.n0.cdn.getcloudapp.com/items/E0uqRE6D/Image%202020-03-18%20at%202.41.05%20AM.png)](https://redux-toolkit.js.org/)
-[![Next JS](https://miro.medium.com/max/1042/1*9mESIE8IL4eEFZ6FIO4smA.png)](https://nextjs.org/)
