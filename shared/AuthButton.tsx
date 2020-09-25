@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import { useContextSelector } from 'use-context-selector';
 
-import { EventsContext } from '../comparison/context/EventsContext';
+import { MemoizedEventsContext } from '../comparison/context/MemoizedEventsContext';
 import { VanillaEventsContext } from '../comparison/vanilla/VanillaEventsContext';
 import { useRouter } from '../next-utils/router';
 import { useLogin, useLogout } from '../store/auth/dispatchers';
@@ -16,7 +16,7 @@ export const AuthButton = () => {
   const logout = useLogout();
   const fetch = useFetchEvents();
 
-  const update = useContextSelector(EventsContext, value => value?.update);
+  const update = useContextSelector(MemoizedEventsContext, value => value?.update);
   const { update: vanillaUpdate } = useContext(VanillaEventsContext);
 
   const userName = useSelector(selectUserName);

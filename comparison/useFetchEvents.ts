@@ -11,6 +11,14 @@ export const useFetchEventChain = ({ skip = false }: { skip?: boolean }) => {
   const [fetchThree, updateFetchThree] = useState(initialState);
 
   useEffect(() => {
+    if (skip) {
+      updateFetchOne(initialState);
+      updateFetchTwo(initialState);
+      updateFetchThree(initialState);
+    }
+  }, [skip]);
+
+  useEffect(() => {
     if (!skip && !fetchOne.data && !fetchOne.loading) {
       const fetch = async () => {
         return normalizeEventData(await fetchEvents());

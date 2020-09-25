@@ -1,19 +1,20 @@
 import { useEffect } from 'react';
 
 import { NormalizedEvents } from '../api/events';
+import { useFetchEventChain } from '../comparison/useFetchEvents';
 
 export const useUpdateContextOnIndex = ({
   loading,
-  data,
   update,
 }: {
   loading: boolean;
-  data?: NormalizedEvents;
   update(data: NormalizedEvents): void;
 }) => {
+  const { loading: fetchLoading, data } = useFetchEventChain({ skip: loading });
+
   useEffect(() => {
-    if (!loading && data) {
+    if (!fetchLoading && data) {
       update(data);
     }
-  }, [data, loading, update]);
+  }, [data, fetchLoading, update]);
 };

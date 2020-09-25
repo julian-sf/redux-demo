@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { useCallback, useContext } from 'react';
 import { useContextSelector } from 'use-context-selector';
 
-import { EventsContext } from '../comparison/context/EventsContext';
+import { MemoizedEventsContext } from '../comparison/context/MemoizedEventsContext';
 import { VanillaEventsContext } from '../comparison/vanilla/VanillaEventsContext';
 import { useRouter } from '../next-utils/router';
 import { useFetchEvents } from '../store/events/dispatchers';
@@ -10,7 +10,7 @@ import { AuthButton } from './AuthButton';
 
 export const Navigation = (props: { title: string; subtitle?: string }) => {
   const { route } = useRouter();
-  const update = useContextSelector(EventsContext, value => value?.update);
+  const update = useContextSelector(MemoizedEventsContext, value => value?.update);
   const { update: updateVanilla } = useContext(VanillaEventsContext);
   const fetchEvents = useFetchEvents();
 

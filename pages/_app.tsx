@@ -5,7 +5,7 @@ import whyDidYouRender from '@welldone-software/why-did-you-render';
 import { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
 
-import { EventsProvider } from '../comparison/context/EventsContext';
+import { MemoizedEventsProvider } from '../comparison/context/MemoizedEventsContext';
 import { VanillaEventsProvider } from '../comparison/vanilla/VanillaEventsContext';
 import { RouterContextProvider } from '../next-utils/router';
 import { useLogin } from '../store/auth/dispatchers';
@@ -35,11 +35,11 @@ export default wrapper.withRedux(({ Component, pageProps }: AppProps) => {
 
   return (
     <RouterContextProvider>
-      <EventsProvider>
+      <MemoizedEventsProvider>
         <VanillaEventsProvider>
           <Component {...pageProps} />
         </VanillaEventsProvider>
-      </EventsProvider>
+      </MemoizedEventsProvider>
     </RouterContextProvider>
   );
 });
